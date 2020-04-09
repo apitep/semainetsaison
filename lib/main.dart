@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:semainetsaison/screens/months_screen.dart';
-import 'package:semainetsaison/widgets/menu.dart';
-
-import 'widgets/responsive_widget.dart';
-import 'screens/days_screen.dart';
+import 'widgets/menu.dart';
 
 void main() {
   runApp(MyApp());

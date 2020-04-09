@@ -17,7 +17,7 @@ class OrderableContainer<T> extends StatefulWidget {
       @required this.itemSize,
       this.margin = kMargin,
       this.direction = Direction.Horizontal})
-      : super(key: new Key('OrderableContainer'));
+      : super(key: Key('OrderableContainer'));
 
   @override
   State<StatefulWidget> createState() => new OrderableContainerState();
@@ -26,16 +26,16 @@ class OrderableContainer<T> extends StatefulWidget {
 class OrderableContainerState extends State<OrderableContainer> {
   @override
   Widget build(BuildContext context) => new ConstrainedBox(
-      constraints: new BoxConstraints.loose(stackSize),
-      child: new Stack(
+      constraints: BoxConstraints.loose(stackSize),
+      child: Stack(
         children: widget.uiItems,
       ));
 
   Size get stackSize => widget.direction == Direction.Horizontal
-      ? new Size(
+      ? Size(
           (widget.itemSize.width + widget.margin) * widget.uiItems.length,
           widget.itemSize.height)
-      : new Size(widget.itemSize.width,
+      : Size(widget.itemSize.width,
           (widget.itemSize.height + widget.margin) * widget.uiItems.length);
 }
 
@@ -78,7 +78,7 @@ class OrderableWidgetState<T> extends State<OrderableWidget<T>>
 
   @override
   Widget build(BuildContext context) => new AnimatedPositioned(
-        duration: new Duration(milliseconds: data.selected ? 1 : 200),
+        duration: Duration(milliseconds: data.selected ? 1 : 200),
         left: data.x,
         top: data.y,
         child: buildGestureDetector(horizontal: isHorizontal),
@@ -93,7 +93,7 @@ class OrderableWidgetState<T> extends State<OrderableWidget<T>>
             setState(() {
               if (moreThanMin(event) && lessThanMax(event))
                 data.currentPosition =
-                    new Offset(data.x + event.primaryDelta, data.y);
+                    Offset(data.x + event.primaryDelta, data.y);
               widget.onMove();
             });
           },
@@ -106,7 +106,7 @@ class OrderableWidgetState<T> extends State<OrderableWidget<T>>
             setState(() {
               if (moreThanMin(event) && lessThanMax(event))
                 data.currentPosition =
-                    new Offset(data.x, data.y + event.primaryDelta);
+                    Offset(data.x, data.y + event.primaryDelta);
               widget.onMove();
             });
           },
