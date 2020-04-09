@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/days_screen.dart';
 import '../screens/months_screen.dart';
+import '../screens/seasons_screen.dart';
 
 class Menu extends StatefulWidget {
   @override
@@ -24,10 +25,10 @@ class _MenuState extends State<Menu> {
             Navigator.push(context, MaterialPageRoute(builder: (context) => MonthsScreen()));
           }),
           makeDashboardItem("Les saisons", Icons.satellite, () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => DaysScreen()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SeasonsScreen()));
           }),
-          makeDashboardItem("La surprise", Icons.alarm, () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => DaysScreen()));
+          makeDashboardItem("Récompenses", Icons.alarm, () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SeasonsScreen()));
           }),
         ],
       ),

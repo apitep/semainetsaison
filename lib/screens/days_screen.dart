@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:confetti/confetti.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
 
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
+import '../screens/reward_screen.dart';
 
 class DaysScreen extends StatefulWidget {
   DaysScreen({Key key}) : super(key: key);
@@ -13,18 +18,21 @@ class DaysScreen extends StatefulWidget {
   _DaysScreenState createState() => _DaysScreenState();
 }
 
+typedef void OnError(Exception exception);
 const kItemSize = const Size.square(80.0);
 const kChars = const ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+AudioPlayer advancedPlayer;
+AudioCache audioCache;
 
 class _DaysScreenState extends State<DaysScreen> {
-
   ConfettiController _controllerCenter;
   ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
   List<String> rightOrder = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
 
   @override
   void initState() {
-    _controllerCenter = ConfettiController(duration: const Duration(seconds: 3));
+    _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
+    initPlayer();
     super.initState();
   }
 
@@ -32,6 +40,11 @@ class _DaysScreenState extends State<DaysScreen> {
   void dispose() {
     _controllerCenter.dispose();
     super.dispose();
+  }
+
+  void initPlayer() {
+    advancedPlayer = AudioPlayer();
+    audioCache = AudioCache(fixedPlayer: advancedPlayer);
   }
 
   @override
@@ -43,12 +56,12 @@ class _DaysScreenState extends State<DaysScreen> {
       body: Center(
         child: ConfettiWidget(
           confettiController: _controllerCenter,
-          blastDirection: 0, // radial value - RIGHT
+          blastDirection: 0,
           emissionFrequency: 0.6,
           minimumSize: const Size(10, 10),
           maximumSize: const Size(50, 50),
           numberOfParticles: 1,
-          gravity: 0.1,// don't specify a direction, blast randomly
+          gravity: 0.1, // don't specify a direction, blast randomly
           shouldLoop: false, // start again as soon as the animation is finished
           colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
           child: SingleChildScrollView(
@@ -94,5 +107,9 @@ class _DaysScreenState extends State<DaysScreen> {
 
   _success() {
     _controllerCenter.play();
+    audioCache.play('sounds/applause.mp3');
+    Timer(Duration(seconds: 4), () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => RewardScreen(url: 'assets/videos/haut_les_pattes.mp4')));
+    });
   }
 }

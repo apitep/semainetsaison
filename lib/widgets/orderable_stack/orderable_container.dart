@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 import 'orderable.dart';
 import 'orderable_stack.dart';
@@ -12,11 +13,7 @@ class OrderableContainer<T> extends StatefulWidget {
   final Direction direction;
   final double margin;
 
-  OrderableContainer(
-      {@required this.uiItems,
-      @required this.itemSize,
-      this.margin = kMargin,
-      this.direction = Direction.Horizontal})
+  OrderableContainer({@required this.uiItems, @required this.itemSize, this.margin = kMargin, this.direction = Direction.Horizontal})
       : super(key: Key('OrderableContainer'));
 
   @override
@@ -32,11 +29,8 @@ class OrderableContainerState extends State<OrderableContainer> {
       ));
 
   Size get stackSize => widget.direction == Direction.Horizontal
-      ? Size(
-          (widget.itemSize.width + widget.margin) * widget.uiItems.length,
-          widget.itemSize.height)
-      : Size(widget.itemSize.width,
-          (widget.itemSize.height + widget.margin) * widget.uiItems.length);
+      ? Size((widget.itemSize.width + widget.margin) * widget.uiItems.length, widget.itemSize.height)
+      : Size(widget.itemSize.width, (widget.itemSize.height + widget.margin) * widget.uiItems.length);
 }
 
 /// Content Widget wrapper : add animation and gestureDetection to itemBuilder
@@ -67,8 +61,20 @@ class OrderableWidget<T> extends StatefulWidget {
   State<StatefulWidget> createState() => new OrderableWidgetState(data: data);
 }
 
-class OrderableWidgetState<T> extends State<OrderableWidget<T>>
-    with SingleTickerProviderStateMixin {
+class OrderableWidgetState<T> extends State<OrderableWidget<T>> with SingleTickerProviderStateMixin {
+  FlutterTts flutterTts;
+  dynamic languages;
+  String language;
+  double volume = 0.5;
+  double pitch = 1.0;
+  double rate = 0.5;
+
+  @override
+  void initState() {
+    initTts();
+    super.initState();
+  }
+
   /// item
   Orderable<T> data;
 
@@ -91,9 +97,7 @@ class OrderableWidgetState<T> extends State<OrderableWidget<T>>
           onHorizontalDragEnd: endDrag,
           onHorizontalDragUpdate: (event) {
             setState(() {
-              if (moreThanMin(event) && lessThanMax(event))
-                data.currentPosition =
-                    Offset(data.x + event.primaryDelta, data.y);
+              if (moreThanMin(event) && lessThanMax(event)) data.currentPosition = Offset(data.x + event.primaryDelta, data.y);
               widget.onMove();
             });
           },
@@ -104,9 +108,7 @@ class OrderableWidgetState<T> extends State<OrderableWidget<T>>
           onVerticalDragEnd: endDrag,
           onVerticalDragUpdate: (event) {
             setState(() {
-              if (moreThanMin(event) && lessThanMax(event))
-                data.currentPosition =
-                    Offset(data.x, data.y + event.primaryDelta);
+              if (moreThanMin(event) && lessThanMax(event)) data.currentPosition = Offset(data.x, data.y + event.primaryDelta);
               widget.onMove();
             });
           },
@@ -114,6 +116,7 @@ class OrderableWidgetState<T> extends State<OrderableWidget<T>>
         );
 
   void startDrag(DragStartDetails event) {
+    speak("${data.value}");
     setState(() {
       data.selected = true;
     });
@@ -126,12 +129,23 @@ class OrderableWidgetState<T> extends State<OrderableWidget<T>>
     });
   }
 
-  bool moreThanMin(DragUpdateDetails event) =>
-      (isHorizontal ? data.x : data.y) + event.primaryDelta > 0;
+  void initTts() async {
+    flutterTts = FlutterTts();
+    flutterTts.setLanguage('fr-FR');
+    await flutterTts.isLanguageAvailable('fr-FR');
+    flutterTts.setSpeechRate(.4);
+    flutterTts.setVolume(1.0);
+    flutterTts.setPitch(.8);
+
+    flutterTts = FlutterTts();
+  }
+
+  void speak(String textToSpeak) async {
+    await flutterTts.speak(textToSpeak);
+  }
+
+  bool moreThanMin(DragUpdateDetails event) => (isHorizontal ? data.x : data.y) + event.primaryDelta > 0;
 
   bool lessThanMax(DragUpdateDetails event) =>
-      (isHorizontal ? data.x : data.y) +
-          event.primaryDelta +
-          (isHorizontal ? widget.itemSize.width : widget.itemSize.height) <
-      widget.maxPos;
+      (isHorizontal ? data.x : data.y) + event.primaryDelta + (isHorizontal ? widget.itemSize.width : widget.itemSize.height) < widget.maxPos;
 }

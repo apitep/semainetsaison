@@ -25,19 +25,13 @@ class Orderable<T> {
   double get x => currentPosition.dx;
   double get y => currentPosition.dy;
 
-  Orderable({@required this.value, @required this.dataIndex})
-      : visibleIndex = dataIndex;
+  Orderable({@required this.value, @required this.dataIndex}) : visibleIndex = dataIndex;
 }
 
 /// sort orderable items by widget.currentPosition
-void sortOrderables<T extends Orderable<U>, U>(
-    {List<T> items,
-    Size itemSize,
-    double margin,
-    Direction direction = Direction.Horizontal}) {
+void sortOrderables<T extends Orderable<U>, U>({List<T> items, Size itemSize, double margin, Direction direction = Direction.Horizontal}) {
   int orderableHSort(T a, T b) {
-    if (!a.selected && !b.selected)
-      return a.visibleIndex.compareTo(b.visibleIndex);
+    if (!a.selected && !b.selected) return a.visibleIndex.compareTo(b.visibleIndex);
 
     double xA = a.currentPosition.dx;
     double xB = b.currentPosition.dx;
@@ -49,8 +43,7 @@ void sortOrderables<T extends Orderable<U>, U>(
       if (a.visibleIndex > b.visibleIndex)
         result = (xA - step).compareTo(xB);
       else
-        result = (xA + (a.selected ? halfW : 0))
-            .compareTo((xB + (b.selected ? step : 0)));
+        result = (xA + (a.selected ? halfW : 0)).compareTo((xB + (b.selected ? step : 0)));
     } else if (b.selected) {
       if (a.visibleIndex > b.visibleIndex)
         result = xA.compareTo(xB + halfW);
@@ -61,8 +54,7 @@ void sortOrderables<T extends Orderable<U>, U>(
   }
 
   int orderableVSort(T a, T b) {
-    if (!a.selected && !b.selected)
-      return a.visibleIndex.compareTo(b.visibleIndex);
+    if (!a.selected && !b.selected) return a.visibleIndex.compareTo(b.visibleIndex);
 
     double yA = a.currentPosition.dy;
     double yB = b.currentPosition.dy;
@@ -74,8 +66,7 @@ void sortOrderables<T extends Orderable<U>, U>(
       if (a.visibleIndex > b.visibleIndex)
         result = (yA - step).compareTo(yB);
       else
-        result = (yA + (a.selected ? halfH : 0))
-            .compareTo((yB + (b.selected ? step : 0)));
+        result = (yA + (a.selected ? halfH : 0)).compareTo((yB + (b.selected ? step : 0)));
     } else if (b.selected) {
       if (a.visibleIndex > b.visibleIndex)
         result = yA.compareTo(yB + halfH);

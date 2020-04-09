@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:confetti/confetti.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
 
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
+import '../screens/reward_screen.dart';
 
 class MonthsScreen extends StatefulWidget {
   MonthsScreen({Key key}) : super(key: key);
@@ -14,9 +18,16 @@ class MonthsScreen extends StatefulWidget {
 }
 
 class _MonthsScreenState extends State<MonthsScreen> {
+  ConfettiController _controllerCenter;
+  ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
+  List<String> rightOrder = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+  AudioPlayer advancedPlayer;
+  AudioCache audioCache;
+
   @override
   void initState() {
-    _controllerCenter = ConfettiController(duration: const Duration(seconds: 3));
+    _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
+    initPlayer();
     super.initState();
   }
 
@@ -26,9 +37,10 @@ class _MonthsScreenState extends State<MonthsScreen> {
     super.dispose();
   }
 
-  ConfettiController _controllerCenter;
-  ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
-  List<String> rightOrder = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+  void initPlayer() {
+    advancedPlayer = AudioPlayer();
+    audioCache = AudioCache(fixedPlayer: advancedPlayer);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,5 +102,9 @@ class _MonthsScreenState extends State<MonthsScreen> {
 
   _success() {
     _controllerCenter.play();
+    audioCache.play('sounds/applause.mp3');
+    Timer(Duration(seconds: 4), () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => RewardScreen(url: 'assets/videos/cest_moi_le_plus_beau.mp4')));
+    });
   }
 }
