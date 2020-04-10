@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'screens/home_screen.dart';
 
 void main() {
@@ -7,7 +6,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final String appTitle = "Jours Mois et Saisons";
+  final String appTitle = "L'école des loisirs après le travail";
 
   // This widget is the root of your application.
   @override

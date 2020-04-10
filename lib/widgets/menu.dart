@@ -37,7 +37,7 @@ class _MenuState extends State<Menu> {
 
   Card makeDashboardItem(String title, IconData icon, Function tapped) {
     return Card(
-        elevation: 2.0,
+        elevation: 4.0,
         margin: EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(color: Color.fromRGBO(220, 220, 220, 1.0)),

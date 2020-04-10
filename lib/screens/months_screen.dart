@@ -104,7 +104,7 @@ class _MonthsScreenState extends State<MonthsScreen> {
     _controllerCenter.play();
     audioCache.play('sounds/applause.mp3');
     Timer(Duration(seconds: 4), () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => RewardScreen(url: 'assets/videos/cest_moi_le_plus_beau.mp4')));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => RewardScreen(title: "Le plus beau c'est moi", url: 'assets/videos/cest_moi_le_plus_beau.mp4')));
     });
   }
 }
