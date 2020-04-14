@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static String appName = "Je lis";
+  static String appName = "Les jours, les mois\net les saisons";
 
   static final Color kColorBgStart = Color(0xFF264467);
   static final Color kColorLightGray = Color(0xFFececec);
+  static final Color kColorLightGreen = Color(0xFF55CEC8);
 
-  static const String kTitle = "Alphabêtes";
+  static const String kTitle = "Les jours, les mois\net les saisons";
 
-  static const String kUrlRemoteData = "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/data/";
-  static const String kUrlImages = "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/";
-  static const String kUrlRewards = "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/data/rewards.json";
-  static const String kUrlApplause = "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/sounds/applause.mp3";
+  static const String kUrlRemoteData = "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/data/";
+  static const String kUrlImages = "https://raw.githubusercontent.com/apitep/semainetsaison/master/remotedata/images/";
+  static const String kUrlStories = "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/data/stories.json";
+  static const String kUrlApplause = "https://raw.githubusercontent.com/apitep/semainetsaison/master/remotedata/sounds/applause.mp3";
 
   static final Widget kApitepLogo = Image.asset('assets/images/ApitepBearLogo.png', height: 100);
   static final Widget kVictoryBadge = Image.asset('assets/images/VictoryBadge.png', height: 35);
@@ -76,5 +77,4 @@ class Constants {
     'nl-NL': 'nl-NL',
     'es-ES': 'es-ES',
   };
-
 }

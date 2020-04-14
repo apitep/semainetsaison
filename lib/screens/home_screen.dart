@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:semainetsaison/widgets/topbar.dart';
+import '../constants.dart';
 import '../widgets/menu.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,9 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      backgroundColor: Constants.kColorLightGreen,
+      appBar: topBar(context, Constants.kTitle),
       body: Center(
         child: Menu(),
       ),

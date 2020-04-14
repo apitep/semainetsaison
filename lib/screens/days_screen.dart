@@ -7,10 +7,11 @@ import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:semainetsaison/screens/videoplayer_screen.dart';
+import 'package:semainetsaison/widgets/topbar.dart';
 
+import '../constants.dart';
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
-import '../screens/reward_screen.dart';
 
 class DaysScreen extends StatefulWidget {
   DaysScreen({Key key}) : super(key: key);
@@ -51,9 +52,8 @@ class _DaysScreenState extends State<DaysScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Remets dans l'ordre les jours de la semaine"),
-      ),
+      backgroundColor: Constants.kColorLightGreen,
+      appBar: topBar(context, "Remets dans l'ordre les jours de la semaine"),
       body: Center(
         child: ConfettiWidget(
           confettiController: _controllerCenter,
@@ -93,7 +93,7 @@ class _DaysScreenState extends State<DaysScreen> {
   Widget itemBuilder({Orderable<String> data, Size itemSize}) {
     return Container(
       key: Key("orderableDataWidget${data.dataIndex}"),
-      color: data != null && !data.selected ? (data.dataIndex == data.visibleIndex ? Colors.lime : Colors.cyan) : Colors.orange,
+      color: data != null && !data.selected ? (data.dataIndex == data.visibleIndex ? Constants.kColorBgStart : Colors.cyan) : Colors.orange,
       width: itemSize.width,
       height: itemSize.height,
       child: Center(
@@ -111,8 +111,12 @@ class _DaysScreenState extends State<DaysScreen> {
     audioCache.play('sounds/applause.mp3');
     Timer(Duration(seconds: 4), () {
       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => RewardScreen(title: 'Haut les pattes', url: 'assets/videos/haut_les_pattes.mp4')));
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => VideoPlayerScreen(title: "C'est moi le plus beau", url: 'https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/videos/cest_moi_le_plus_beau.mp4')));
-      
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => VideoPlayerScreen(
+                  title: "C'est moi le plus beau",
+                  url: 'https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/videos/cest_moi_le_plus_beau.mp4')));
     });
   }
 }
