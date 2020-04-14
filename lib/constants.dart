@@ -10,9 +10,9 @@ class Constants {
   static const String kTitle = "Les jours, les mois\net les saisons";
 
   static const String kUrlRemoteData = "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/data/";
-  static const String kUrlImages = "https://raw.githubusercontent.com/apitep/semainetsaison/master/remotedata/images/";
+  static const String kUrlImages = "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/images/";
   static const String kUrlStories = "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/data/stories.json";
-  static const String kUrlApplause = "https://raw.githubusercontent.com/apitep/semainetsaison/master/remotedata/sounds/applause.mp3";
+  static const String kUrlApplause = "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/sounds/applause.mp3";
 
   static final Widget kApitepLogo = Image.asset('assets/images/ApitepBearLogo.png', height: 100);
   static final Widget kVictoryBadge = Image.asset('assets/images/VictoryBadge.png', height: 35);
