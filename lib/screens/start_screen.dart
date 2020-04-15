@@ -76,7 +76,7 @@ class _StartScreenState extends State<StartScreen> with SingleTickerProviderStat
               ),
               delay: delayedAmount + 200,
             ),
-            SizedBox(height: 10.0),
+            SizedBox(height: 5.0),
             DelayedAnimation(
               child: Text(
                 "Apprendre à petit pas",
@@ -85,17 +85,31 @@ class _StartScreenState extends State<StartScreen> with SingleTickerProviderStat
               ),
               delay: delayedAmount + 1350,
             ),
+            SizedBox(height: 25.0),
             DelayedAnimation(
-              child: Image.asset('assets/images/ecoldeloisirsogo.png', height: 90),
-              delay: delayedAmount + 2200,
-            ),
-            DelayedAnimation(
-              child: Text(
-                "avec les albums animés\noffert par l'écolde des loisirs",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
+              delay: delayedAmount + 1600,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(20.0),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height*0.17,
+                    child: Center(
+                      child: Text(
+                      "avec les albums animés\noffert par l'écolde des loisirs",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
+                    ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 36,
+                    bottom: 55,
+                    child: Image.asset('assets/images/ecoleloisirslogo.png', height: 50),
+                  ),
+
+                ],
               ),
-              delay: delayedAmount + 2200,
             ),
             Expanded(
               flex: 1,
@@ -118,7 +132,7 @@ class _StartScreenState extends State<StartScreen> with SingleTickerProviderStat
                   style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
                 ),
               ),
-              delay: delayedAmount + 2100,
+              delay: delayedAmount + 2400,
             ),
             SizedBox(height: 20.0),
           ],

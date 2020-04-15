@@ -11,12 +11,17 @@ Widget topBar(context, title) {
       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400, fontFamily: 'MontserratAlternates'),
     ),
     actions: <Widget>[
-      Image.asset(
-        'assets/images/ApitepBearSmallLogo.png',
-        height: 30,
-        color: Constants.kColorLightGreen,
+      Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: InkWell(
+          onTap: () {},
+          child: CircleAvatar(
+            backgroundColor: Constants.kColorBgStart,
+            child: Image.asset('assets/images/ApitepBearLogo.png', height: 37),
+            radius: 30.0,
+          ),
+        ),
       ),
-      SizedBox(width: 10),
     ],
   );
 }
