@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../constants.dart';
 import 'video.dart';
 
 class Story {
@@ -17,6 +16,10 @@ class Story {
   //
   Future<void> getStreamingUrls() async {
     videos = await getVideos();
+    var video = videos.firstWhere((item) => item.quality == '540p');
+    if (video != null) {
+      videoUrl = video.url;
+    }
   }
 
   Future<List<Video>> getVideos() async {
@@ -26,14 +29,19 @@ class Story {
     _response = await http.get(videoUrl);
     if (_response.statusCode == 200) jsondata = _response.body;
 
-    return parseVideos(jsondata);
+    if (jsondata != null) {
+      return parseVideos(jsondata);
+    } else {
+      return List<Video>();
+    }
   }
 
   List<Video> parseVideos(String jsondata) {
     if (jsondata == null) return [];
 
-    final parsed = json.decode(jsondata.toString()).cast<Map<String, dynamic>>();
-    return parsed.map<Video>((json) => Video.fromJson(json)).toList();
+    var resp = json.decode(jsondata);
+    var urls = resp["request"]["files"]["progressive"];
+    return urls.map<Video>((json) => Video.fromJson(json)).toList();
   }
 
   Story.fromJson(Map<String, dynamic> json) {

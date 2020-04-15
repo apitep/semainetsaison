@@ -113,17 +113,17 @@ class _MonthsScreenState extends State<MonthsScreen> {
     );
   }
 
-  _success() {
+  _success() async {
     _controllerCenter.play();
     audioCache.play('sounds/applause.mp3');
-    widget.story.getStreamingUrls();
-    
+    await widget.story.getStreamingUrls();
+
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (BuildContext context) => VideoPlayerScreen(
-              title: "C'est moi le plus beau", url: 'https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/videos/cest_moi_le_plus_beau.mp4'),
+              title: widget.story.title, url: widget.story.videoUrl),
         ),
       );
     });
