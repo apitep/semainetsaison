@@ -1,9 +1,9 @@
 [
   {
-    "title": "Et pourquoi ?",
-    "author": "Michel Van Zeveren",
-    "videoUrl": "https://player.vimeo.com/video/404950191/config",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/etpourquoi.jpg"
+    "title": "La brouille",
+    "author": "Claude Boujon",
+    "videoUrl": "https://player.vimeo.com/video/399641647/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/labrouille.jpg"
   },
   {
     "title": "Non, non et non",
@@ -74,7 +74,7 @@
   {
     "title": "La chaise bleue",
     "author": "Claude Boujon",
-    "videoUrl": "https://vimeo.com/399641549",
+    "videoUrl": "https://player.vimeo.com/video/399641549/config",
     "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/lachaisebleue.jpg"
   },
   {

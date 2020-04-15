@@ -41,7 +41,11 @@ class Story {
 
     var resp = json.decode(jsondata);
     var urls = resp["request"]["files"]["progressive"];
-    return urls.map<Video>((json) => Video.fromJson(json)).toList();
+    if (urls != null) {
+      return urls.map<Video>((json) => Video.fromJson(json)).toList();
+    } else {
+      return [];
+    }
   }
 
   Story.fromJson(Map<String, dynamic> json) {
