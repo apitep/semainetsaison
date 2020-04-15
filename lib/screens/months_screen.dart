@@ -116,6 +116,8 @@ class _MonthsScreenState extends State<MonthsScreen> {
   _success() {
     _controllerCenter.play();
     audioCache.play('sounds/applause.mp3');
+    widget.story.getStreamingUrls();
+    
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
