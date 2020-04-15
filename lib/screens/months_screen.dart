@@ -51,7 +51,7 @@ class _MonthsScreenState extends State<MonthsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.kColorBgStart,
-      appBar: topBar(context, Constants.kTitle),
+      appBar: topBar(context, "Glisse les mois\ndans le bon ordre"),
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: Center(
@@ -67,7 +67,7 @@ class _MonthsScreenState extends State<MonthsScreen> {
             colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
             child: SingleChildScrollView(
               child: Container(
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height - kToolbarHeight,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(widget.story.thumbUrl),
@@ -78,27 +78,6 @@ class _MonthsScreenState extends State<MonthsScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Stack(
-                        children: <Widget>[
-                          Container(color: Color.fromRGBO(255, 255, 255, 0.19)),
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  "Fais glisser les mois dans l'ordre",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.black),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     Center(
                       child: OrderableStack<String>(
                         direction: Direction.Vertical,
@@ -124,9 +103,24 @@ class _MonthsScreenState extends State<MonthsScreen> {
   Widget itemBuilder({Orderable<String> data, Size itemSize}) {
     return Container(
       key: Key("orderableDataWidget${data.dataIndex}"),
-      color: data != null && !data.selected ? data.dataIndex == data.visibleIndex ? Colors.green : Colors.red : Colors.blue,
       width: itemSize.width,
       height: itemSize.height,
+      decoration: BoxDecoration(
+        color: data != null && !data.selected ? data.dataIndex == data.visibleIndex ? Colors.green : Colors.red : Colors.blue,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black54,
+            blurRadius: 15.0,
+            spreadRadius: 2.0,
+            offset: Offset(
+              3.0, // horizontal
+              3.0, // vertical
+            ),
+          )
+        ],
+      ),
       child: Center(
           child: Column(children: [
         Text(

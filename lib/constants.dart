@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static String appName = "Les jours, les mois\net les saisons";
+  static String appName = "Les mois de l'année";
 
   static final Color kColorBgStart = Color(0xFF264467);
   static final Color kColorLightGray = Color(0xFFececec);
