@@ -45,13 +45,13 @@
     "title": "Cornebidouille",
     "author": "Pierre Bertrand",
     "videoUrl": "https://vimeo.com/402264549",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/jemangeraibienunenfant.jpg"
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/cornebidouillecontrecornebidouille.jpg"
   },
   {
     "title": "La vengeance de Cornebidouille",
     "author": "Pierre Bertrand et Magali Bonniol",
     "videoUrl": "https://vimeo.com/402160102",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/jemangeraibienunenfant.jpg"
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/cornebidouillecontrecornebidouille.jpg"
   },
   {
     "title": "Haut les pattes !",
@@ -69,13 +69,13 @@
     "title": "Non pas dodo !",
     "author": "Stephanie Blake",
     "videoUrl": "https://vimeo.com/399883529",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/cestmoileplusbeau.jpg"
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/nonpasdodo.jpg"
   },
   {
     "title": "La chaise bleue",
     "author": "Claude Boujon",
     "videoUrl": "https://vimeo.com/399641549",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/cestmoileplusbeau.jpg"
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/lachaisebleue.jpg"
   },
   {
     "title": "Train fantôme",
@@ -100,5 +100,17 @@
     "author": "Adrien Albert",
     "videoUrl": "https://vimeo.com/407257939",
     "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/papasurlalune.jpg"
+  },
+  {
+    "title": "Ma culotte",
+    "author": "Alan Mets",
+    "videoUrl": "https://vimeo.com/400348985",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/maculotte.jpg"
+  },
+  {
+    "title": "Calinours va à l’école",
+    "author": "Alain Broutin et Frédéric Stehr",
+    "videoUrl": "https://vimeo.com/398780861",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/calinoursvaecole.jpg"
   }
 ]

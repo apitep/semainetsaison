@@ -5,6 +5,7 @@ import 'package:auto_animated/auto_animated.dart';
 import '../constants.dart';
 import '../widgets/topbar.dart';
 import '../providers/app_provider.dart';
+import 'months_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     appProvider = Provider.of<AppProvider>(context);
 
     return Scaffold(
-      backgroundColor: Constants.kColorLightGreen,
+      backgroundColor: Constants.kColorBgStart,
       appBar: topBar(context, Constants.kTitle),
       body: Center(
         child: LiveGrid.options(
@@ -37,8 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
           itemCount: appProvider.stories.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            crossAxisSpacing: 0,
-            mainAxisSpacing: 0,
+            crossAxisSpacing: 1,
+            mainAxisSpacing: 1,
           ),
         ),
       ),
@@ -50,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
     int index,
     Animation<double> animation,
   ) =>
-
       FadeTransition(
         opacity: Tween<double>(
           begin: 0,
@@ -65,23 +65,17 @@ class _HomeScreenState extends State<HomeScreen> {
           // Paste you Widget
           child: Card(
             elevation: 4.0,
-            margin: EdgeInsets.all(0.0),
-            child: Container(
-              decoration: BoxDecoration(color: Color.fromRGBO(220, 220, 220, 1.0)),
-              child: InkWell(
-                onTap: () {},
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  verticalDirection: VerticalDirection.down,
-                  children: <Widget>[
-                    SizedBox(height: 20.0),
-                    Center(child:	Image.network(appProvider.stories[index].thumbUrl)),
-                    SizedBox(height: 20.0),
-                    Center(
-                      child: Text(appProvider.stories[index].title, style: TextStyle(fontSize: 18.0, color: Colors.black)),
-                    )
-                  ],
+            margin: EdgeInsets.all(1.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MonthsScreen(story: appProvider.stories[index])));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(appProvider.stories[index].thumbUrl),
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
               ),
             ),
