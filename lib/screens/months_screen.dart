@@ -52,43 +52,67 @@ class _MonthsScreenState extends State<MonthsScreen> {
     return Scaffold(
       backgroundColor: Constants.kColorBgStart,
       appBar: topBar(context, Constants.kTitle),
-      body: Center(
-        child: ConfettiWidget(
-          confettiController: _controllerCenter,
-          blastDirection: 0, // radial value - RIGHT
-          emissionFrequency: 0.6,
-          minimumSize: const Size(10, 10),
-          maximumSize: const Size(50, 50),
-          numberOfParticles: 1,
-          gravity: 0.1, // don't specify a direction, blast randomly
-          shouldLoop: false, // start again as soon as the animation is finished
-          colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
-          child: SingleChildScrollView(
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(widget.story.thumbUrl),
-                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(height: 20),
-                  Center(
-                    child: OrderableStack<String>(
-                      direction: Direction.Vertical,
-                      items: rightOrder,
-                      itemSize: const Size(120.0, 27.0),
-                      itemBuilder: itemBuilder,
-                      onChange: (List<String> orderedList) {
-                        orderNotifier.value = orderedList.toString();
-                        if (listEquals(orderedList, rightOrder)) _success();
-                      },
-                    ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: Center(
+          child: ConfettiWidget(
+            confettiController: _controllerCenter,
+            blastDirection: 0, // radial value - RIGHT
+            emissionFrequency: 0.6,
+            minimumSize: const Size(10, 10),
+            maximumSize: const Size(50, 50),
+            numberOfParticles: 1,
+            gravity: 0.1, // don't specify a direction, blast randomly
+            shouldLoop: false, // start again as soon as the animation is finished
+            colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
+            child: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(widget.story.thumbUrl),
+                    colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                    fit: BoxFit.cover,
                   ),
-                ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Stack(
+                        children: <Widget>[
+                          Container(color: Color.fromRGBO(255, 255, 255, 0.19)),
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Fais glisser les mois dans l'ordre",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Center(
+                      child: OrderableStack<String>(
+                        direction: Direction.Vertical,
+                        items: rightOrder,
+                        itemSize: const Size(120.0, 27.0),
+                        itemBuilder: itemBuilder,
+                        onChange: (List<String> orderedList) {
+                          orderNotifier.value = orderedList.toString();
+                          if (listEquals(orderedList, rightOrder)) _success();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -122,8 +146,7 @@ class _MonthsScreenState extends State<MonthsScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => VideoPlayerScreen(
-              title: widget.story.title, url: widget.story.videoUrl),
+          builder: (BuildContext context) => VideoPlayerScreen(title: widget.story.title, url: widget.story.videoUrl),
         ),
       );
     });

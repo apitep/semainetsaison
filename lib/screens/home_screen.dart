@@ -4,6 +4,7 @@ import 'package:auto_animated/auto_animated.dart';
 
 import '../constants.dart';
 import '../widgets/topbar.dart';
+import '../widgets/responsive_widget.dart';
 import '../providers/app_provider.dart';
 import 'months_screen.dart';
 
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
           itemBuilder: buildAnimatedItem,
           itemCount: appProvider.stories.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+            crossAxisCount: ResponsiveWidget.isLargeScreen(context) ? 4 : ResponsiveWidget.isSmallScreen(context) ? 2 : 3,
             crossAxisSpacing: 1,
             mainAxisSpacing: 1,
           ),
@@ -70,13 +71,20 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => MonthsScreen(story: appProvider.stories[index])));
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(appProvider.stories[index].thumbUrl),
-                    fit: BoxFit.fitHeight,
+              child: Stack(
+                children: <Widget>[
+                  Center(child: CircularProgressIndicator()),
+                  Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(appProvider.stories[index].thumbUrl),
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
