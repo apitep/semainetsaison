@@ -17,8 +17,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   AppProvider appProvider;
   final options = LiveOptions(
-    delay: Duration(milliseconds: 200),
-    showItemInterval: Duration(milliseconds: 200),
+    delay: Duration(milliseconds: 50),
+    showItemInterval: Duration(milliseconds: 100),
     showItemDuration: Duration(milliseconds: 200),
     visibleFraction: 0.05,
     reAnimateOnVisibility: false,
