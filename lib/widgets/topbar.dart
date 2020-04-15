@@ -11,14 +11,10 @@ Widget topBar(context, title) {
       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400, fontFamily: 'MontserratAlternates'),
     ),
     actions: <Widget>[
-      CircleAvatar(
-        backgroundColor: Colors.grey[100],
-        child: Image.asset(
-          'assets/images/ApitepBearLogo.png',
-          height: 28,
-          color: Constants.kColorLightGreen,
-        ),
-        radius: 20,
+      Image.asset(
+        'assets/images/ApitepBearSmallLogo.png',
+        height: 30,
+        color: Constants.kColorLightGreen,
       ),
       SizedBox(width: 10),
     ],

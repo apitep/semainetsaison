@@ -27,13 +27,13 @@
     "title": "Gros pipi",
     "author": "Émile Jadoul",
     "videoUrl": "https://vimeo.com/403255746",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/elmer.jpg"
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/grospipi.jpg"
   },
   {
     "title": "Disparais !",
     "author": "Michaël Escoffier",
     "videoUrl": "https://vimeo.com/402585707",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/elmer.jpg"
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/disparais.jpg"
   },
   {
     "title": "Je mangerais bien un enfant",
@@ -45,13 +45,13 @@
     "title": "Cornebidouille",
     "author": "Pierre Bertrand",
     "videoUrl": "https://vimeo.com/402264549",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/cornebidouillecontrecornebidouille.jpg"
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/cornebidouille.jpg"
   },
   {
     "title": "La vengeance de Cornebidouille",
     "author": "Pierre Bertrand et Magali Bonniol",
     "videoUrl": "https://vimeo.com/402160102",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/cornebidouillecontrecornebidouille.jpg"
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/cornebidouillevengeance.jpg"
   },
   {
     "title": "Haut les pattes !",
@@ -112,5 +112,11 @@
     "author": "Alain Broutin et Frédéric Stehr",
     "videoUrl": "https://vimeo.com/398780861",
     "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/calinoursvaecole.jpg"
+  },
+  {
+    "title": "Pop mange de toutes les couleurs",
+    "author": "Pierrick Bisinski et Alex Sanders",
+    "videoUrl": "https://vimeo.com/399905052",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/popmangedetouteslescouleurs.jpg"
   }
 ]

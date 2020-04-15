@@ -7,6 +7,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
 
 import '../constants.dart';
+import '../widgets/topbar.dart';
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
 import '../screens/videoplayer_screen.dart';
@@ -49,10 +50,8 @@ class _MonthsScreenState extends State<MonthsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text("Remets dans l'ordre les 12 mois de l'année"),
-      ),
+      backgroundColor: Constants.kColorBgStart,
+      appBar: topBar(context, Constants.kTitle),
       body: Center(
         child: ConfettiWidget(
           confettiController: _controllerCenter,

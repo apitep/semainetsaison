@@ -85,6 +85,18 @@ class _StartScreenState extends State<StartScreen> with SingleTickerProviderStat
               ),
               delay: delayedAmount + 1350,
             ),
+            DelayedAnimation(
+              child: Image.asset('assets/images/ecoldeloisirsogo.png', height: 90),
+              delay: delayedAmount + 2200,
+            ),
+            DelayedAnimation(
+              child: Text(
+                "avec les albums animés\noffert par l'écolde des loisirs",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
+              ),
+              delay: delayedAmount + 2200,
+            ),
             Expanded(
               flex: 1,
               child: Container(),
