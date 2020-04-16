@@ -13,18 +13,18 @@ import '../constants.dart';
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
 
+typedef void OnError(Exception exception);
+const kItemSize = const Size.square(80.0);
+const kChars = const ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+AudioPlayer advancedPlayer;
+AudioCache audioCache;
+
 class DaysScreen extends StatefulWidget {
   DaysScreen({Key key}) : super(key: key);
 
   @override
   _DaysScreenState createState() => _DaysScreenState();
 }
-
-typedef void OnError(Exception exception);
-const kItemSize = const Size.square(80.0);
-const kChars = const ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
-AudioPlayer advancedPlayer;
-AudioCache audioCache;
 
 class _DaysScreenState extends State<DaysScreen> {
   ConfettiController _controllerCenter;

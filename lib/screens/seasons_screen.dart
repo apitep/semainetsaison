@@ -5,10 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:semainetsaison/screens/videoplayer_screen.dart';
 
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
-import '../screens/reward_screen.dart';
 
 class SeasonsScreen extends StatefulWidget {
   SeasonsScreen({Key key}) : super(key: key);
@@ -104,7 +104,7 @@ class _SeasonsScreenState extends State<SeasonsScreen> {
     _controllerCenter.play();
     audioCache.play('sounds/applause.mp3');
     Timer(Duration(seconds: 4), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => RewardScreen(title: "Scritch scratch dip clapote", url: 'assets/videos/scritch_scratch_dip_clapote.mp4')));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => VideoPlayerScreen(title: "Scritch scratch dip clapote", url: 'assets/videos/scritch_scratch_dip_clapote.mp4')));
     });
   }
 }

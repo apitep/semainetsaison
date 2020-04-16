@@ -9,21 +9,27 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 
 import '../widgets/topbar.dart';
-import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
+import '../screens/videoplayer_screen.dart';
 import '../models/story.dart';
-import '../screens/train_screen.dart';
 
-class MonthsScreen extends StatefulWidget {
-  MonthsScreen({Key key, this.story}) : super(key: key);
+const kDays = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+const kMonths = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+
+class TrainScreen extends StatefulWidget {
+  TrainScreen({Key key, this.story}) : super(key: key);
 
   final Story story;
 
   @override
-  _MonthsScreenState createState() => _MonthsScreenState();
+  _TrainScreenState createState() => _TrainScreenState();
 }
 
-class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<MonthsScreen> {
+class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainScreen> {
+  final _textfieldController1 = TextEditingController();
+  final _textfieldController2 = TextEditingController();
+  final _textfieldController3 = TextEditingController();
+
   ConfettiController _controllerCenter;
   ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
   List<String> rightOrder = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
@@ -38,9 +44,7 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
   }
 
   @override
-  void afterFirstLayout(BuildContext context) {
-    showHelloWorld();
-  }
+  void afterFirstLayout(BuildContext context) {}
 
   @override
   void dispose() {
@@ -81,23 +85,94 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: topBar(context, "Glisse les mois\ndans le bon ordre"),
+          appBar: topBar(context, "Le train des jours et des mois"),
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Center(
-                    child: OrderableStack<String>(
-                      direction: Direction.Vertical,
-                      items: rightOrder,
-                      itemSize: const Size(120.0, 27.0),
-                      itemBuilder: itemBuilder,
-                      onChange: (List<String> orderedList) {
-                        orderNotifier.value = orderedList.toString();
-                        if (listEquals(orderedList, rightOrder)) _success();
-                      },
+                  Text(
+                    "mardi",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: TextField(
+                        onChanged: (value) => _handleOnChanged(value),
+                        controller: _textfieldController1,
+                        autofocus: true,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                        decoration: const InputDecoration(
+                          hintText: "jour de la semaine",
+                          helperStyle: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                          hintStyle: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: TextField(
+                        onChanged: (value) => _handleOnChanged(value),
+                        controller: _textfieldController2,
+                        autofocus: true,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                        decoration: const InputDecoration(
+                          hintText: "jour de la semaine",
+                          helperStyle: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                          hintStyle: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: TextField(
+                        onChanged: (value) => _handleOnChanged(value),
+                        controller: _textfieldController3,
+                        autofocus: true,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                        decoration: const InputDecoration(
+                          helperStyle: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                          hintStyle: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -107,6 +182,10 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
         ),
       ],
     );
+  }
+
+  _handleOnChanged(String value) {
+    setState(() {});
   }
 
   Widget itemBuilder({Orderable<String> data, Size itemSize}) {
@@ -200,17 +279,16 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
     await widget.story.getStreamingUrls();
 
     Timer(Duration(seconds: 4), () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (BuildContext context) => VideoPlayerScreen(
-      //       title: widget.story.title,
-      //       url: widget.story.videoUrl,
-      //       parentIsPortrait: isPortrait,
-      //     ),
-      //   ),
-      // );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => VideoPlayerScreen(
+            title: widget.story.title,
+            url: widget.story.videoUrl,
+            parentIsPortrait: isPortrait,
+          ),
+        ),
+      );
     });
   }
 }
