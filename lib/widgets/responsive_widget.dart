@@ -5,12 +5,11 @@ class ResponsiveWidget extends StatelessWidget {
   final Widget mediumScreen;
   final Widget smallScreen;
 
-  const ResponsiveWidget(
-      {Key key,
-        @required this.largeScreen,
-        this.mediumScreen,
-        this.smallScreen})
-      : super(key: key);
+  static bool isLandscape;
+  static double padding;
+  static double ratio;
+
+  const ResponsiveWidget({Key key, @required this.largeScreen, this.mediumScreen, this.smallScreen}) : super(key: key);
 
   static bool isSmallScreen(BuildContext context) {
     return MediaQuery.of(context).size.width < 600;
@@ -21,8 +20,7 @@ class ResponsiveWidget extends StatelessWidget {
   }
 
   static bool isMediumScreen(BuildContext context) {
-    return MediaQuery.of(context).size.width > 800 &&
-        MediaQuery.of(context).size.width < 1200;
+    return MediaQuery.of(context).size.width > 800 && MediaQuery.of(context).size.width < 1200;
   }
 
   @override

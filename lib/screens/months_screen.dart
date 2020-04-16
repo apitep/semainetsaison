@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
+import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
+import 'package:semainetsaison/widgets/BoxItem.dart';
 
 import '../constants.dart';
 import '../widgets/topbar.dart';
@@ -22,7 +26,7 @@ class MonthsScreen extends StatefulWidget {
   _MonthsScreenState createState() => _MonthsScreenState();
 }
 
-class _MonthsScreenState extends State<MonthsScreen> {
+class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<MonthsScreen> {
   ConfettiController _controllerCenter;
   ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
   List<String> rightOrder = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
@@ -37,6 +41,11 @@ class _MonthsScreenState extends State<MonthsScreen> {
   }
 
   @override
+  void afterFirstLayout(BuildContext context) {
+    showHelloWorld();
+  }
+
+  @override
   void dispose() {
     _controllerCenter.dispose();
     super.dispose();
@@ -45,6 +54,58 @@ class _MonthsScreenState extends State<MonthsScreen> {
   void initPlayer() {
     advancedPlayer = AudioPlayer();
     audioCache = AudioCache(fixedPlayer: advancedPlayer);
+  }
+
+  void showHelloWorld() {
+    showDialog(
+      context: context,
+      builder: (_) => NetworkGiffyDialog(
+        image: Image.network(
+          widget.story.thumbUrl,
+          fit: BoxFit.cover,
+        ),
+        title: Text.rich(
+          TextSpan(
+            style: TextStyle(fontSize: 18),
+            children: <TextSpan>[
+              TextSpan(
+                text: '${widget.story.title}',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: widget.story.title.length < 25 ? 17 : 14,
+                  fontFamily: 'MontserratAlternates',
+                  decoration: TextDecoration.none,
+                ),
+              ),
+              widget.story.author.length < 40 ? TextSpan(text: "\n") : TextSpan(text: " "),
+              TextSpan(
+                text: "de ${widget.story.author}",
+                style: TextStyle(
+                  fontSize: widget.story.author.length < 30 ? 13 : 11,
+                  fontFamily: 'MontserratAlternates',
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ],
+          ),
+        ),
+        description: Text(
+          "Un album animé offert par l'école des loisirs. Fais glisser les mois dans l'ordre pour le regarder.",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: Colors.black,
+          ),
+        ),
+        entryAnimation: EntryAnimation.TOP,
+        buttonOkText: Text('jouer', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: Colors.white)),
+        onlyOkButton: true,
+        onOkButtonPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+    );
   }
 
   @override
@@ -132,6 +193,7 @@ class _MonthsScreenState extends State<MonthsScreen> {
   }
 
   _success() async {
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     _controllerCenter.play();
     audioCache.play('sounds/applause.mp3');
     await widget.story.getStreamingUrls();
@@ -140,7 +202,11 @@ class _MonthsScreenState extends State<MonthsScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => VideoPlayerScreen(title: widget.story.title, url: widget.story.videoUrl),
+          builder: (BuildContext context) => VideoPlayerScreen(
+            title: widget.story.title,
+            url: widget.story.videoUrl,
+            parentIsPortrait: isPortrait,
+          ),
         ),
       );
     });
