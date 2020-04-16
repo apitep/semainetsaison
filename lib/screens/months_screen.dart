@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 
 import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
-import 'package:semainetsaison/widgets/BoxItem.dart';
 
 import '../constants.dart';
 import '../widgets/topbar.dart';
@@ -54,6 +52,87 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
   void initPlayer() {
     advancedPlayer = AudioPlayer();
     audioCache = AudioCache(fixedPlayer: advancedPlayer);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Constants.kColorBgStart,
+      appBar: topBar(context, "Glisse les mois\ndans le bon ordre"),
+      body: Center(
+        child: ConfettiWidget(
+          confettiController: _controllerCenter,
+          blastDirection: 0, // radial value - RIGHT
+          emissionFrequency: 0.6,
+          minimumSize: const Size(10, 10),
+          maximumSize: const Size(50, 50),
+          numberOfParticles: 1,
+          gravity: 0.1, // don't specify a direction, blast randomly
+          shouldLoop: false, // start again as soon as the animation is finished
+          colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
+          child: SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height - kToolbarHeight,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(widget.story.thumbUrl),
+                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Center(
+                    child: OrderableStack<String>(
+                      direction: Direction.Vertical,
+                      items: rightOrder,
+                      itemSize: const Size(120.0, 27.0),
+                      itemBuilder: itemBuilder,
+                      onChange: (List<String> orderedList) {
+                        orderNotifier.value = orderedList.toString();
+                        if (listEquals(orderedList, rightOrder)) _success();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget itemBuilder({Orderable<String> data, Size itemSize}) {
+    return Container(
+      key: Key("orderableDataWidget${data.dataIndex}"),
+      width: itemSize.width,
+      height: itemSize.height,
+      decoration: BoxDecoration(
+        color: data != null && !data.selected ? data.dataIndex == data.visibleIndex ? Colors.green : Colors.red : Colors.blue,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black54,
+            blurRadius: 15.0,
+            spreadRadius: 2.0,
+            offset: Offset(
+              3.0, // horizontal
+              3.0, // vertical
+            ),
+          )
+        ],
+      ),
+      child: Center(
+          child: Column(children: [
+        Text(
+          "${data.value}",
+          style: TextStyle(fontSize: 18.0, color: Colors.white),
+        )
+      ])),
+    );
   }
 
   void showHelloWorld() {
@@ -105,90 +184,6 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
           Navigator.pop(context);
         },
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Constants.kColorBgStart,
-      appBar: topBar(context, "Glisse les mois\ndans le bon ordre"),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: ConfettiWidget(
-            confettiController: _controllerCenter,
-            blastDirection: 0, // radial value - RIGHT
-            emissionFrequency: 0.6,
-            minimumSize: const Size(10, 10),
-            maximumSize: const Size(50, 50),
-            numberOfParticles: 1,
-            gravity: 0.1, // don't specify a direction, blast randomly
-            shouldLoop: false, // start again as soon as the animation is finished
-            colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
-            child: SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height - kToolbarHeight,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(widget.story.thumbUrl),
-                    colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Center(
-                      child: OrderableStack<String>(
-                        direction: Direction.Vertical,
-                        items: rightOrder,
-                        itemSize: const Size(120.0, 27.0),
-                        itemBuilder: itemBuilder,
-                        onChange: (List<String> orderedList) {
-                          orderNotifier.value = orderedList.toString();
-                          if (listEquals(orderedList, rightOrder)) _success();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget itemBuilder({Orderable<String> data, Size itemSize}) {
-    return Container(
-      key: Key("orderableDataWidget${data.dataIndex}"),
-      width: itemSize.width,
-      height: itemSize.height,
-      decoration: BoxDecoration(
-        color: data != null && !data.selected ? data.dataIndex == data.visibleIndex ? Colors.green : Colors.red : Colors.blue,
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black54,
-            blurRadius: 15.0,
-            spreadRadius: 2.0,
-            offset: Offset(
-              3.0, // horizontal
-              3.0, // vertical
-            ),
-          )
-        ],
-      ),
-      child: Center(
-          child: Column(children: [
-        Text(
-          "${data.value}",
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
-        )
-      ])),
     );
   }
 
