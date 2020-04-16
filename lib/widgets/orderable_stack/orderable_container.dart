@@ -37,12 +37,12 @@ class OrderableContainerState extends State<OrderableContainer> {
 /// widgets
 class OrderableWidget<T> extends StatefulWidget {
   final Orderable<T> data;
-  Size itemSize;
-  double maxPos;
-  Direction direction;
-  VoidCallback onMove;
-  VoidCallback onDrop;
-  double step;
+  final Size itemSize;
+  final double maxPos;
+  final Direction direction;
+  final VoidCallback onMove;
+  final VoidCallback onDrop;
+  final double step;
   final WidgetFactory<T> itemBuilder;
 
   OrderableWidget(

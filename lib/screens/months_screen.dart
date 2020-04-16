@@ -8,7 +8,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 
-import '../constants.dart';
 import '../widgets/topbar.dart';
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
@@ -18,7 +17,7 @@ import '../models/story.dart';
 class MonthsScreen extends StatefulWidget {
   MonthsScreen({Key key, this.story}) : super(key: key);
 
-  Story story;
+  final Story story;
 
   @override
   _MonthsScreenState createState() => _MonthsScreenState();
