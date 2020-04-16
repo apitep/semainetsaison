@@ -56,11 +56,9 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Constants.kColorBgStart,
-      appBar: topBar(context, "Glisse les mois\ndans le bon ordre"),
-      body: Center(
-        child: ConfettiWidget(
+    return Stack(
+      children: <Widget>[
+        ConfettiWidget(
           confettiController: _controllerCenter,
           blastDirection: 0, // radial value - RIGHT
           emissionFrequency: 0.6,
@@ -70,16 +68,24 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
           gravity: 0.1, // don't specify a direction, blast randomly
           shouldLoop: false, // start again as soon as the animation is finished
           colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
-          child: SingleChildScrollView(
-            child: Container(
-              height: MediaQuery.of(context).size.height - kToolbarHeight,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(widget.story.thumbUrl),
-                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                  fit: BoxFit.cover,
-                ),
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(widget.story.thumbUrl),
+                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.35), BlendMode.dstATop),
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
+        ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: topBar(context, "Glisse les mois\ndans le bon ordre"),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -100,7 +106,7 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -151,7 +157,7 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
                 text: '${widget.story.title}',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: widget.story.title.length < 25 ? 17 : 14,
+                  fontSize: widget.story.title.length < 22 ? 16 : 13,
                   fontFamily: 'MontserratAlternates',
                   decoration: TextDecoration.none,
                 ),
@@ -168,6 +174,7 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
               ),
             ],
           ),
+          textAlign: TextAlign.center,
         ),
         description: Text(
           "Un album animé offert par l'école des loisirs. Fais glisser les mois dans l'ordre pour le regarder.",
