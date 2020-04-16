@@ -96,7 +96,7 @@ class _StartScreenState extends State<StartScreen> with SingleTickerProviderStat
                     height: MediaQuery.of(context).size.height*0.17,
                     child: Center(
                       child: Text(
-                      "avec les albums animés\noffert par l'écolde des loisirs",
+                      "avec les albums animés\noffert par l'école des loisirs",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
                     ),
