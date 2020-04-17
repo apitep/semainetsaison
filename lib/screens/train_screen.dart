@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -32,6 +33,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   AudioCache audioCache;
   List<WagonWord> daytrain = [WagonWord.loco('mercredi'), WagonWord.wagon('jeudi'), WagonWord.wagon('vendredi')];
   List<WagonWord> monthtrain = [WagonWord.loco('septembre'), WagonWord.wagon('octobre'), WagonWord.wagon('novembre')];
+  double nbSuccess = 0;
 
   @override
   void initState() {
@@ -41,7 +43,9 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   }
 
   @override
-  void afterFirstLayout(BuildContext context) {}
+  void afterFirstLayout(BuildContext context) {
+    audioCache.play('sounds/trainvapeur.mp3');
+  }
 
   @override
   void dispose() {
@@ -56,6 +60,8 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
 
   @override
   Widget build(BuildContext context) {
+    _checkResults();
+
     return Stack(
       children: <Widget>[
         ConfettiWidget(
@@ -83,60 +89,79 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: topBar(context, "Le train des mots"),
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Complète le train des jours',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'MontserratAlternates',
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  SizedBox(height: 15),
+                  RatingBar(
+                    initialRating: nbSuccess,
+                    minRating: nbSuccess,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 4,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
                     ),
-                  ),
-                ),
-                Container(
-                  height: 200,
-                  child: PageView.builder(
-                    controller: this.pageController,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: daytrain.length,
-                    itemBuilder: (ctx, index) {
-                      final word = daytrain[index];
-                      return WordCard(word);
+                    onRatingUpdate: (rating) {
+                      print(rating);
                     },
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Complète le train des mois',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'MontserratAlternates',
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Complète le train des jours',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'MontserratAlternates',
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  height: 200,
-                  child: PageView.builder(
-                    controller: this.pageController,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: monthtrain.length,
-                    itemBuilder: (ctx, index) {
-                      final word = monthtrain[index];
-                      return WordCard(word);
-                    },
+                  Container(
+                    height: 200,
+                    child: PageView.builder(
+                      controller: this.pageController,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: daytrain.length,
+                      itemBuilder: (ctx, index) {
+                        final word = daytrain[index];
+                        return WordCard(word);
+                      },
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(height: 15),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Complète le train des mois',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'MontserratAlternates',
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 200,
+                    child: PageView.builder(
+                      controller: this.pageController,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: monthtrain.length,
+                      itemBuilder: (ctx, index) {
+                        final word = monthtrain[index];
+                        return WordCard(word);
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -144,8 +169,18 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
     );
   }
 
-  _handleOnChanged(String value) {
-    setState(() {});
+  _checkResults() {
+    nbSuccess = 0;
+    for (var item in daytrain) {
+      if (item.answer == item.guessingWord) nbSuccess++;
+    }
+    for (var item in monthtrain) {
+      if (item.answer == item.guessingWord) nbSuccess++;
+    }
+    setState(() {
+      nbSuccess = nbSuccess - 2;
+      if (nbSuccess == daytrain.length + monthtrain.length - 2) _success();
+    });
   }
 
   _success() async {

@@ -14,8 +14,8 @@ class WordSlider extends StatefulWidget {
 
 class _WordSliderState extends State<WordSlider> {
   PageController pageController;
-  double wordCardBaseWidth = 220;
-  double wordContainerHeight = 130;
+  double wordCardBaseWidth = 200;
+  double wordContainerHeight = 100;
 
   @override
   void initState() {

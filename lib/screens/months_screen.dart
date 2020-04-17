@@ -194,13 +194,13 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
   }
 
   _success() async {
-    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    //final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     _controllerCenter.play();
     audioCache.play('sounds/applause.mp3');
     await widget.story.getStreamingUrls();
 
     Timer(Duration(seconds: 4), () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
       // Navigator.pushReplacement(
       //   context,
       //   MaterialPageRoute(
