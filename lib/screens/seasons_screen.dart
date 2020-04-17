@@ -102,7 +102,7 @@ class _SeasonsScreenState extends State<SeasonsScreen> {
 
   _success() {
     _controllerCenter.play();
-    audioCache.play('sounds/applause.mp3');
+    audioCache.play('sounds/success.mp3');
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => VideoPlayerScreen(title: "Scritch scratch dip clapote", url: 'assets/videos/scritch_scratch_dip_clapote.mp4')));
     });

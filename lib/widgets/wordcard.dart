@@ -70,7 +70,7 @@ class _WordCardState extends State<WordCard> {
                     onChanged: (value) => _handleOnChanged(value),
                     controller: _textfieldController,
                     textAlign: TextAlign.center,
-                    autofocus: false,
+                    autofocus: true,
                     readOnly: widget.word.disabled,
                     style: TextStyle(
                       fontSize: 20,

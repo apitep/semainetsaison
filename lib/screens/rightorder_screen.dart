@@ -8,25 +8,26 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 
+import '../constants.dart';
+import '../models/story.dart';
 import '../widgets/topbar.dart';
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
-import '../models/story.dart';
 import '../screens/train_screen.dart';
 
-class MonthsScreen extends StatefulWidget {
-  MonthsScreen({Key key, this.story}) : super(key: key);
+class RightOrderScreen extends StatefulWidget {
+  RightOrderScreen({Key key, this.story, this.rightOrder}) : super(key: key);
 
   final Story story;
+  final List<String> rightOrder;
 
   @override
-  _MonthsScreenState createState() => _MonthsScreenState();
+  _RightOrderScreenState createState() => _RightOrderScreenState();
 }
 
-class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<MonthsScreen> {
+class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMixin<RightOrderScreen> {
   ConfettiController _controllerCenter;
   ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
-  List<String> rightOrder = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
   AudioPlayer advancedPlayer;
   AudioCache audioCache;
 
@@ -39,7 +40,7 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
 
   @override
   void afterFirstLayout(BuildContext context) {
-    showHelloWorld();
+
   }
 
   @override
@@ -91,12 +92,12 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
                   Center(
                     child: OrderableStack<String>(
                       direction: Direction.Vertical,
-                      items: rightOrder,
+                      items: widget.rightOrder,
                       itemSize: const Size(120.0, 27.0),
                       itemBuilder: itemBuilder,
                       onChange: (List<String> orderedList) {
                         orderNotifier.value = orderedList.toString();
-                        if (listEquals(orderedList, rightOrder)) _success();
+                        if (listEquals(orderedList, widget.rightOrder)) _success();
                       },
                     ),
                   ),
@@ -194,23 +195,15 @@ class _MonthsScreenState extends State<MonthsScreen> with AfterLayoutMixin<Month
   }
 
   _success() async {
-    //final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     _controllerCenter.play();
-    audioCache.play('sounds/applause.mp3');
-    await widget.story.getStreamingUrls();
+    audioCache.play('sounds/success.mp3');
 
     Timer(Duration(seconds: 4), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (BuildContext context) => VideoPlayerScreen(
-      //       title: widget.story.title,
-      //       url: widget.story.videoUrl,
-      //       parentIsPortrait: isPortrait,
-      //     ),
-      //   ),
-      // );
+      if (widget.rightOrder == Constants.months) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: widget.story, rightOrder: Constants.days)));
+      } else {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
+      }
     });
   }
 }

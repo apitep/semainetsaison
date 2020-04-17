@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:auto_animated/auto_animated.dart';
+import 'package:semainetsaison/models/story.dart';
 
 import '../constants.dart';
 import '../widgets/topbar.dart';
 import '../widgets/responsive_widget.dart';
 import '../providers/app_provider.dart';
-import 'months_screen.dart';
+import 'rightorder_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
@@ -74,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
             margin: EdgeInsets.all(1.0),
             child: InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MonthsScreen(story: appProvider.stories[index])));
+                showCredits(appProvider.stories[index]);
               },
               child: Stack(
                 children: <Widget>[
@@ -95,4 +97,58 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       );
+
+  void showCredits(Story story) {
+    showDialog(
+      context: context,
+      builder: (_) => NetworkGiffyDialog(
+        image: Image.network(
+          story.thumbUrl,
+          fit: BoxFit.cover,
+        ),
+        title: Text.rich(
+          TextSpan(
+            style: TextStyle(fontSize: 18),
+            children: <TextSpan>[
+              TextSpan(
+                text: '${story.title}',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: story.title.length < 22 ? 16 : 13,
+                  fontFamily: 'MontserratAlternates',
+                  decoration: TextDecoration.none,
+                ),
+              ),
+              story.author.length < 40 ? TextSpan(text: "\n") : TextSpan(text: " "),
+              TextSpan(
+                text: "de ${story.author}",
+                style: TextStyle(
+                  fontSize: story.author.length < 30 ? 13 : 11,
+                  fontFamily: 'MontserratAlternates',
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ],
+          ),
+          textAlign: TextAlign.center,
+        ),
+        description: Text(
+          "Un album animé offert par l'école des loisirs. Termine les exercices pour le regarder.",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: Colors.black,
+          ),
+        ),
+        entryAnimation: EntryAnimation.TOP,
+        buttonOkText: Text('jouer', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: Colors.white)),
+        onlyOkButton: true,
+        onOkButtonPressed: () {
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: story, rightOrder: Constants.months)));
+        },
+      ),
+    );
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static String appName = "Les mois de l'année";
+  static String appName = "Les jours, les mois\net les saisons";
 
   static final Color kColorBgStart = Color(0xFF264467);
   static final Color kColorLightGray = Color(0xFFececec);
@@ -12,10 +12,13 @@ class Constants {
   static const String kUrlRemoteData = "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/data/";
   static const String kUrlImages = "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/images/";
   static const String kUrlStories = "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/data/stories.json";
-  static const String kUrlApplause = "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/sounds/applause.mp3";
+  static const String kUrlSuccess = "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/sounds/success.mp3";
 
   static final Widget kApitepLogo = Image.asset('assets/images/ApitepBearLogo.png', height: 100);
   static final Widget kVictoryBadge = Image.asset('assets/images/VictoryBadge.png', height: 35);
+
+  static final List<String> months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+  static final List<String> days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
 
   //Colors for theme
   static Color lightPrimary = Color(0xfff3f4f9);

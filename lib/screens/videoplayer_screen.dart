@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:semainetsaison/screens/home_screen.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
@@ -98,14 +99,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void checkVideo() {
-    // Implement your calls inside these conditions' bodies :
+    // video started
     if (_controller.value.position == Duration(seconds: 0, minutes: 0, hours: 0)) {
       print('video Started');
     }
 
-    // video Ended
+    // video ended
     if (_controller.value.position == _controller.value.duration) {
-      Navigator.pop(context);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }
 }

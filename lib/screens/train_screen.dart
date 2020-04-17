@@ -95,7 +95,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  SizedBox(height: 15),
+                  SizedBox(height: 10),
                   RatingBar(
                     initialRating: nbSuccess,
                     minRating: nbSuccess,
@@ -111,6 +111,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                       print(rating);
                     },
                   ),
+                  SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -186,7 +187,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   _success() async {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     _controllerCenter.play();
-    audioCache.play('sounds/applause.mp3');
+    audioCache.play('sounds/success.mp3');
     await widget.story.getStreamingUrls();
 
     Timer(Duration(seconds: 4), () {
