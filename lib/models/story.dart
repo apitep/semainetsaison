@@ -17,23 +17,17 @@ class Story {
   Future<void> getStreamingUrls() async {
     videos = await getVideos();
     var video = videos.firstWhere((item) => item.quality == '540p');
-    if (video != null) {
-      videoUrl = video.url;
-    }
+    if (video != null) videoUrl = video.url;
   }
 
   Future<List<Video>> getVideos() async {
-    String jsondata;
-    dynamic _response;
+    dynamic _response = await http.get(videoUrl);
 
-    _response = await http.get(videoUrl);
-    if (_response.statusCode == 200) jsondata = _response.body;
-
-    if (jsondata != null) {
-      return parseVideos(jsondata);
-    } else {
-      return List<Video>();
+    if (_response.statusCode == 200) {
+      if (_response.body != null) return parseVideos(_response.body);
     }
+
+    return List<Video>();
   }
 
   List<Video> parseVideos(String jsondata) {
@@ -41,11 +35,9 @@ class Story {
 
     var resp = json.decode(jsondata);
     var urls = resp["request"]["files"]["progressive"];
-    if (urls != null) {
-      return urls.map<Video>((json) => Video.fromJson(json)).toList();
-    } else {
-      return [];
-    }
+    if (urls != null) return urls.map<Video>((json) => Video.fromJson(json)).toList();
+
+    return [];
   }
 
   Story.fromJson(Map<String, dynamic> json) {
