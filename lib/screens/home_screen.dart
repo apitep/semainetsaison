@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:after_layout/after_layout.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:auto_animated/auto_animated.dart';
 import 'package:semainetsaison/models/story.dart';
@@ -17,7 +21,9 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScreen> {
+  AudioPlayer advancedPlayer;
+  AudioCache audioCache;
   AppProvider appProvider;
   final options = LiveOptions(
     delay: Duration(milliseconds: 50),
@@ -29,7 +35,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    initPlayer();
     super.initState();
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    audioCache.play('sounds/homeintro.mp3');
+  }
+
+  void initPlayer() {
+    advancedPlayer = AudioPlayer();
+    audioCache = AudioCache(fixedPlayer: advancedPlayer);
   }
 
   @override
