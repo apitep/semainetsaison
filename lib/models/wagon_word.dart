@@ -8,11 +8,11 @@ const kImageLocomotive = 'assets/images/blueloco.png';
 class WagonWord {
   WagonWord({this.guessingWord, this.answer, this.imagePath, this.width, this.disabled});
 
-  WagonWord.loco(this.answer, {this.imagePath = kImageLocomotive, this.width = 170, this.disabled = true}) {
+  WagonWord.loco(this.answer, {this.imagePath = kImageLocomotive, this.width = 140, this.disabled = true}) {
     this.guessingWord = this.answer;
     initPlayer();
   }
-  WagonWord.wagon(this.guessingWord, {this.answer = '', this.imagePath = kImagePathWrong, this.width = 180, this.disabled = false}) {
+  WagonWord.wagon(this.guessingWord, {this.answer = '', this.imagePath = kImagePathWrong, this.width = 150, this.disabled = false}) {
     initPlayer();
   }
 

@@ -13,9 +13,7 @@ class WordSlider extends StatefulWidget {
 }
 
 class _WordSliderState extends State<WordSlider> {
-  PageController pageController;
-  double wordCardBaseWidth = 200;
-  double wordContainerHeight = 100;
+  double wordContainerHeight = 150;
 
   @override
   void initState() {
@@ -29,19 +27,27 @@ class _WordSliderState extends State<WordSlider> {
 
   @override
   Widget build(BuildContext context) {
-    this.pageController = PageController(
-      viewportFraction: wordCardBaseWidth / MediaQuery.of(context).size.width,
-    );
     return Container(
       height: wordContainerHeight,
-      child: PageView.builder(
-        controller: this.pageController,
+      child: GridView.builder(
         scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
         itemCount: widget.words.length,
-        itemBuilder: (ctx, index) {
-          final word = widget.words[index];
-          return WordCard(word);
-        },
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 0,
+          crossAxisCount: 1,
+        ),
+        itemBuilder: (BuildContext context, int index) => GestureDetector(
+          child: WordCard(widget.words[index]),
+          onTap: () {
+            if (mounted) {
+              setState(() {
+                print(index);
+              });
+            }
+          },
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import "dart:math";
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -9,13 +10,13 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
 
 import '../widgets/topbar.dart';
-import '../widgets/wordcard.dart';
+import '../widgets/wordslider.dart';
 import '../screens/videoplayer_screen.dart';
 import '../models/wagon_word.dart';
 import '../models/story.dart';
 
-const kDays = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
-const kMonths = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+const kDays = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+const kMonths = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
 class TrainScreen extends StatefulWidget {
   TrainScreen({Key key, this.story}) : super(key: key);
@@ -31,14 +32,15 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   ConfettiController _controllerCenter;
   AudioPlayer advancedPlayer;
   AudioCache audioCache;
-  List<WagonWord> daytrain = [WagonWord.loco('mercredi'), WagonWord.wagon('jeudi'), WagonWord.wagon('vendredi')];
-  List<WagonWord> monthtrain = [WagonWord.loco('septembre'), WagonWord.wagon('octobre'), WagonWord.wagon('novembre')];
+  List<WagonWord> daytrain, monthtrain;
   double nbSuccess = 0;
 
   @override
   void initState() {
     _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
     initPlayer();
+    daytrain = loadTrain(kDays, 4);
+    monthtrain = loadTrain(kMonths, 4);
     super.initState();
   }
 
@@ -56,6 +58,22 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   void initPlayer() {
     advancedPlayer = AudioPlayer();
     audioCache = AudioCache(fixedPlayer: advancedPlayer);
+  }
+
+  List<WagonWord> loadTrain(List<String> items, int nbItems) {
+    var train = List<WagonWord>();
+    var start = Random().nextInt(items.length - nbItems);
+    var selectedItems = items.getRange(start, start + nbItems).toList();
+
+    selectedItems.forEach((item) {
+      if (train.length == 0) {
+        train.add(WagonWord.loco(item));
+      } else {
+        train.add(WagonWord.wagon(item));
+      }
+    });
+
+    return train;
   }
 
   @override
@@ -101,7 +119,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                     minRating: nbSuccess,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
-                    itemCount: 4,
+                    itemCount: 6,
                     itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                     itemBuilder: (context, _) => Icon(
                       Icons.star,
@@ -111,7 +129,11 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                       print(rating);
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 25),
+                  Container(
+                    height: 170,
+                    child: WordSlider(words: daytrain),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -124,19 +146,11 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                       ),
                     ),
                   ),
+                  SizedBox(height: 20),
                   Container(
-                    height: 200,
-                    child: PageView.builder(
-                      controller: this.pageController,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: daytrain.length,
-                      itemBuilder: (ctx, index) {
-                        final word = daytrain[index];
-                        return WordCard(word);
-                      },
-                    ),
+                    height: 170,
+                    child: WordSlider(words: monthtrain),
                   ),
-                  SizedBox(height: 15),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -147,18 +161,6 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                       ),
-                    ),
-                  ),
-                  Container(
-                    height: 200,
-                    child: PageView.builder(
-                      controller: this.pageController,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: monthtrain.length,
-                      itemBuilder: (ctx, index) {
-                        final word = monthtrain[index];
-                        return WordCard(word);
-                      },
                     ),
                   ),
                 ],

@@ -28,6 +28,7 @@ class _WordCardState extends State<WordCard> {
     return Padding(
       padding: EdgeInsets.all(padding * 2),
       child: Align(
+        alignment: Alignment.center,
         child: Container(
           width: widget.word.width,
           decoration: BoxDecoration(
@@ -37,12 +38,7 @@ class _WordCardState extends State<WordCard> {
               fit: BoxFit.contain,
             ),
             boxShadow: [
-              BoxShadow(
-                blurRadius: 6,
-                spreadRadius: 2,
-                offset: Offset(0, 2),
-                color: Colors.black.withOpacity(0.2),
-              ),
+              BoxShadow(blurRadius: 4, spreadRadius: 3, offset: Offset(0, 2), color: Colors.black.withOpacity(0.05)),
             ],
           ),
           child: ClipRRect(
@@ -55,27 +51,33 @@ class _WordCardState extends State<WordCard> {
                   gradient: LinearGradient(
                     begin: Alignment.bottomRight,
                     stops: [0.3, 0.8],
-                    colors: [
-                      Colors.black.withOpacity(0.80),
-                      Colors.transparent,
-                    ],
+                    colors: [Colors.black.withOpacity(0.60), Colors.transparent],
                   ),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: padding * 2,
-                    vertical: padding,
-                  ),
-                  child: TextField(
-                    onChanged: (value) => _handleOnChanged(value),
-                    controller: _textfieldController,
-                    textAlign: TextAlign.center,
-                    autofocus: true,
-                    readOnly: widget.word.disabled,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    height: 35,
+                    width: widget.word.width,
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent.withOpacity(0.30),
+                      border: Border.all(color: Colors.white, width: 1.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: TextField(
+                        onChanged: (value) => _handleOnChanged(value),
+                        controller: _textfieldController,
+                        textAlign: TextAlign.center,
+                        autofocus: true,
+                        readOnly: widget.word.disabled,
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
