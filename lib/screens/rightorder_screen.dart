@@ -139,8 +139,8 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
   void showHelloWorld() {
     showDialog(
       context: context,
-      builder: (_) => NetworkGiffyDialog(
-        image: Image.network(
+      builder: (_) => AssetGiffyDialog(
+        image: Image.asset(
           widget.story.thumbUrl,
           fit: BoxFit.cover,
         ),
