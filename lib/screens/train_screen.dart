@@ -8,6 +8,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:semainetsaison/constants.dart';
 
 import '../widgets/topbar.dart';
 import '../widgets/wordslider.dart';
@@ -106,17 +107,29 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: topBar(context, "Le train des mots"),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Row(
+          appBar: topBar(context, Constants.kTitle),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 10),
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Le train des jours et des mois',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontFamily: 'MontserratAlternates',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                       RatingBar(
                         initialRating: nbSuccess,
                         minRating: nbSuccess,
@@ -133,9 +146,14 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                         },
                       ),
                       SizedBox(height: 25),
-                      Container(
-                        height: 170,
-                        child: WordSlider(words: daytrain),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 170,
+                            child: WordSlider(words: daytrain),
+                          ),
+                        ],
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -149,10 +167,15 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Container(
-                        height: 170,
-                        child: WordSlider(words: monthtrain),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 20),
+                          Container(
+                            height: 170,
+                            child: WordSlider(words: monthtrain),
+                          ),
+                        ],
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -168,9 +191,9 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ],

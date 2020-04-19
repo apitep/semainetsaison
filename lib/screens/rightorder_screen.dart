@@ -39,9 +39,7 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
   }
 
   @override
-  void afterFirstLayout(BuildContext context) {
-
-  }
+  void afterFirstLayout(BuildContext context) {}
 
   @override
   void dispose() {
@@ -84,28 +82,22 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
           backgroundColor: Colors.transparent,
           appBar: topBar(context, "Glisse les mois\ndans le bon ordre"),
           body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  
-                  Center(
-                    child: OrderableStack<String>(
-                      direction: Direction.Vertical,
-                      items: widget.rightOrder,
-                      itemSize: const Size(120.0, 27.0),
-                      itemBuilder: itemBuilder,
-                      onChange: (List<String> orderedList) {
-                        orderNotifier.value = orderedList.toString();
-                        if (listEquals(orderedList, widget.rightOrder)) _success();
-                      },
-                    ),
-                  ),
-                  
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+
+                OrderableStack<String>(
+                  direction: Direction.Vertical,
+                  items: widget.rightOrder,
+                  itemSize: Size(MediaQuery.of(context).size.width * 0.5, (MediaQuery.of(context).size.height+10) / widget.rightOrder.length /2 ),
+                  itemBuilder: itemBuilder,
+                  onChange: (List<String> orderedList) {
+                    orderNotifier.value = orderedList.toString();
+                    if (listEquals(orderedList, widget.rightOrder)) _success();
+                  },
+                ),
+              ],
             ),
           ),
         ),
