@@ -113,55 +113,60 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  SizedBox(height: 10),
-                  RatingBar(
-                    initialRating: nbSuccess,
-                    minRating: nbSuccess,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 6,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    onRatingUpdate: (rating) {
-                      print(rating);
-                    },
-                  ),
-                  SizedBox(height: 25),
-                  Container(
-                    height: 170,
-                    child: WordSlider(words: daytrain),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Complète le train des jours',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'MontserratAlternates',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 10),
+                      RatingBar(
+                        initialRating: nbSuccess,
+                        minRating: nbSuccess,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 6,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    height: 170,
-                    child: WordSlider(words: monthtrain),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Complète le train des mois',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'MontserratAlternates',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                      SizedBox(height: 25),
+                      Container(
+                        height: 170,
+                        child: WordSlider(words: daytrain),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Complète le train des jours',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'MontserratAlternates',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        height: 170,
+                        child: WordSlider(words: monthtrain),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Complète le train des mois',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'MontserratAlternates',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -3,31 +3,31 @@
     "title": "La brouille",
     "author": "Claude Boujon",
     "videoUrl": "https://player.vimeo.com/video/399641647/config",
-    "thumbUrl": "assets/thumbs/labrouille.jpg"
+    "thumbUrl": "/assets/thumbs/labrouille.jpg"
   },
   {
     "title": "Non, non et non",
     "author": "Mireille d’Allancé",
     "videoUrl": "https://player.vimeo.com/video/404688451/config",
-    "thumbUrl": "assets/thumbs/nonnonetnon.jpg"
+    "thumbUrl": "/assets/thumbs/nonnonetnon.jpg"
   },
   {
     "title": "Scritch scratch dip clapote",
     "author": "Kitty Crowther",
     "videoUrl": "https://player.vimeo.com/video/404377930/config",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/ScritchScratchDipClapote.jpg"
+    "thumbUrl": "/assets/thumbs/ScritchScratchDipClapote.jpg"
   },
   {
     "title": "Elmer",
     "author": "David McKee",
     "videoUrl": "https://player.vimeo.com/video/403645747/config",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/elmer.jpg"
+    "thumbUrl": "/assets/thumbs/elmer.jpg"
   },
   {
     "title": "Gros pipi",
     "author": "Émile Jadoul",
     "videoUrl": "https://player.vimeo.com/video/403255746/config",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/grospipi.jpg"
+    "thumbUrl": "/assets/thumbs/grospipi.jpg"
   },
   {
     "title": "Disparais !",

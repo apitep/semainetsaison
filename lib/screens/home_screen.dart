@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(appProvider.stories[index].thumbUrl),
+                          image: NetworkImage(appProvider.stories[index].thumbUrl),
                           fit: BoxFit.fitHeight,
                         ),
                       ),

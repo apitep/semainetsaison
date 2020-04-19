@@ -90,21 +90,20 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height - kToolbarHeight * 2,
-                    child: Center(
-                      child: OrderableStack<String>(
-                        direction: Direction.Vertical,
-                        items: widget.rightOrder,
-                        itemSize: const Size(120.0, 27.0),
-                        itemBuilder: itemBuilder,
-                        onChange: (List<String> orderedList) {
-                          orderNotifier.value = orderedList.toString();
-                          if (listEquals(orderedList, widget.rightOrder)) _success();
-                        },
-                      ),
+                  
+                  Center(
+                    child: OrderableStack<String>(
+                      direction: Direction.Vertical,
+                      items: widget.rightOrder,
+                      itemSize: const Size(120.0, 27.0),
+                      itemBuilder: itemBuilder,
+                      onChange: (List<String> orderedList) {
+                        orderNotifier.value = orderedList.toString();
+                        if (listEquals(orderedList, widget.rightOrder)) _success();
+                      },
                     ),
                   ),
+                  
                 ],
               ),
             ),
