@@ -151,7 +151,8 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
           textAlign: TextAlign.center,
         ),
         description: Text(
-          "Un album animé offert par l'école des loisirs. Termine les exercices pour le regarder.",
+          story.thumbUrl,
+          //"Un album animé offert par l'école des loisirs. Termine les exercices pour le regarder.",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w400,

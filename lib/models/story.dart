@@ -21,9 +21,11 @@ class Story {
   }
 
   Future<List<Video>> getVideos() async {
-    dynamic _response = await http.get(videoUrl);
+     Map<String, String> headers = {"Access-Control-Allow-Origin": "http://127.0.0.1:8080"};
 
-    if (_response.statusCode == 200) {
+    dynamic _response = await http.get(videoUrl, headers: headers);
+
+    if (_response.statusCode == 200 || _response.statusCode == 201) {
       if (_response.body != null) return parseVideos(_response.body);
     }
 
