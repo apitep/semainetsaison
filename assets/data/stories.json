@@ -3,13 +3,13 @@
     "title": "La brouille",
     "author": "Claude Boujon",
     "videoUrl": "https://player.vimeo.com/video/399641647/config",
-    "thumbUrl": "/assets/thumbs/labrouille.jpg"
+    "thumbUrl": "assets/thumbs/labrouille.jpg"
   },
   {
     "title": "Non, non et non",
     "author": "Mireille d’Allancé",
     "videoUrl": "https://player.vimeo.com/video/404688451/config",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/nonnonetnon.jpg"
+    "thumbUrl": "assets/thumbs/nonnonetnon.jpg"
   },
   {
     "title": "Scritch scratch dip clapote",
