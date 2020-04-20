@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:audioplayers/audio_cache.dart';
 
 import '../constants.dart';
 import '../models/story.dart';
@@ -27,8 +26,8 @@ class RightOrderScreen extends StatefulWidget {
 class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMixin<RightOrderScreen> {
   ConfettiController _controllerCenter;
   ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
-  AudioPlayer advancedPlayer;
-  AudioCache audioCache;
+  AudioPlayer audioSound;
+  AudioPlayer audioBackground;
 
   @override
   void initState() {
@@ -39,7 +38,7 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
 
   @override
   void afterFirstLayout(BuildContext context) {
-    audioCache.play('sounds/ambiance.mp3');
+    //audioBackground.play(Constants.kUrlBackgroundAudioLow);
   }
 
   @override
@@ -49,8 +48,9 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
   }
 
   void initPlayer() {
-    advancedPlayer = AudioPlayer();
-    audioCache = AudioCache(fixedPlayer: advancedPlayer);
+    audioSound = AudioPlayer();
+    audioBackground = AudioPlayer();
+    audioBackground.setReleaseMode(ReleaseMode.LOOP);
   }
 
   @override
@@ -139,7 +139,7 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
 
   _success() async {
     _controllerCenter.play();
-    audioCache.play('sounds/success.mp3');
+    audioSound.play(Constants.kUrlSoundSuccess);
 
     Timer(Duration(seconds: 4), () {
       if (widget.rightOrder == Constants.months) {

@@ -22,8 +22,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScreen> {
-  AudioPlayer advancedPlayer;
-  AudioCache audioCache;
+  AudioPlayer audioSound;
+  AudioPlayer audioBackground;
   AppProvider appProvider;
   final options = LiveOptions(
     delay: Duration(milliseconds: 50),
@@ -41,12 +41,14 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
 
   @override
   void afterFirstLayout(BuildContext context) {
-    audioCache.play('sounds/homeintro.mp3');
+    audioBackground.play('sounds/ambiance_low.mp3');
+    audioSound.play('sounds/intro.mp3');
   }
 
   void initPlayer() {
-    advancedPlayer = AudioPlayer();
-    audioCache = AudioCache(fixedPlayer: advancedPlayer);
+    audioSound = AudioPlayer();
+    audioBackground = AudioPlayer();
+    audioBackground.setReleaseMode(ReleaseMode.LOOP);
   }
 
   @override
@@ -102,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(appProvider.stories[index].thumbUrl),
+                          image: NetworkImage(appProvider.stories[index].thumbUrl),
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -151,8 +153,7 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
           textAlign: TextAlign.center,
         ),
         description: Text(
-          story.thumbUrl,
-          //"Un album animé offert par l'école des loisirs. Termine les exercices pour le regarder.",
+          "Un album animé offert par l'école des loisirs. Termine les exercices pour le regarder.",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w400,

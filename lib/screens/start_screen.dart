@@ -20,7 +20,7 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> with SingleTickerProviderStateMixin {
   final int delayedAmount = 400;
   AnimationController controllerAnimation;
-  AudioPlayer advancedPlayer;
+  AudioPlayer audioPlayer;
   AudioCache audioCache;
 
   @override
@@ -36,11 +36,18 @@ class _StartScreenState extends State<StartScreen> with SingleTickerProviderStat
 
     initPlayer();
     super.initState();
+    audioPlayer.play(Constants.kUrlBackgroundAudio);
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.stop();
+    super.dispose();
   }
 
   void initPlayer() {
-    advancedPlayer = AudioPlayer();
-    audioCache = AudioCache(fixedPlayer: advancedPlayer);
+    audioPlayer = AudioPlayer();
+    audioPlayer.setReleaseMode(ReleaseMode.LOOP);
   }
 
   @override
@@ -55,12 +62,12 @@ class _StartScreenState extends State<StartScreen> with SingleTickerProviderStat
               height: 60.0,
             ),
             DelayedAnimation(
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset('assets/images/ApitecLogo.png', height: 90),
+                  Image.asset('assets/images/ApitecLogo.png', height: 40),
                   Text(
-                    "Apitep\nApprendre à petit pas",
+                    "Apprendre à petit pas",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
                   ),

@@ -31,8 +31,8 @@ class TrainScreen extends StatefulWidget {
 class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainScreen> {
   PageController pageController;
   ConfettiController _controllerCenter;
-  AudioPlayer advancedPlayer;
-  AudioCache audioCache;
+  AudioPlayer audioSound;
+  AudioPlayer audioBackground;
   List<WagonWord> daytrain, monthtrain;
   double nbSuccess = 0;
 
@@ -47,7 +47,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
 
   @override
   void afterFirstLayout(BuildContext context) {
-    audioCache.play('sounds/trainvapeur.mp3');
+    audioSound.play('sounds/trainvapeur.mp3');
   }
 
   @override
@@ -57,8 +57,9 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   }
 
   void initPlayer() {
-    advancedPlayer = AudioPlayer();
-    audioCache = AudioCache(fixedPlayer: advancedPlayer);
+    audioSound = AudioPlayer();
+    audioBackground = AudioPlayer();
+    audioBackground.setReleaseMode(ReleaseMode.LOOP);
   }
 
   List<WagonWord> loadTrain(List<String> items, int nbItems) {
@@ -108,92 +109,87 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: topBar(context, Constants.kTitle),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Le train des jours et des mois',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontFamily: 'MontserratAlternates',
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  RatingBar(
+                    initialRating: nbSuccess,
+                    minRating: nbSuccess,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 6,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
+                      print(rating);
+                    },
+                  ),
+                  SizedBox(height: 25),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Le train des jours et des mois',
-                          style: TextStyle(
-                            fontSize: 19,
-                            fontFamily: 'MontserratAlternates',
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      RatingBar(
-                        initialRating: nbSuccess,
-                        minRating: nbSuccess,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 6,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      ),
-                      SizedBox(height: 25),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 170,
-                            child: WordSlider(words: daytrain),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Complète le train des jours',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'MontserratAlternates',
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 20),
-                          Container(
-                            height: 170,
-                            child: WordSlider(words: monthtrain),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Complète le train des mois',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'MontserratAlternates',
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
+                    children: [
+                      Container(
+                        height: 170,
+                        child: WordSlider(words: daytrain),
                       ),
                     ],
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Complète le train des jours',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'MontserratAlternates',
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 20),
+                      Container(
+                        height: 170,
+                        child: WordSlider(words: monthtrain),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Complète le train des mois',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'MontserratAlternates',
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ],
@@ -217,7 +213,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   _success() async {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     _controllerCenter.play();
-    audioCache.play('sounds/success.mp3');
+    audioSound.play(Constants.kUrlSoundSuccess);
     await widget.story.getStreamingUrls();
 
     Timer(Duration(seconds: 4), () {
