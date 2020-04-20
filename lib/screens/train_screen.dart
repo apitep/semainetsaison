@@ -1,7 +1,9 @@
 import 'dart:async';
 import "dart:math";
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
 
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:after_layout/after_layout.dart';
@@ -12,6 +14,7 @@ import 'package:semainetsaison/constants.dart';
 import '../widgets/topbar.dart';
 import '../widgets/wordslider.dart';
 import '../screens/videoplayer_screen.dart';
+import '../providers/app_provider.dart';
 import '../models/wagon_word.dart';
 import '../models/story.dart';
 
@@ -30,7 +33,8 @@ class TrainScreen extends StatefulWidget {
 class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainScreen> {
   PageController pageController;
   ConfettiController _controllerCenter;
-  AudioPlayer audioSound;
+  AppProvider appProvider;
+  AudioCache soundeffect;
   AudioPlayer audioBackground;
   List<WagonWord> daytrain, monthtrain;
   double nbSuccess = 0;
@@ -46,19 +50,18 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
 
   @override
   void afterFirstLayout(BuildContext context) {
-    audioSound.play('sounds/trainvapeur.mp3');
+    soundeffect.play('sounds/trainvapeur.mp3');
   }
 
   @override
   void dispose() {
     _controllerCenter.dispose();
+    appProvider.musicBackground(false);
     super.dispose();
   }
 
   void initPlayer() {
-    audioSound = AudioPlayer();
-    audioBackground = AudioPlayer();
-    audioBackground.setReleaseMode(ReleaseMode.LOOP);
+    soundeffect = AudioCache();
   }
 
   List<WagonWord> loadTrain(List<String> items, int nbItems) {
@@ -79,6 +82,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
 
   @override
   Widget build(BuildContext context) {
+    appProvider = Provider.of<AppProvider>(context);
     _checkResults();
 
     return Stack(
@@ -212,10 +216,10 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   _success() async {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     _controllerCenter.play();
-    audioSound.play(Constants.kUrlSoundSuccess);
+    soundeffect.play('sounds/levelup.mp3');
     await widget.story.getStreamingUrls();
 
-    Timer(Duration(seconds: 4), () {
+    Timer(Duration(seconds: 6), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

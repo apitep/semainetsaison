@@ -1,5 +1,4 @@
-import 'package:audioplayers/audioplayers.dart';
-import 'package:semainetsaison/constants.dart';
+import 'package:audioplayers/audio_cache.dart';
 
 const kImagePathWrong = 'assets/images/bluewagon.png';
 const kImagePathRight = 'assets/images/greenwagon.png';
@@ -22,7 +21,7 @@ class WagonWord {
   double width;
   bool disabled;
 
-  AudioPlayer audioSound;
+  AudioCache soundEffect;
 
   bool isAnswerRight() {
     if (disabled) return false;
@@ -30,7 +29,7 @@ class WagonWord {
     if (answer == guessingWord) {
       imagePath = kImagePathRight;
       disabled = true;
-      audioSound.play(Constants.kUrlSoundTrainSifflement);
+      soundEffect.play('sounds/sifflement.mp3');
     } else {
       imagePath = kImagePathWrong;
     }
@@ -39,6 +38,6 @@ class WagonWord {
   }
 
   void initPlayer() {
-    audioSound = AudioPlayer();
+    soundEffect = AudioCache();
   }
 }

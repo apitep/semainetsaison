@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -130,6 +131,8 @@ class OrderableWidgetState<T> extends State<OrderableWidget<T>> with SingleTicke
   }
 
   void initTts() async {
+    if (Platform.isMacOS) return;
+
     flutterTts = FlutterTts();
     flutterTts.setLanguage('fr-FR');
     await flutterTts.isLanguageAvailable('fr-FR');

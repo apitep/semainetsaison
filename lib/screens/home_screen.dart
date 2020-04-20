@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 import 'package:after_layout/after_layout.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:auto_animated/auto_animated.dart';
 import 'package:semainetsaison/models/story.dart';
@@ -22,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScreen> {
   AudioPlayer audioSound;
-  AudioPlayer audioBackground;
   AppProvider appProvider;
   final options = LiveOptions(
     delay: Duration(milliseconds: 50),
@@ -40,14 +39,11 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
 
   @override
   void afterFirstLayout(BuildContext context) {
-    audioBackground.play(Constants.kUrlBackgroundAudioLow);
     audioSound.play(Constants.kUrlSoundHomeIntro);
   }
 
   void initPlayer() {
     audioSound = AudioPlayer();
-    audioBackground = AudioPlayer();
-    audioBackground.setReleaseMode(ReleaseMode.LOOP);
   }
 
   @override
@@ -63,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
           itemBuilder: buildAnimatedItem,
           itemCount: appProvider.stories.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: ResponsiveWidget.isLargeScreen(context) ? 4 : ResponsiveWidget.isSmallScreen(context) ? 2 : 3,
+            crossAxisCount: ResponsiveWidget.isLargeScreen(context) ? 5 : ResponsiveWidget.isSmallScreen(context) ? 2 : 5,
             crossAxisSpacing: 1,
             mainAxisSpacing: 1,
           ),
@@ -164,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
         onlyOkButton: true,
         onOkButtonPressed: () {
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: story, rightOrder: Constants.months)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: story, rightOrder: Constants.days)));
         },
       ),
     );

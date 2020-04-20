@@ -82,23 +82,25 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: topBar(context, "Glisse les mois\ndans le bon ordre"),
-          body: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-
-                OrderableStack<String>(
-                  direction: Direction.Vertical,
-                  items: widget.rightOrder,
-                  itemSize: Size(MediaQuery.of(context).size.width * 0.5, (MediaQuery.of(context).size.height+10) / widget.rightOrder.length /2 ),
-                  itemBuilder: itemBuilder,
-                  onChange: (List<String> orderedList) {
-                    orderNotifier.value = orderedList.toString();
-                    if (listEquals(orderedList, widget.rightOrder)) _success();
-                  },
-                ),
-              ],
+          body: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  OrderableStack<String>(
+                    direction: Direction.Vertical,
+                    items: widget.rightOrder,
+                    itemSize: Size(170, 50),
+                    itemBuilder: itemBuilder,
+                    onChange: (List<String> orderedList) {
+                      orderNotifier.value = orderedList.toString();
+                      if (listEquals(orderedList, widget.rightOrder)) _success();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -112,8 +114,10 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
       width: itemSize.width,
       height: itemSize.height,
       decoration: BoxDecoration(
-        color: data != null && !data.selected ? data.dataIndex == data.visibleIndex ? Colors.green : Colors.red : Colors.blue,
+        color:
+            data != null && !data.selected ? data.dataIndex == data.visibleIndex ? Colors.green.withOpacity(0.75) : Colors.red.withOpacity(0.50) : Colors.blue,
         shape: BoxShape.rectangle,
+        border: Border.all(color: Colors.white12, width: 4.0),
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         boxShadow: [
           BoxShadow(
@@ -128,12 +132,23 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
         ],
       ),
       child: Center(
-          child: Column(children: [
-        Text(
-          "${data.value}",
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
-        )
-      ])),
+          child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Material(
+            color: Colors.transparent, // button color
+            child: InkWell(
+              splashColor: Constants.kColorBgStart, // splash color
+              onTap: () {},
+              child: Icon(Icons.calendar_today, size: 25), // button pressed
+            ),
+          ),
+          Text(
+            "${data.value}",
+            style: TextStyle(fontSize: 18.0, color: Colors.white),
+          )
+        ]),
+      )),
     );
   }
 
@@ -141,11 +156,11 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
     _controllerCenter.play();
     audioSound.play(Constants.kUrlSoundSuccess);
 
-    Timer(Duration(seconds: 4), () {
-      if (widget.rightOrder == Constants.months) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: widget.story, rightOrder: Constants.days)));
+    Timer(Duration(seconds: 6), () {
+      if (widget.rightOrder == Constants.days) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: widget.story, rightOrder: Constants.months)));
       } else {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
       }
     });
   }
