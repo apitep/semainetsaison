@@ -16,6 +16,7 @@ class Constants {
   static const String kUrlStories = kUrlRemoteRoot + "assets/data/stories.json";
 
   static const String kUrlSoundSuccess = kUrlRemoteRoot + "assets/sounds/levelup.mp3";
+  static const String kUrlSoundHomeIntro = kUrlRemoteRoot + "assets/sounds/homeintro.mp3";
   static const String kUrlSoundTrainVapeur = kUrlRemoteRoot + "assets/sounds/trainvapeur.mp3";
   static const String kUrlSoundTrainSifflement = kUrlRemoteRoot + "assets/sounds/sifflement.mp3";
   static const String kUrlBackgroundAudioLow = kUrlRemoteRoot + "assets/sounds/ambiance_low.mp3";

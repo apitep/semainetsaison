@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:provider/provider.dart';
 
-import 'package:audioplayers/audioplayers.dart';
-import 'package:audioplayers/audio_cache.dart';
-
+import '../providers/app_provider.dart';
 import '../widgets/delayed_animation.dart';
 import '../constants.dart';
 import 'home_screen.dart';
@@ -20,38 +19,27 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> with SingleTickerProviderStateMixin {
   final int delayedAmount = 400;
   AnimationController controllerAnimation;
-  AudioPlayer audioPlayer;
-  AudioCache audioCache;
+  AppProvider appProvider;
 
   @override
   void initState() {
-    controllerAnimation = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 200),
-      lowerBound: 0.0,
-      upperBound: 0.1,
-    )..addListener(() {
+    controllerAnimation = AnimationController(vsync: this, duration: Duration(milliseconds: 200), lowerBound: 0.0, upperBound: 0.1)
+      ..addListener(() {
         setState(() {});
       });
 
-    initPlayer();
     super.initState();
-    audioPlayer.play(Constants.kUrlBackgroundAudio);
   }
 
   @override
   void dispose() {
-    audioPlayer.stop();
     super.dispose();
-  }
-
-  void initPlayer() {
-    audioPlayer = AudioPlayer();
-    audioPlayer.setReleaseMode(ReleaseMode.LOOP);
   }
 
   @override
   Widget build(BuildContext context) {
+    appProvider = Provider.of<AppProvider>(context);
+
     return Scaffold(
       backgroundColor: Constants.kColorBgStart,
       body: Center(
@@ -79,12 +67,7 @@ class _StartScreenState extends State<StartScreen> with SingleTickerProviderStat
             DelayedAnimation(
               child: InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(title: Constants.appName),
-                    ),
-                  );
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen(title: Constants.appName)));
                 },
                 child: AvatarGlow(
                   endRadius: 100,

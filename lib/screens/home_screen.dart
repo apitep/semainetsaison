@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'package:after_layout/after_layout.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:audioplayers/audio_cache.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:auto_animated/auto_animated.dart';
 import 'package:semainetsaison/models/story.dart';
@@ -41,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
 
   @override
   void afterFirstLayout(BuildContext context) {
-    audioBackground.play('sounds/ambiance_low.mp3');
-    audioSound.play('sounds/intro.mp3');
+    audioBackground.play(Constants.kUrlBackgroundAudioLow);
+    audioSound.play(Constants.kUrlSoundHomeIntro);
   }
 
   void initPlayer() {

@@ -2,15 +2,19 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:audioplayers/audioplayers.dart';
 
 import '../constants.dart';
 import '../models/story.dart';
 
 class AppProvider extends ChangeNotifier {
   AppProvider() {
+    initPlayer();
+    musicBackground(true);
     fetchData();
   }
 
+  AudioPlayer music;
   List<Story> stories = List<Story>();
   ThemeData theme = Constants.lightTheme;
   Key key = UniqueKey();
@@ -18,18 +22,16 @@ class AppProvider extends ChangeNotifier {
 
   String appVersion;
 
-  bool _isFetching = true;
-  bool get isFetching => _isFetching;
-  set isFetching(bool newValue) {
-    _isFetching = newValue;
+  bool _isMusicPlaying = false;
+  bool get isMusicPlaying => _isMusicPlaying;
+  set isMusicPlaying(bool newValue) {
+    _isMusicPlaying = newValue;
     notifyListeners();
   }
 
   //
   Future<void> fetchData() async {
-    isFetching = true;
     stories = await getStories();
-    isFetching = false;
   }
 
   Future<List<Story>> getStories() async {
@@ -48,6 +50,16 @@ class AppProvider extends ChangeNotifier {
 
     final parsed = json.decode(jsondata.toString()).cast<Map<String, dynamic>>();
     return parsed.map<Story>((json) => Story.fromJson(json)).toList();
+  }
+
+  void initPlayer() {
+    music = AudioPlayer();
+    music.setReleaseMode(ReleaseMode.LOOP);
+  }
+
+  void musicBackground(bool play) {
+    play ? music.play(Constants.kUrlBackgroundAudioLow) : music.stop();
+    isMusicPlaying = play;
   }
 
   void setKey(value) {
