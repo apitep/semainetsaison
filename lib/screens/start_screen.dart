@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 
+import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
+
 import '../widgets/delayed_animation.dart';
 import '../constants.dart';
 import 'home_screen.dart';
@@ -17,6 +20,8 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> with SingleTickerProviderStateMixin {
   final int delayedAmount = 400;
   AnimationController controllerAnimation;
+  AudioPlayer advancedPlayer;
+  AudioCache audioCache;
 
   @override
   void initState() {
@@ -29,7 +34,13 @@ class _StartScreenState extends State<StartScreen> with SingleTickerProviderStat
         setState(() {});
       });
 
+    initPlayer();
     super.initState();
+  }
+
+  void initPlayer() {
+    advancedPlayer = AudioPlayer();
+    audioCache = AudioCache(fixedPlayer: advancedPlayer);
   }
 
   @override
@@ -47,6 +58,7 @@ class _StartScreenState extends State<StartScreen> with SingleTickerProviderStat
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Image.asset('assets/images/ApitecLogo.png', height: 90),
                   Text(
                     "Apitep\nApprendre à petit pas",
                     textAlign: TextAlign.center,
