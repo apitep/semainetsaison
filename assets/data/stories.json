@@ -1,5 +1,17 @@
 [
   {
+    "title": "Les trois Brigands",
+    "author": "Tomi Ungerer",
+    "videoUrl": "https://player.vimeo.com/video/407529390/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/3brigands.jpg"
+  },
+  {
+    "title": "Gloups",
+    "author": "Christine Naumann-Villemain et Marianne Barcilon",
+    "videoUrl": "https://player.vimeo.com/video/408485998/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/gloups.jpg"
+  },
+  {
     "title": "Loulou à l’école des loups",
     "author": "Grégoire Solotareff",
     "videoUrl": "https://player.vimeo.com/video/408798114/config",
