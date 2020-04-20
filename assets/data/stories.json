@@ -1,5 +1,17 @@
 [
   {
+    "title": "Loulou à l’école des loups",
+    "author": "Grégoire Solotareff",
+    "videoUrl": "https://player.vimeo.com/video/408798114/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/loulouecoledesloups.jpg"
+  },
+  {
+    "title": "Zou",
+    "author": "Michel Gay",
+    "videoUrl": "https://player.vimeo.com/video/409742293/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/zou.jpg"
+  },
+  {
     "title": "La brouille",
     "author": "Claude Boujon",
     "videoUrl": "https://player.vimeo.com/video/399641647/config",
