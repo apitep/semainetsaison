@@ -23,6 +23,15 @@ class WagonWord {
 
   AudioCache soundEffect;
 
+  bool _loco;
+  bool get loco => (imagePath == kImageLocomotive);
+  set loco(bool newValue) {
+    _loco = newValue;
+    disabled = _loco;
+
+    if (_loco) imagePath = kImageLocomotive;
+  }
+
   bool isAnswerRight() {
     if (disabled) return false;
 

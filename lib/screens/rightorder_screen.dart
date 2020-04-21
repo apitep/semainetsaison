@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:semainetsaison/screens/seasons_screen.dart';
 
 import '../constants.dart';
 import '../models/story.dart';
@@ -160,7 +161,7 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
       if (widget.rightOrder == Constants.days) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: widget.story, rightOrder: Constants.months)));
       } else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SeasonScreen(story: widget.story)));
       }
     });
   }
