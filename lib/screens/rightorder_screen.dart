@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:audioplayers/audio_cache.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -26,28 +26,21 @@ class RightOrderScreen extends StatefulWidget {
 class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMixin<RightOrderScreen> {
   ConfettiController _controllerCenter;
   ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
-  AudioCache soundEffect;
 
   @override
   void initState() {
     _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
-    initPlayer();
     super.initState();
   }
 
   @override
   void afterFirstLayout(BuildContext context) {
-    //audioBackground.play(Constants.kUrlBackgroundAudioLow);
   }
 
   @override
   void dispose() {
     _controllerCenter.dispose();
     super.dispose();
-  }
-
-  void initPlayer() {
-    soundEffect = AudioCache();
   }
 
   @override
@@ -151,7 +144,7 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
 
   _success() async {
     _controllerCenter.play();
-    soundEffect.play('sounds/levelup.mp3');
+    AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/levelup.mp3"));
 
     Timer(Duration(seconds: 6), () {
       if (widget.rightOrder == Constants.days) {

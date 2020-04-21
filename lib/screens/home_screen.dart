@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:audioplayers/audio_cache.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 import 'package:after_layout/after_layout.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
@@ -21,7 +21,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScreen> {
-  AudioCache audioSound;
   AppProvider appProvider;
   final options = LiveOptions(
     delay: Duration(milliseconds: 50),
@@ -33,17 +32,12 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
 
   @override
   void initState() {
-    initPlayer();
     super.initState();
   }
 
   @override
   void afterFirstLayout(BuildContext context) {
-    audioSound.play('sounds/homeintro.mp3');
-  }
-
-  void initPlayer() {
-    audioSound = AudioCache();
+    AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/homeintro.mp3"));
   }
 
   @override
@@ -54,16 +48,18 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
       backgroundColor: Constants.kColorBgStart,
       appBar: topBar(context, Constants.kTitle),
       body: Center(
-        child: LiveGrid.options(
-          options: options,
-          itemBuilder: buildAnimatedItem,
-          itemCount: appProvider.stories.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: ResponsiveWidget.isLargeScreen(context) ? 5 : ResponsiveWidget.isSmallScreen(context) ? 2 : 5,
-            crossAxisSpacing: 1,
-            mainAxisSpacing: 1,
-          ),
-        ),
+        child: appProvider.isfetching
+            ? CircularProgressIndicator()
+            : LiveGrid.options(
+                options: options,
+                itemBuilder: buildAnimatedItem,
+                itemCount: appProvider.stories.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: ResponsiveWidget.isLargeScreen(context) ? 5 : ResponsiveWidget.isSmallScreen(context) ? 2 : 5,
+                  crossAxisSpacing: 1,
+                  mainAxisSpacing: 1,
+                ),
+              ),
       ),
     );
   }

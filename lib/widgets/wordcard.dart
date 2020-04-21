@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
+import '../models/events.dart';
 import '../models/wagon_word.dart';
 
 class WordCard extends StatefulWidget {
@@ -91,8 +92,8 @@ class _WordCardState extends State<WordCard> {
 
   _handleOnChanged(String value) {
     setState(() {
-      widget.word.answer = value;
-      widget.word.isAnswerRight();
+      widget.word.answer = value.trim();
+      if (widget.word.isAnswerRight()) eventBus.fire(CheckResult());
     });
   }
 }

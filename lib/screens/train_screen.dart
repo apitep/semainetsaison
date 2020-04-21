@@ -1,6 +1,6 @@
 import 'dart:async';
 import "dart:math";
-import 'package:audioplayers/audio_cache.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
@@ -8,12 +8,12 @@ import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 import '../constants.dart';
 import '../widgets/topbar.dart';
 import '../widgets/wordslider.dart';
 import '../providers/app_provider.dart';
+import '../models/events.dart';
 import '../models/wagon_word.dart';
 import '../models/story.dart';
 import '../screens/seasons_screen.dart';
@@ -31,18 +31,15 @@ class TrainScreen extends StatefulWidget {
 }
 
 class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainScreen> {
-  PageController pageController;
   ConfettiController _controllerCenter;
   AppProvider appProvider;
-  AudioCache soundeffect;
-  AudioPlayer audioBackground;
   List<WagonWord> daytrain, monthtrain;
   double nbSuccess = 0;
+  double maxSuccess = 0;
 
   @override
   void initState() {
     _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
-    initPlayer();
     daytrain = loadTrain(kDays, 4);
     monthtrain = loadTrain(kMonths, 4);
     super.initState();
@@ -50,17 +47,16 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
 
   @override
   void afterFirstLayout(BuildContext context) {
-    soundeffect.play('sounds/trainvapeur.mp3');
+    AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/trainvapeur.mp3"));
+    eventBus.on<CheckResult>().listen((event) {
+      _checkResults();
+    });
   }
 
   @override
   void dispose() {
     _controllerCenter.dispose();
     super.dispose();
-  }
-
-  void initPlayer() {
-    soundeffect = AudioCache();
   }
 
   List<WagonWord> loadTrain(List<String> items, int nbItems) {
@@ -82,7 +78,6 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   @override
   Widget build(BuildContext context) {
     appProvider = Provider.of<AppProvider>(context);
-    _checkResults();
 
     return Stack(
       children: <Widget>[
@@ -123,7 +118,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                     child: Text(
                       'Le train des jours et des mois',
                       style: TextStyle(
-                        fontSize: 19,
+                        fontSize: 18,
                         fontFamily: 'MontserratAlternates',
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -131,8 +126,8 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                     ),
                   ),
                   RatingBar(
-                    initialRating: nbSuccess,
-                    minRating: nbSuccess,
+                    initialRating: appProvider.nbSuccess,
+                    minRating: appProvider.nbSuccess,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
                     itemCount: 6,
@@ -146,14 +141,9 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                     },
                   ),
                   SizedBox(height: 25),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 170,
-                        child: WordSlider(words: daytrain),
-                      ),
-                    ],
+                  Container(
+                    height: 150,
+                    child: WordSlider(words: daytrain),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -167,15 +157,10 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 20),
-                      Container(
-                        height: 170,
-                        child: WordSlider(words: monthtrain),
-                      ),
-                    ],
+                  SizedBox(height: 20),
+                  Container(
+                    height: 150,
+                    child: WordSlider(words: monthtrain),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -206,16 +191,13 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
     for (var item in monthtrain) {
       if (item.answer == item.guessingWord) nbSuccess++;
     }
-    setState(() {
-      nbSuccess = nbSuccess - 2;
-      if (nbSuccess == daytrain.length + monthtrain.length - 2) _success();
-    });
+    nbSuccess = nbSuccess - 2;
+    if (nbSuccess == daytrain.length + monthtrain.length - 2) _success();
   }
 
   _success() async {
     _controllerCenter.play();
-    soundeffect.play('sounds/levelup.mp3');
-    await widget.story.getStreamingUrls();
+    AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/levelup.mp3"));
 
     Timer(Duration(seconds: 6), () {
       Navigator.push(context, MaterialPageRoute(builder: (context) => SeasonScreen(story: widget.story)));

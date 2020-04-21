@@ -40,13 +40,7 @@ class _WordSliderState extends State<WordSlider> {
         ),
         itemBuilder: (BuildContext context, int index) => GestureDetector(
           child: WordCard(widget.words[index]),
-          onTap: () {
-            if (mounted) {
-              setState(() {
-                print(index);
-              });
-            }
-          },
+          onTap: () {},
         ),
       ),
     );

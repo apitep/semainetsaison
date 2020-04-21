@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:audioplayers/audio_cache.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 import '../constants.dart';
 import '../models/story.dart';
@@ -14,7 +14,7 @@ class AppProvider extends ChangeNotifier {
     musicBackground(true);
   }
 
-  AudioCache music;
+  AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
   List<Story> stories = List<Story>();
   ThemeData theme = Constants.lightTheme;
   Key key = UniqueKey();
@@ -36,9 +36,18 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  double _nbSuccess = 0;
+  double get nbSuccess => _nbSuccess;
+  set nbSuccess(double newValue) {
+    _nbSuccess = newValue;
+    notifyListeners();
+  }
+
   //
   Future<void> fetchData() async {
+    isfetching = true;
     stories = await getStories();
+    isfetching = false;
   }
 
   Future<List<Story>> getStories() async {
@@ -60,11 +69,12 @@ class AppProvider extends ChangeNotifier {
   }
 
   void initPlayer() {
-    music = AudioCache();
+    assetsAudioPlayer.open(Audio("assets/sounds/ambiance_low.mp3"));
+    assetsAudioPlayer.loop = true;
   }
 
   void musicBackground(bool play) {
-    play ? music.loop('sounds/ambiance_low.mp3') : music.clear('sounds/ambiance_low.mp3');
+    play ? assetsAudioPlayer.play() : assetsAudioPlayer.pause();
     isMusicPlaying = play;
   }
 
