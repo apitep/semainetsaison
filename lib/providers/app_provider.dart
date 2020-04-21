@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
 
 import '../constants.dart';
 import '../models/story.dart';
@@ -10,11 +10,11 @@ import '../models/story.dart';
 class AppProvider extends ChangeNotifier {
   AppProvider() {
     initPlayer();
-    musicBackground(true);
     fetchData();
+    musicBackground(true);
   }
 
-  AudioPlayer music;
+  AudioCache music;
   List<Story> stories = List<Story>();
   ThemeData theme = Constants.lightTheme;
   Key key = UniqueKey();
@@ -26,6 +26,13 @@ class AppProvider extends ChangeNotifier {
   bool get isMusicPlaying => _isMusicPlaying;
   set isMusicPlaying(bool newValue) {
     _isMusicPlaying = newValue;
+    notifyListeners();
+  }
+
+  bool _isfetching = false;
+  bool get isfetching => _isfetching;
+  set isfetching(bool newValue) {
+    _isfetching = newValue;
     notifyListeners();
   }
 
@@ -53,12 +60,11 @@ class AppProvider extends ChangeNotifier {
   }
 
   void initPlayer() {
-    music = AudioPlayer();
-    music.setReleaseMode(ReleaseMode.LOOP);
+    music = AudioCache();
   }
 
   void musicBackground(bool play) {
-    play ? music.play(Constants.kUrlBackgroundAudioLow) : music.stop();
+    play ? music.loop('sounds/ambiance_low.mp3') : music.clear('sounds/ambiance_low.mp3');
     isMusicPlaying = play;
   }
 

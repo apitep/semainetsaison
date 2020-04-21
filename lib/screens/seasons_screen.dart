@@ -190,10 +190,10 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
       });
       maxSuccess--;
     });
-    nbSuccess = nbSuccess - trains.length;
     setState(() {
-      if (nbSuccess == maxSuccess) _success();
+      nbSuccess = nbSuccess - trains.length;
     });
+    if (nbSuccess == maxSuccess) _success();
   }
 
   _success() async {
