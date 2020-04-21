@@ -1,18 +1,17 @@
 import 'dart:async';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:semainetsaison/screens/seasons_screen.dart';
+import 'package:semainetsaison/screens/train_screen.dart';
 
 import '../constants.dart';
 import '../models/story.dart';
 import '../widgets/topbar.dart';
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
-import '../screens/train_screen.dart';
 
 class RightOrderScreen extends StatefulWidget {
   RightOrderScreen({Key key, this.story, this.rightOrder}) : super(key: key);
@@ -27,8 +26,7 @@ class RightOrderScreen extends StatefulWidget {
 class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMixin<RightOrderScreen> {
   ConfettiController _controllerCenter;
   ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
-  AudioPlayer audioSound;
-  AudioPlayer audioBackground;
+  AudioCache soundEffect;
 
   @override
   void initState() {
@@ -49,9 +47,7 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
   }
 
   void initPlayer() {
-    audioSound = AudioPlayer();
-    audioBackground = AudioPlayer();
-    audioBackground.setReleaseMode(ReleaseMode.LOOP);
+    soundEffect = AudioCache();
   }
 
   @override
@@ -155,13 +151,13 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
 
   _success() async {
     _controllerCenter.play();
-    audioSound.play(Constants.kUrlSoundSuccess);
+    soundEffect.play('sounds/levelup.mp3');
 
     Timer(Duration(seconds: 6), () {
       if (widget.rightOrder == Constants.days) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: widget.story, rightOrder: Constants.months)));
       } else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SeasonScreen(story: widget.story)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
       }
     });
   }

@@ -28,6 +28,7 @@ class WagonWord {
   set loco(bool newValue) {
     _loco = newValue;
     disabled = _loco;
+    answer = guessingWord;
 
     if (_loco) imagePath = kImageLocomotive;
   }

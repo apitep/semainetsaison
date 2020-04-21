@@ -17,10 +17,10 @@ import '../models/wagon_word.dart';
 import '../models/story.dart';
 
 const kSeasons = {
-  ["printemps", "avril", "mai", "juin"],
-  ["été", "juillet", "août", "septembre"],
-  ["automne", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"],
-  ["hiver", "octobre", "novembre", "décembre"],
+  ["printemps", "mars", "avril", "mai"],
+  ["été", "juin", "juillet", "août"],
+  ["automne", "septembre", "octobre", "novembre"],
+  ["hiver", "décembre", "janvier", "février"],
 };
 
 class SeasonScreen extends StatefulWidget {
@@ -37,14 +37,20 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
   ConfettiController _controllerCenter;
   AppProvider appProvider;
   AudioCache soundeffect;
-  List<WagonWord> daytrain, monthtrain;
+
+  List<List<WagonWord>> trains = List<List<WagonWord>>();
+
   double nbSuccess = 0;
+  double maxSuccess = 0;
 
   @override
   void initState() {
     _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
     initPlayer();
     super.initState();
+    trains = kSeasons.map((season) {
+      return loadTrain(season);
+    }).toList();
   }
 
   @override
@@ -116,10 +122,10 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
                   ),
                   RatingBar(
                     initialRating: nbSuccess,
-                    minRating: nbSuccess,
+                    minRating: 0,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
-                    itemCount: 6,
+                    itemCount: maxSuccess.toInt(),
                     itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                     itemBuilder: (context, _) => Icon(
                       Icons.star,
@@ -130,11 +136,10 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
                     },
                   ),
                   SizedBox(height: 25),
-                  getTrainsWidgets(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Complète les saisons avec les bon mois',
+                      'Complète chaque saison avec les mois correspondant',
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: 'MontserratAlternates',
@@ -143,6 +148,7 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
                       ),
                     ),
                   ),
+                  getTrainsWidgets(),
                 ],
               ),
             ),
@@ -153,22 +159,21 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
   }
 
   Widget getTrainsWidgets() {
-    List<Widget> trains = List<Widget>();
-    kSeasons.map((season) {
-      trains.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 170,
-              child: WordSlider(words: loadTrain(season)),
-            ),
-          ],
-        ),
-      );
-    });
+    List<Widget> widgets = List<Widget>();
 
-    return Column(children: trains);
+    widgets = trains.map((train) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: 170,
+            child: WordSlider(words: train),
+          ),
+        ],
+      );
+    }).toList();
+
+    return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: widgets);
   }
 
   List<WagonWord> loadTrain(List<String> items) {
@@ -176,16 +181,18 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
   }
 
   _checkResults() {
+    maxSuccess = 0;
     nbSuccess = 0;
-    for (var item in daytrain) {
-      if (item.answer == item.guessingWord) nbSuccess++;
-    }
-    for (var item in monthtrain) {
-      if (item.answer == item.guessingWord) nbSuccess++;
-    }
+    trains.forEach((train) {
+      train.forEach((item) {
+        if (item.answer == item.guessingWord) nbSuccess++;
+        maxSuccess++;
+      });
+      maxSuccess--;
+    });
+    nbSuccess = nbSuccess - trains.length;
     setState(() {
-      nbSuccess = nbSuccess - 2;
-      if (nbSuccess == daytrain.length + monthtrain.length - 2) _success();
+      if (nbSuccess == maxSuccess) _success();
     });
   }
 

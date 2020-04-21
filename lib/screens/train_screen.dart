@@ -9,14 +9,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:semainetsaison/constants.dart';
 
+import '../constants.dart';
 import '../widgets/topbar.dart';
 import '../widgets/wordslider.dart';
-import '../screens/videoplayer_screen.dart';
 import '../providers/app_provider.dart';
 import '../models/wagon_word.dart';
 import '../models/story.dart';
+import '../screens/seasons_screen.dart';
 
 const kDays = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 const kMonths = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
@@ -56,7 +56,6 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   @override
   void dispose() {
     _controllerCenter.dispose();
-    appProvider.musicBackground(false);
     super.dispose();
   }
 
@@ -214,22 +213,12 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   }
 
   _success() async {
-    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     _controllerCenter.play();
     soundeffect.play('sounds/levelup.mp3');
     await widget.story.getStreamingUrls();
 
     Timer(Duration(seconds: 6), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => VideoPlayerScreen(
-            title: widget.story.title,
-            url: widget.story.videoUrl,
-            parentIsPortrait: isPortrait,
-          ),
-        ),
-      );
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SeasonScreen(story: widget.story)));
     });
   }
 }
