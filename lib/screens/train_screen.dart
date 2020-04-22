@@ -39,14 +39,14 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   @override
   void initState() {
     _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
-    daytrain = loadTrain(kDays, 4);
-    monthtrain = loadTrain(kMonths, 4);
+    daytrain = loadTrain(kDays, 3);
+    monthtrain = loadTrain(kMonths, 3);
     super.initState();
   }
 
   @override
   void afterFirstLayout(BuildContext context) {
-    AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/trainvapeur.mp3"));
+    AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundTrainVapeur));
     eventBus.on<CheckResult>().listen((event) {
       _checkResults();
     });
@@ -179,7 +179,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
 
   _success() async {
     _controllerCenter.play();
-    AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/levelup.mp3"));
+    AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
 
     Timer(Duration(seconds: 6), () {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SeasonScreen(story: widget.story)));

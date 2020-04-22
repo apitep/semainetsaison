@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -14,12 +15,12 @@ import '../models/events.dart';
 import '../models/wagon_word.dart';
 import '../models/story.dart';
 
-const kSeasons = {
+List<List<String>> seasons = [
+  ["hiver", "décembre", "janvier", "février"],
   ["printemps", "mars", "avril", "mai"],
   ["été", "juin", "juillet", "août"],
   ["automne", "septembre", "octobre", "novembre"],
-  ["hiver", "décembre", "janvier", "février"],
-};
+];
 
 class SeasonScreen extends StatefulWidget {
   SeasonScreen({Key key, this.story}) : super(key: key);
@@ -31,7 +32,6 @@ class SeasonScreen extends StatefulWidget {
 }
 
 class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<SeasonScreen> {
-
   ConfettiController _controllerCenter;
   List<List<WagonWord>> trains = List<List<WagonWord>>();
   double nbSuccess = 0, maxSuccess = 0;
@@ -39,7 +39,11 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
   @override
   void initState() {
     _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
-    trains = kSeasons.map((season) {
+
+    /// keep only 2 random seasons
+    for (var i = 0; i < 2; i++) seasons.remove(seasons[Random().nextInt(seasons.length)]);
+
+    trains = seasons.map((season) {
       return loadTrain(season);
     }).toList();
     super.initState();
