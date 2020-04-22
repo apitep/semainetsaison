@@ -1,5 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 
+import '../constants.dart';
+
 const kImagePathWrong = 'assets/images/bluewagon.png';
 const kImagePathRight = 'assets/images/greenwagon.png';
 const kImageLocomotive = 'assets/images/blueloco.png';
@@ -37,7 +39,7 @@ class WagonWord {
     if (answer == guessingWord) {
       imagePath = kImagePathRight;
       disabled = true;
-      AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/sifflement.mp3"));
+      AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundTrainSifflement));
     } else {
       imagePath = kImagePathWrong;
     }

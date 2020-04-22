@@ -1,9 +1,21 @@
 [
   {
+    "title": "Lolotte et le polochon",
+    "author": "Clothilde Delacroix",
+    "videoUrl": "https://player.vimeo.com/video/410343164/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/3brigands.jpg"
+  },
+  {
+    "title": "Chien bleu",
+    "author": "Nadja",
+    "videoUrl": "https://player.vimeo.com/video/410634976/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/lolottepolochon.jpg"
+  },
+  {
     "title": "Les trois Brigands",
     "author": "Tomi Ungerer",
     "videoUrl": "https://player.vimeo.com/video/407529390/config",
-    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/3brigands.jpg"
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/chienbleu.jpg"
   },
   {
     "title": "Gloups",

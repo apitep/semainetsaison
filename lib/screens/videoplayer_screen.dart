@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:semainetsaison/screens/home_screen.dart';
+
 import 'package:video_player/video_player.dart';
+
+import '../screens/home_screen.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   VideoPlayerScreen({Key key, this.title, this.url, this.parentIsPortrait}) : super(key: key);
@@ -17,6 +19,8 @@ class VideoPlayerScreen extends StatefulWidget {
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
+
+  bool _visibleButtons = false;
 
   @override
   void initState() {
@@ -70,7 +74,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 child: Stack(
                   alignment: Alignment.bottomCenter,
                   children: <Widget>[
-                    VideoPlayer(_controller),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _visibleButtons = !_visibleButtons;
+                        });
+                      },
+                      child: VideoPlayer(_controller),
+                    ),
                     VideoProgressIndicator(_controller, allowScrubbing: true),
                   ],
                 ),
@@ -81,18 +92,43 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if (_controller.value.isPlaying) {
-              _controller.pause();
-            } else {
-              _controller.play();
-            }
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Visibility(
+          visible: _visibleButtons,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              SizedBox(height: 20),
+              FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  setState(() {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                  });
+                },
+                child: Icon(
+                  Icons.home,
+                ),
+              ),
+              SizedBox(height: 10),
+              FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  setState(() {
+                    if (_controller.value.isPlaying) {
+                      _controller.pause();
+                    } else {
+                      _controller.play();
+                    }
+                  });
+                },
+                child: Icon(
+                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

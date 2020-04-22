@@ -15,12 +15,12 @@ class Constants {
   static const String kUrlImages = kUrlRemoteRoot + "assets/images/";
   static const String kUrlStories = kUrlRemoteRoot + "assets/data/stories.json";
 
-  static const String kUrlSoundSuccess = kUrlRemoteRoot + "assets/sounds/levelup.mp3";
-  static const String kUrlSoundHomeIntro = kUrlRemoteRoot + "assets/sounds/homeintro.mp3";
-  static const String kUrlSoundTrainVapeur = kUrlRemoteRoot + "assets/sounds/trainvapeur.mp3";
-  static const String kUrlSoundTrainSifflement = kUrlRemoteRoot + "assets/sounds/sifflement.mp3";
-  static const String kUrlBackgroundAudioLow = kUrlRemoteRoot + "assets/sounds/ambiance_low.mp3";
-  static const String kUrlBackgroundAudio = kUrlRemoteRoot + "assets/sounds/ambiance.mp3";
+  static const String kSoundLevelUp = "assets/sounds/levelup.mp3";
+  static const String kSoundHomeIntro = "assets/sounds/homeintro.mp3";
+  static const String kSoundTrainVapeur = "assets/sounds/trainvapeur.mp3";
+  static const String kSoundTrainSifflement = "assets/sounds/sifflement.mp3";
+  static const String kBackgroundAudioLow = "assets/sounds/ambiance_low.mp3";
+  static const String kBackgroundAudio = "assets/sounds/ambiance.mp3";
 
   static final Widget kApitepLogo = Image.asset('assets/images/ApitepBearLogo.png', height: 100);
   static final Widget kVictoryBadge = Image.asset('assets/images/VictoryBadge.png', height: 35);
@@ -45,7 +45,7 @@ class Constants {
     appBarTheme: AppBarTheme(
       elevation: 1,
       textTheme: TextTheme(
-        headline6: TextStyle(
+        headline: TextStyle(
           color: Colors.black,
           fontSize: 20,
           fontWeight: FontWeight.w800,
@@ -64,7 +64,7 @@ class Constants {
     appBarTheme: AppBarTheme(
       elevation: 0,
       textTheme: TextTheme(
-        headline6: TextStyle(
+        headline: TextStyle(
           color: lightBG,
           fontSize: 20,
           fontWeight: FontWeight.w800,

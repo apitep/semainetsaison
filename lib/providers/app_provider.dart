@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:assets_audio_player/assets_audio_player.dart';
 
 import '../constants.dart';
+import '../models/events.dart';
 import '../models/story.dart';
 
 class AppProvider extends ChangeNotifier {
@@ -12,6 +13,7 @@ class AppProvider extends ChangeNotifier {
     initPlayer();
     fetchData();
     musicBackground(true);
+    handleEvents();
   }
 
   AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
@@ -43,6 +45,12 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void handleEvents() {
+    eventBus.on<MusicBackground>().listen((event) {
+      musicBackground(event.on);
+    });
+  }
+
   //
   Future<void> fetchData() async {
     isfetching = true;
@@ -69,7 +77,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   void initPlayer() {
-    assetsAudioPlayer.open(Audio("assets/sounds/ambiance_low.mp3"));
+    assetsAudioPlayer.open(Audio(Constants.kBackgroundAudioLow));
     assetsAudioPlayer.loop = true;
   }
 

@@ -10,7 +10,6 @@ import '../constants.dart';
 import '../widgets/topbar.dart';
 import '../widgets/wordslider.dart';
 import '../screens/videoplayer_screen.dart';
-import '../providers/app_provider.dart';
 import '../models/events.dart';
 import '../models/wagon_word.dart';
 import '../models/story.dart';
@@ -32,13 +31,10 @@ class SeasonScreen extends StatefulWidget {
 }
 
 class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<SeasonScreen> {
+
   ConfettiController _controllerCenter;
-  AppProvider appProvider;
-
   List<List<WagonWord>> trains = List<List<WagonWord>>();
-
-  double nbSuccess = 0;
-  double maxSuccess = 0;
+  double nbSuccess = 0, maxSuccess = 0;
 
   @override
   void initState() {
@@ -51,7 +47,7 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
 
   @override
   void afterFirstLayout(BuildContext context) {
-    AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/trainvapeur.mp3"));
+    AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundTrainVapeur));
     eventBus.on<CheckResult>().listen((event) {
       _checkResults();
     });
@@ -60,7 +56,7 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
   @override
   void dispose() {
     _controllerCenter.dispose();
-    //appProvider.musicBackground(false);
+    eventBus.fire(MusicBackground(false));
     super.dispose();
   }
 
@@ -93,12 +89,10 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: topBar(context, Constants.kTitle),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+          body: Center(
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -112,7 +106,6 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -125,17 +118,7 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
                       ),
                     ),
                   ),
-                  //getTrainsWidgets(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 150,
-                        child: WordSlider(words: trains[0]),
-                      ),
-                    ],
-                  ),
+                  getTrainsWidgets(),
                 ],
               ),
             ),
@@ -150,7 +133,7 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
 
     widgets = trains.map((train) {
       return Container(
-        height: 170,
+        height: 130,
         child: WordSlider(words: train),
       );
     }).toList();
@@ -181,7 +164,7 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
   _success() async {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     _controllerCenter.play();
-    AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/levelup.mp3"));
+    AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
     await widget.story.getStreamingUrls();
 
     Timer(Duration(seconds: 6), () {

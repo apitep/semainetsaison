@@ -1,17 +1,16 @@
 import 'dart:async';
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:after_layout/after_layout.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:confetti/confetti.dart';
-import 'package:semainetsaison/screens/train_screen.dart';
 
 import '../constants.dart';
 import '../models/story.dart';
 import '../widgets/topbar.dart';
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
+import '../screens/train_screen.dart';
 
 class RightOrderScreen extends StatefulWidget {
   RightOrderScreen({Key key, this.story, this.rightOrder}) : super(key: key);
@@ -23,7 +22,7 @@ class RightOrderScreen extends StatefulWidget {
   _RightOrderScreenState createState() => _RightOrderScreenState();
 }
 
-class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMixin<RightOrderScreen> {
+class _RightOrderScreenState extends State<RightOrderScreen> {
   ConfettiController _controllerCenter;
   ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
 
@@ -31,10 +30,6 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
   void initState() {
     _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
     super.initState();
-  }
-
-  @override
-  void afterFirstLayout(BuildContext context) {
   }
 
   @override
@@ -50,11 +45,11 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
         ConfettiWidget(
           confettiController: _controllerCenter,
           blastDirection: 0, // radial value - RIGHT
-          emissionFrequency: 0.6,
+          emissionFrequency: 0.7,
           minimumSize: const Size(10, 10),
           maximumSize: const Size(50, 50),
           numberOfParticles: 1,
-          gravity: 0.1, // don't specify a direction, blast randomly
+          gravity: 0.2, // don't specify a direction, blast randomly
           shouldLoop: false, // start again as soon as the animation is finished
           colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
           child: Container(
@@ -143,14 +138,14 @@ class _RightOrderScreenState extends State<RightOrderScreen> with AfterLayoutMix
   }
 
   _success() async {
-    _controllerCenter.play();
-    AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/levelup.mp3"));
+    _controllerCenter.play(); //launch confettis
+    AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp)); //play sound levelUp
 
     Timer(Duration(seconds: 6), () {
       if (widget.rightOrder == Constants.days) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: widget.story, rightOrder: Constants.months)));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: widget.story, rightOrder: Constants.months)));
       } else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
       }
     });
   }

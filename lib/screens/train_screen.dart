@@ -1,13 +1,12 @@
 import 'dart:async';
 import "dart:math";
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 import '../constants.dart';
 import '../widgets/topbar.dart';
@@ -106,12 +105,10 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: topBar(context, Constants.kTitle),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+          body: Center(
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -125,22 +122,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                       ),
                     ),
                   ),
-                  RatingBar(
-                    initialRating: appProvider.nbSuccess,
-                    minRating: appProvider.nbSuccess,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 6,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    onRatingUpdate: (rating) {
-                      print(rating);
-                    },
-                  ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 20),
                   Container(
                     height: 150,
                     child: WordSlider(words: daytrain),
@@ -200,7 +182,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
     AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/levelup.mp3"));
 
     Timer(Duration(seconds: 6), () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SeasonScreen(story: widget.story)));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SeasonScreen(story: widget.story)));
     });
   }
 }
