@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'package:assets_audio_player/assets_audio_player.dart';
 
@@ -11,11 +13,13 @@ import '../models/story.dart';
 class AppProvider extends ChangeNotifier {
   AppProvider() {
     initPlayer();
+    initTts();
     fetchData();
     musicBackground(true);
     handleEvents();
   }
 
+  FlutterTts flutterTts;
   AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
   List<Story> stories = List<Story>();
   ThemeData theme = Constants.lightTheme;
@@ -94,5 +98,22 @@ class AppProvider extends ChangeNotifier {
   void setNavigatorKey(value) {
     navigatorKey = value;
     notifyListeners();
+  }
+
+  void initTts() async {
+    if (Platform.isMacOS) return;
+
+    flutterTts = FlutterTts();
+    flutterTts.setLanguage('fr-FR');
+    await flutterTts.isLanguageAvailable('fr-FR');
+    flutterTts.setSpeechRate(.4);
+    flutterTts.setVolume(1.0);
+    flutterTts.setPitch(.8);
+
+    flutterTts = FlutterTts();
+  }
+
+  void speak(String textToSpeak) async {
+    await flutterTts.speak(textToSpeak);
   }
 }

@@ -4,9 +4,11 @@ import 'package:flutter/foundation.dart';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:confetti/confetti.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../models/story.dart';
+import '../providers/app_provider.dart';
 import '../widgets/topbar.dart';
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
@@ -14,7 +16,7 @@ import '../screens/train_screen.dart';
 
 class RightOrderScreen extends StatefulWidget {
   RightOrderScreen({Key key, this.story, this.rightOrder}) : super(key: key);
-
+  static const routeName = '/rightorder';
   final Story story;
   final List<String> rightOrder;
 
@@ -23,8 +25,13 @@ class RightOrderScreen extends StatefulWidget {
 }
 
 class _RightOrderScreenState extends State<RightOrderScreen> {
+
+  AppProvider appProvider;
   ConfettiController _controllerCenter;
   ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
+
+  final String kDescriptionDays = "Glisse les jours de la semaine dans le bon ordre";
+  final String kDescriptionMonths = "Glisse les mois de l'année dans le bon ordre";
 
   @override
   void initState() {
@@ -40,6 +47,8 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    appProvider = Provider.of<AppProvider>(context);
+
     return Stack(
       children: <Widget>[
         ConfettiWidget(
@@ -58,15 +67,14 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(widget.story.thumbUrl),
-                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.35), BlendMode.dstATop),
                 fit: BoxFit.cover,
               ),
             ),
           ),
         ),
         Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: topBar(context, "Glisse les mois\ndans le bon ordre"),
+          backgroundColor: Colors.white.withOpacity(.7),
+          appBar: topBar(context, Constants.kTitle),
           body: Center(
             child: SingleChildScrollView(
               child: Column(
@@ -88,6 +96,22 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
               ),
             ),
           ),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              heroTag: null,
+              onPressed: () {
+                setState(() {
+                  if (widget.rightOrder.length == 7) {
+                    appProvider.speak(kDescriptionDays);
+                  } else {
+                    appProvider.speak(kDescriptionMonths);
+                  }
+                });
+              },
+              child: Icon(Icons.volume_up, size: 34),
+            ),
+          ),
         ),
       ],
     );
@@ -99,18 +123,17 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
       width: itemSize.width,
       height: itemSize.height,
       decoration: BoxDecoration(
-        color:
-            data != null && !data.selected ? data.dataIndex == data.visibleIndex ? Colors.green.withOpacity(0.75) : Colors.red.withOpacity(0.50) : Colors.blue,
+        color: data != null && !data.selected ? data.dataIndex == data.visibleIndex ? Colors.green : Colors.red : Colors.blue,
         shape: BoxShape.rectangle,
         border: Border.all(color: Colors.white12, width: 4.0),
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         boxShadow: [
           BoxShadow(
             color: Colors.black54,
-            blurRadius: 15.0,
+            blurRadius: 8.0,
             spreadRadius: 2.0,
             offset: Offset(
-              3.0, // horizontal
+              1.0, // horizontal
               3.0, // vertical
             ),
           )
@@ -125,7 +148,7 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
             child: InkWell(
               splashColor: Constants.kColorBgStart, // splash color
               onTap: () {},
-              child: Icon(Icons.calendar_today, size: 25), // button pressed
+              child: Icon(Icons.calendar_today, color: Colors.white, size: 25), // button pressed
             ),
           ),
           Text(

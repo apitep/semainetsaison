@@ -4,9 +4,10 @@ import '../models/wagon_word.dart';
 import 'wordcard.dart';
 
 class WordSlider extends StatefulWidget {
-  WordSlider({Key key, this.words}) : super(key: key);
+  WordSlider({Key key, @required this.words, @required this.nbSuccess}) : super(key: key);
 
   final List<WagonWord> words;
+  final ValueNotifier<int> nbSuccess;
 
   @override
   _WordSliderState createState() => _WordSliderState();
@@ -39,7 +40,7 @@ class _WordSliderState extends State<WordSlider> {
           crossAxisCount: 1,
         ),
         itemBuilder: (BuildContext context, int index) => GestureDetector(
-          child: WordCard(widget.words[index]),
+          child: WordCard(word: widget.words[index], nbSuccess: widget.nbSuccess,),
           onTap: () {},
         ),
       ),

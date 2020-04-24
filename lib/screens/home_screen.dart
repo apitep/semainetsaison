@@ -15,7 +15,10 @@ import 'rightorder_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
+  static const routeName = '/home';
+  final Key key = UniqueKey();
   final String title;
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }

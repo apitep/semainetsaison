@@ -12,17 +12,17 @@ import '../constants.dart';
 import '../widgets/topbar.dart';
 import '../widgets/wordslider.dart';
 import '../providers/app_provider.dart';
-import '../models/events.dart';
 import '../models/wagon_word.dart';
 import '../models/story.dart';
 import '../screens/seasons_screen.dart';
 
 const kDays = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 const kMonths = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+const String kDescription = "Complète le train des jours de la semaine, et aussi celui des mois de l'année.";
 
 class TrainScreen extends StatefulWidget {
   TrainScreen({Key key, this.story}) : super(key: key);
-
+  static const routeName = '/train';
   final Story story;
 
   @override
@@ -30,25 +30,30 @@ class TrainScreen extends StatefulWidget {
 }
 
 class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainScreen> {
-  ConfettiController _controllerCenter;
+
   AppProvider appProvider;
+  ConfettiController _controllerCenter;
   List<WagonWord> daytrain, monthtrain;
-  double nbSuccess = 0;
-  double maxSuccess = 0;
+  ValueNotifier<int> nbGoodAnswers = ValueNotifier<int>(0);
+  int nbQuestions;
 
   @override
   void initState() {
     _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
     daytrain = loadTrain(kDays, 3);
     monthtrain = loadTrain(kMonths, 3);
+    nbQuestions = daytrain.length + monthtrain.length - 2;
+    nbGoodAnswers.addListener(() {
+      if (nbGoodAnswers.value == nbQuestions) _success();
+    });
     super.initState();
   }
 
   @override
   void afterFirstLayout(BuildContext context) {
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundTrainVapeur));
-    eventBus.on<CheckResult>().listen((event) {
-      _checkResults();
+    Timer(Duration(seconds: 6), () {
+      appProvider.speak(kDescription);
     });
   }
 
@@ -96,63 +101,49 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(widget.story.thumbUrl),
-                colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.35), BlendMode.dstATop),
                 fit: BoxFit.cover,
               ),
             ),
           ),
         ),
         Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white.withOpacity(.7),
           appBar: topBar(context, Constants.kTitle),
           body: Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Le train des jours et des mois',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: 'MontserratAlternates',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
                   Container(
                     height: 150,
-                    child: WordSlider(words: daytrain),
+                    child: WordSlider(words: daytrain, nbSuccess: nbGoodAnswers),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Complète le train des jours',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 17,
                         fontFamily: 'MontserratAlternates',
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                   ),
                   SizedBox(height: 20),
                   Container(
                     height: 150,
-                    child: WordSlider(words: monthtrain),
+                    child: WordSlider(words: monthtrain, nbSuccess: nbGoodAnswers),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Complète le train des mois',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 17,
                         fontFamily: 'MontserratAlternates',
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -160,21 +151,21 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
               ),
             ),
           ),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              heroTag: null,
+              onPressed: () {
+                setState(() {
+                  appProvider.speak(kDescription);
+                });
+              },
+              child: Icon(Icons.volume_up, size: 34),
+            ),
+          ),
         ),
       ],
     );
-  }
-
-  _checkResults() {
-    nbSuccess = 0;
-    for (var item in daytrain) {
-      if (item.answer == item.guessingWord) nbSuccess++;
-    }
-    for (var item in monthtrain) {
-      if (item.answer == item.guessingWord) nbSuccess++;
-    }
-    nbSuccess = nbSuccess - 2;
-    if (nbSuccess == daytrain.length + monthtrain.length - 2) _success();
   }
 
   _success() async {

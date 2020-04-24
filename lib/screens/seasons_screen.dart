@@ -6,25 +6,29 @@ import 'package:flutter/foundation.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../widgets/topbar.dart';
 import '../widgets/wordslider.dart';
 import '../screens/videoplayer_screen.dart';
+import '../providers/app_provider.dart';
 import '../models/events.dart';
 import '../models/wagon_word.dart';
 import '../models/story.dart';
 
-List<List<String>> seasons = [
+const List<List<String>> kSeasons = [
   ["hiver", "décembre", "janvier", "février"],
   ["printemps", "mars", "avril", "mai"],
   ["été", "juin", "juillet", "août"],
   ["automne", "septembre", "octobre", "novembre"],
 ];
 
+const String kDescription = "Pour chaque petit train, trouve les mois de l'année qui correspondent à la saison";
+
 class SeasonScreen extends StatefulWidget {
   SeasonScreen({Key key, this.story}) : super(key: key);
-
+  static const routeName = '/season';
   final Story story;
 
   @override
@@ -32,28 +36,38 @@ class SeasonScreen extends StatefulWidget {
 }
 
 class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<SeasonScreen> {
+  AppProvider appProvider;
   ConfettiController _controllerCenter;
   List<List<WagonWord>> trains = List<List<WagonWord>>();
-  double nbSuccess = 0, maxSuccess = 0;
+  List<List<String>> selectedSeasons = [...kSeasons]; //clone list
+
+  ValueNotifier<int> nbGoodAnswers = ValueNotifier<int>(0);
+  int nbQuestions = 0;
 
   @override
   void initState() {
     _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
 
     /// keep only 2 random seasons
-    for (var i = 0; i < 2; i++) seasons.remove(seasons[Random().nextInt(seasons.length)]);
+    for (var i = 0; i < 2; i++) selectedSeasons.remove(selectedSeasons[Random().nextInt(selectedSeasons.length)]);
 
-    trains = seasons.map((season) {
+    trains = selectedSeasons.map((season) {
+      nbQuestions = nbQuestions + season.length - 1;
       return loadTrain(season);
     }).toList();
+
+    nbGoodAnswers.addListener(() {
+      if (nbGoodAnswers.value == nbQuestions) _success();
+    });
+
     super.initState();
   }
 
   @override
   void afterFirstLayout(BuildContext context) {
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundTrainVapeur));
-    eventBus.on<CheckResult>().listen((event) {
-      _checkResults();
+    Timer(Duration(seconds: 6), () {
+      appProvider.speak(kDescription);
     });
   }
 
@@ -66,6 +80,8 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
 
   @override
   Widget build(BuildContext context) {
+    appProvider = Provider.of<AppProvider>(context);
+
     return Stack(
       children: <Widget>[
         ConfettiWidget(
@@ -84,47 +100,34 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(widget.story.thumbUrl),
-                colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.35), BlendMode.dstATop),
                 fit: BoxFit.cover,
               ),
             ),
           ),
         ),
         Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white.withOpacity(.7),
           appBar: topBar(context, Constants.kTitle),
           body: Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Le train des saisons',
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontFamily: 'MontserratAlternates',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Complète chaque saison avec les mois correspondant',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'MontserratAlternates',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
                   getTrainsWidgets(),
                 ],
               ),
+            ),
+          ),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              heroTag: null,
+              onPressed: () {
+                setState(() {
+                  appProvider.speak(kDescription);
+                });
+              },
+              child: Icon(Icons.volume_up, size: 34),
             ),
           ),
         ),
@@ -138,7 +141,10 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
     widgets = trains.map((train) {
       return Container(
         height: 130,
-        child: WordSlider(words: train),
+        child: WordSlider(
+          words: train,
+          nbSuccess: nbGoodAnswers,
+        ),
       );
     }).toList();
 
@@ -147,22 +153,6 @@ class _SeasonScreenState extends State<SeasonScreen> with AfterLayoutMixin<Seaso
 
   List<WagonWord> loadTrain(List<String> items) {
     return items.map((item) => WagonWord.wagon(item)).toList()..first.loco = true;
-  }
-
-  _checkResults() {
-    maxSuccess = 0;
-    nbSuccess = 0;
-
-    trains.forEach((train) {
-      train.forEach((item) {
-        if (item.answer.trim() == item.guessingWord.trim()) nbSuccess++;
-        maxSuccess++;
-      });
-      maxSuccess--;
-    });
-    nbSuccess = nbSuccess - trains.length;
-
-    if (nbSuccess == maxSuccess) _success();
   }
 
   _success() async {

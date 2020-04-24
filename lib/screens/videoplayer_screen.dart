@@ -8,6 +8,7 @@ import '../screens/home_screen.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   VideoPlayerScreen({Key key, this.title, this.url, this.parentIsPortrait}) : super(key: key);
+  static const routeName = '/videoplayer';
   final String url;
   final String title;
   final bool parentIsPortrait;

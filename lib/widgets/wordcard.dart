@@ -1,13 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-import '../models/events.dart';
 import '../models/wagon_word.dart';
 
 class WordCard extends StatefulWidget {
-  WordCard(this.word, {Key key}) : super(key: key);
+  WordCard({Key key , @required this.word, @required this.nbSuccess}) : super(key: key);
 
   final WagonWord word;
+  final ValueNotifier<int> nbSuccess;
 
   @override
   _WordCardState createState() => _WordCardState();
@@ -93,7 +93,7 @@ class _WordCardState extends State<WordCard> {
   _handleOnChanged(String value) {
     setState(() {
       widget.word.answer = value.trim();
-      if (widget.word.isAnswerRight()) eventBus.fire(CheckResult());
+      if (widget.word.isAnswerRight()) widget.nbSuccess.value++;
     });
   }
 }

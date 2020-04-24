@@ -21,11 +21,8 @@ const kDefaultItemSize = const Size(140.0, 80.0);
 class OrderableStack<T> extends StatefulWidget {
   /// list of items to reorder
   final List<T> items;
-
   final Direction direction;
-
   final Size itemSize;
-
   final double margin;
 
   /// function to build orderableWidgets "content"
@@ -54,7 +51,7 @@ class OrderableStack<T> extends StatefulWidget {
       : super(key: key);
 
   @override
-  _OrderableStackState createState() => new _OrderableStackState<T>(
+  _OrderableStackState createState() => _OrderableStackState<T>(
         items,
       );
 }
@@ -68,7 +65,7 @@ class _OrderableStackState<T> extends State<OrderableStack<T>> {
 
   _OrderableStackState(List<T> rawItems) {
     orderableItems = enumerate(rawItems)
-        .map((l) => new Orderable<T>(value: l.value, dataIndex: l.index))
+        .map((l) => Orderable<T>(value: l.value, dataIndex: l.index))
         .toList();
   }
 
@@ -89,21 +86,24 @@ class _OrderableStackState<T> extends State<OrderableStack<T>> {
   }
 
   @override
-  Widget build(BuildContext context) => new Column(
+  Widget build(BuildContext context) => Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          new Center(
-              child: new OrderableContainer<T>(
-                  direction: widget.direction,
-                  uiItems: _updateZIndexes(_buildOrderableWidgets()),
-                  itemSize: widget.itemSize,
-                  margin: kMargin))
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
+                child: OrderableContainer<T>(
+                    direction: widget.direction,
+                    uiItems: _updateZIndexes(_buildOrderableWidgets()),
+                    itemSize: widget.itemSize,
+                    margin: kMargin)),
+          )
         ],
       );
 
   List<OrderableWidget<T>> _buildOrderableWidgets() => orderableItems
-      .map((Orderable<T> l) => new OrderableWidget(
-          key: new Key('item_${l.dataIndex}'),
+      .map((Orderable<T> l) => OrderableWidget(
+          key: Key('item_${l.dataIndex}'),
           step: widget.step,
           itemBuilder: widget.itemBuilder,
           itemSize: widget.itemSize,
@@ -120,9 +120,9 @@ class _OrderableStackState<T> extends State<OrderableStack<T>> {
   Offset getCurrentPosition(Orderable l) => l.selected
       ? l.currentPosition // if isDragged don't move
       : widget.direction == Direction.Horizontal
-          ? new Offset(l.visibleIndex * (widget.itemSize.width + widget.margin),
+          ? Offset(l.visibleIndex * (widget.itemSize.width + widget.margin),
               l.currentPosition.dy)
-          : new Offset(l.currentPosition.dx,
+          : Offset(l.currentPosition.dx,
               l.visibleIndex * (widget.itemSize.height + widget.margin));
 
   /// during item dragMove : sort data items by their widget currentPosition
