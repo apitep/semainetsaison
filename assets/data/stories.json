@@ -1,5 +1,11 @@
 [
   {
+    "title": "Croque-Bisous",
+    "author": "Kimiko",
+    "videoUrl": "https://player.vimeo.com/video/410956305/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/croquebisous.jpg"
+  },
+  {
     "title": "Lolotte et le polochon",
     "author": "Clothilde Delacroix",
     "videoUrl": "https://player.vimeo.com/video/410343164/config",
