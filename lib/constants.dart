@@ -11,9 +11,10 @@ class Constants {
 
   static const String kUrlRemoteRoot = "https://raw.githubusercontent.com/apitep/semainetsaison/master/";
 
-  static const String kUrlRemoteData = kUrlRemoteRoot + "assets/data/";
+  static const String kUrlData = kUrlRemoteRoot + "assets/data/";
   static const String kUrlImages = kUrlRemoteRoot + "assets/images/";
   static const String kUrlStories = kUrlRemoteRoot + "assets/data/stories.json";
+  static const String kUrlSeasons = kUrlRemoteRoot + "assets/data/seasons_fr-FR.json";
 
   static const String kSoundLevelUp = "assets/sounds/levelup.mp3";
   static const String kSoundHomeIntro = "assets/sounds/homeintro.mp3";

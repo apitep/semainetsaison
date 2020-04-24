@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
           textAlign: TextAlign.center,
         ),
         description: Text(
-          "Un album animé offert par l'école des loisirs. Termine les exercices pour le regarder.",
+          "Termine les exercices pour regarder cet album animé offert par l'école des loisirs.",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w400,
@@ -155,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
           ),
         ),
         entryAnimation: EntryAnimation.TOP,
-        buttonOkText: Text('jouer', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: Colors.white)),
+        buttonOkText: Text("apprendre en s'amsant", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, color: Colors.white)),
         onlyOkButton: true,
         onOkButtonPressed: () {
           Navigator.pop(context);

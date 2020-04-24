@@ -8,7 +8,9 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 
 import '../constants.dart';
 import '../models/events.dart';
+import '../models/season.dart';
 import '../models/story.dart';
+import '../services/season_service.dart';
 
 class AppProvider extends ChangeNotifier {
   AppProvider() {
@@ -21,7 +23,10 @@ class AppProvider extends ChangeNotifier {
 
   FlutterTts flutterTts;
   AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
+
   List<Story> stories = List<Story>();
+  List<Season> seasons = List<Season>();
+
   ThemeData theme = Constants.lightTheme;
   Key key = UniqueKey();
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -59,6 +64,7 @@ class AppProvider extends ChangeNotifier {
   Future<void> fetchData() async {
     isfetching = true;
     stories = await getStories();
+    seasons = await SeasonService(seasonUrl: Constants.kUrlSeasons).getSeasons();
     isfetching = false;
   }
 

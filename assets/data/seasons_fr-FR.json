@@ -1,0 +1,36 @@
+[
+  {
+    "name": "hiver",
+    "url": "assets/images/hiver.jpg",
+    "months": [
+      "décembre",
+      "janvier",
+      "février"
+    ]
+  },
+  {
+    "name": "printemps",
+    "url": "assets/images/printemps.jpg",
+    "months": [
+      "mars",
+      "avril",
+      "mai"
+    ]
+  },
+  {"name": "été",
+    "url": "assets/images/ete.jpg",
+    "months": [
+      "juin",
+      "juillet",
+      "août"
+    ]
+  },
+  {"name": "automne",
+    "url": "assets/images/automne.jpg",
+    "months": [
+      "septembre",
+      "octobre",
+      "novembre"
+    ]
+  }
+]

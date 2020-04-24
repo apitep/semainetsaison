@@ -14,7 +14,7 @@ import '../widgets/wordslider.dart';
 import '../providers/app_provider.dart';
 import '../models/wagon_word.dart';
 import '../models/story.dart';
-import '../screens/seasons_screen.dart';
+import '../screens/seasons_train_screen.dart';
 
 const kDays = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 const kMonths = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
@@ -173,7 +173,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
 
     Timer(Duration(seconds: 6), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SeasonScreen(story: widget.story)));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SeasonTrainScreen(story: widget.story)));
     });
   }
 }
