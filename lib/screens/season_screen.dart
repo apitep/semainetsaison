@@ -7,7 +7,7 @@ import '../providers/app_provider.dart';
 
 class SeasonScreen extends StatefulWidget {
   SeasonScreen({Key key, this.title}) : super(key: key);
-  static const routeName = '/home';
+  static const routeName = '/season';
   final Key key = UniqueKey();
   final String title;
 
@@ -33,29 +33,37 @@ class _SeasonScreenState extends State<SeasonScreen> {
       body: Center(
         child: GridView.builder(
             shrinkWrap: true,
-            itemCount: 15,
+            itemCount: appProvider.seasons.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisSpacing: 0,
               mainAxisSpacing: 0,
               crossAxisCount: 2,
             ),
             itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.yellow[600],
-                  ),
-                  child: Center(
-                    child: Text('${index + 1}'),
+              return Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(appProvider.seasons[index].url),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                onTap: () {
-                  if (mounted) {
-                    setState(() {
-                      print(index);
-                    });
-                  }
-                },
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      constraints: BoxConstraints.expand(height: 25),
+                      color: Colors.white.withOpacity(0.6),
+                      child: Center(
+                        child: Text(
+                          '${appProvider.seasons[index].name}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               );
             }),
       ),

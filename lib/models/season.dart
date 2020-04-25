@@ -9,7 +9,7 @@ class Season {
   Season.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     url = json['url'];
-    months = json['months'];
+    months = List.from(json['months']);
   }
 
   Map<String, dynamic> toJson() {

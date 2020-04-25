@@ -6,6 +6,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:auto_animated/auto_animated.dart';
 import 'package:semainetsaison/models/story.dart';
+import 'package:semainetsaison/screens/season_screen.dart';
 
 import '../constants.dart';
 import '../widgets/topbar.dart';
@@ -155,11 +156,12 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
           ),
         ),
         entryAnimation: EntryAnimation.TOP,
-        buttonOkText: Text("apprendre en s'amsant", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, color: Colors.white)),
+        buttonOkText: Text("apprendre en s'amusant", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, color: Colors.white)),
         onlyOkButton: true,
         onOkButtonPressed: () {
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: story, rightOrder: Constants.days)));
+          //Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: story, rightOrder: Constants.days)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SeasonScreen()));
         },
       ),
     );

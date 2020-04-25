@@ -12,15 +12,13 @@ class SeasonService {
 
   ///
   Future<List<Season>> getSeasons() async {
-    Map<String, String> headers = {"Access-Control-Allow-Origin": "http://127.0.0.1:8080"};
+    String jsondata;
+    dynamic _response;
 
-    dynamic _response = await http.get(seasonUrl, headers: headers);
+    _response = await http.get(seasonUrl);
+    if (_response.statusCode == 200) jsondata = _response.body;
 
-    if (_response.statusCode == 200 || _response.statusCode == 201) {
-      if (_response.body != null) return parseSeasons(_response.body);
-    }
-
-    return List<Season>();
+    return parseSeasons(jsondata);
   }
 
   List<Season> parseSeasons(String jsondata) {
