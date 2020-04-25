@@ -1,10 +1,9 @@
 class Season {
-  Season(this.name, this.url, this.months);
-
   String name;
   String url;
-
   List<String> months = List<String>();
+
+  Season(this.name, this.url, this.months);
 
   Season.fromJson(Map<String, dynamic> json) {
     name = json['name'];

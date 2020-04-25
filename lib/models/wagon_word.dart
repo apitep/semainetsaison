@@ -7,6 +7,12 @@ const kImagePathRight = 'assets/images/greenwagon.png';
 const kImageLocomotive = 'assets/images/blueloco.png';
 
 class WagonWord {
+  String guessingWord;
+  String answer;
+  String imagePath;
+  double width;
+  bool disabled;
+
   WagonWord({this.guessingWord, this.answer, this.imagePath, this.width, this.disabled});
 
   WagonWord.loco(this.answer, {this.imagePath = kImageLocomotive, this.width = 140, this.disabled = true}) {
@@ -17,12 +23,7 @@ class WagonWord {
     this.guessingWord = this.guessingWord.trim();
   }
 
-  String guessingWord;
-  String answer;
-  String imagePath;
-  double width;
-  bool disabled;
-
+  ///
   bool _loco;
   bool get loco => (imagePath == kImageLocomotive);
   set loco(bool newValue) {

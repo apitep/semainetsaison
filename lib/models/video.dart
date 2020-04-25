@@ -1,11 +1,12 @@
 class Video {
-  Video(this.id, this.quality, this.width, this.url);
-
   String id;
   String quality;
   int width;
   String url;
 
+  Video(this.id, this.quality, this.width, this.url);
+
+  ///
   Video.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     quality = json['quality'];

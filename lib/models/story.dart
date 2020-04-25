@@ -4,16 +4,15 @@ import 'package:http/http.dart' as http;
 import 'video.dart';
 
 class Story {
-  Story(this.title, this.author, this.thumbUrl, this.videoUrl);
-
   String title;
   String author;
   String thumbUrl;
   String videoUrl;
-
   List<Video> videos = List<Video>();
 
-  //
+  Story(this.title, this.author, this.thumbUrl, this.videoUrl);
+
+  ///
   Future<void> getStreamingUrls() async {
     videos = await getVideos();
     var video = videos.firstWhere((item) => item.quality == '540p');
@@ -21,7 +20,7 @@ class Story {
   }
 
   Future<List<Video>> getVideos() async {
-     Map<String, String> headers = {"Access-Control-Allow-Origin": "http://127.0.0.1:8080"};
+    Map<String, String> headers = {"Access-Control-Allow-Origin": "http://127.0.0.1:8080"};
 
     dynamic _response = await http.get(videoUrl, headers: headers);
 
@@ -42,6 +41,7 @@ class Story {
     return [];
   }
 
+  ///
   Story.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     author = json['author'];
