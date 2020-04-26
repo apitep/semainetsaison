@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../models/events.dart';
 import '../providers/app_provider.dart';
+import '../screens/exercices_screen.dart';
 
 Widget topBar(context, title) {
   AppProvider appProvider = Provider.of<AppProvider>(context);
@@ -15,7 +16,9 @@ Widget topBar(context, title) {
     leading: Padding(
       padding: const EdgeInsets.all(4.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ExercicesScreen()));
+        },
         child: CircleAvatar(
           backgroundColor: Constants.kColorBgStart,
           child: Image.asset('assets/images/ApitepBearLogo.png', height: 37),

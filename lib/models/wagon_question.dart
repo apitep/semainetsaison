@@ -6,21 +6,22 @@ const kImagePathWrong = 'assets/images/bluewagon.png';
 const kImagePathRight = 'assets/images/greenwagon.png';
 const kImageLocomotive = 'assets/images/blueloco.png';
 
-class WagonWord {
-  String guessingWord;
+class WagonQuestion {
+  String question;
+  String guess;
   String answer;
   String imagePath;
   double width;
   bool disabled;
 
-  WagonWord({this.guessingWord, this.answer, this.imagePath, this.width, this.disabled});
+  WagonQuestion({this.question, this.guess, this.answer, this.imagePath, this.width, this.disabled});
 
-  WagonWord.loco(this.answer, {this.imagePath = kImageLocomotive, this.width = 140, this.disabled = true}) {
+  WagonQuestion.loco(this.answer, {this.question, this.imagePath = kImageLocomotive, this.width = 140, this.disabled = true}) {
     this.answer = this.answer.trim();
-    this.guessingWord = this.answer;
+    this.guess = this.answer;
   }
-  WagonWord.wagon(this.guessingWord, {this.answer = '', this.imagePath = kImagePathWrong, this.width = 150, this.disabled = false}) {
-    this.guessingWord = this.guessingWord.trim();
+  WagonQuestion.wagon(this.guess, {this.question, this.answer = '', this.imagePath = kImagePathWrong, this.width = 150, this.disabled = false}) {
+    this.guess = this.guess.trim();
   }
 
   ///
@@ -29,15 +30,15 @@ class WagonWord {
   set loco(bool newValue) {
     _loco = newValue;
     disabled = _loco;
-    answer = guessingWord;
+    answer = guess;
 
     if (_loco) imagePath = kImageLocomotive;
   }
 
-  bool isAnswerRight() {
+  bool goodAnswer() {
     if (disabled) return false;
 
-    if (answer == guessingWord) {
+    if (answer == guess) {
       imagePath = kImagePathRight;
       disabled = true;
       AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundTrainSifflement));
@@ -45,6 +46,6 @@ class WagonWord {
       imagePath = kImagePathWrong;
     }
 
-    return answer == guessingWord;
+    return answer == guess;
   }
 }

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../models/wagon_word.dart';
-import 'wordcard.dart';
+import '../../models/wagon_question.dart';
+import 'train_wagon.dart';
 
-class WordSlider extends StatefulWidget {
-  WordSlider({Key key, @required this.words, @required this.nbSuccess}) : super(key: key);
+class TrainSlider extends StatefulWidget {
+  TrainSlider({Key key, @required this.wagons, @required this.nbSuccess}) : super(key: key);
 
-  final List<WagonWord> words;
+  final List<WagonQuestion> wagons;
   final ValueNotifier<int> nbSuccess;
 
   @override
-  _WordSliderState createState() => _WordSliderState();
+  _TrainSliderState createState() => _TrainSliderState();
 }
 
-class _WordSliderState extends State<WordSlider> {
+class _TrainSliderState extends State<TrainSlider> {
   double wordContainerHeight = 150;
 
   @override
@@ -33,14 +33,14 @@ class _WordSliderState extends State<WordSlider> {
       child: GridView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
-        itemCount: widget.words.length,
+        itemCount: widget.wagons.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisSpacing: 20,
           mainAxisSpacing: 0,
           crossAxisCount: 1,
         ),
         itemBuilder: (BuildContext context, int index) => GestureDetector(
-          child: WordCard(word: widget.words[index], nbSuccess: widget.nbSuccess,),
+          child: TrainWagon(word: widget.wagons[index], nbSuccess: widget.nbSuccess,),
           onTap: () {},
         ),
       ),

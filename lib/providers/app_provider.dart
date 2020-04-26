@@ -54,6 +54,11 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+    Story get randomStory {
+      //TODO random story
+      return stories[0]; 
+    }
+
   void handleEvents() {
     eventBus.on<MusicBackground>().listen((event) {
       musicBackground(event.on);

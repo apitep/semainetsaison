@@ -1,19 +1,19 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-import '../models/wagon_word.dart';
+import '../../models/wagon_question.dart';
 
-class WordCard extends StatefulWidget {
-  WordCard({Key key , @required this.word, @required this.nbSuccess}) : super(key: key);
+class TrainWagon extends StatefulWidget {
+  TrainWagon({Key key , @required this.word, @required this.nbSuccess}) : super(key: key);
 
-  final WagonWord word;
+  final WagonQuestion word;
   final ValueNotifier<int> nbSuccess;
 
   @override
-  _WordCardState createState() => _WordCardState();
+  _TrainWagonState createState() => _TrainWagonState();
 }
 
-class _WordCardState extends State<WordCard> {
+class _TrainWagonState extends State<TrainWagon> {
   TextEditingController _textfieldController = TextEditingController();
   final padding = 2.0;
   final ratio = 0.5;
@@ -93,7 +93,7 @@ class _WordCardState extends State<WordCard> {
   _handleOnChanged(String value) {
     setState(() {
       widget.word.answer = value.trim();
-      if (widget.word.isAnswerRight()) widget.nbSuccess.value++;
+      if (widget.word.goodAnswer()) widget.nbSuccess.value++;
     });
   }
 }

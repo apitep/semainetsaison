@@ -8,14 +8,14 @@ import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:provider/provider.dart';
 
-import '../constants.dart';
-import '../widgets/topbar.dart';
-import '../widgets/wordslider.dart';
-import '../screens/videoplayer_screen.dart';
-import '../providers/app_provider.dart';
-import '../models/events.dart';
-import '../models/wagon_word.dart';
-import '../models/story.dart';
+import '../../constants.dart';
+import '../../widgets/topbar.dart';
+import '../../widgets/train/train_slider.dart';
+import '../../screens/videoplayer_screen.dart';
+import '../../providers/app_provider.dart';
+import '../../models/events.dart';
+import '../../models/wagon_question.dart';
+import '../../models/story.dart';
 
 const List<List<String>> kSeasons = [
   ["hiver", "décembre", "janvier", "février"],
@@ -38,7 +38,7 @@ class SeasonTrainScreen extends StatefulWidget {
 class _SeasonTrainScreenState extends State<SeasonTrainScreen> with AfterLayoutMixin<SeasonTrainScreen> {
   AppProvider appProvider;
   ConfettiController _controllerCenter;
-  List<List<WagonWord>> trains = List<List<WagonWord>>();
+  List<List<WagonQuestion>> trains = List<List<WagonQuestion>>();
   List<List<String>> selectedSeasons = [...kSeasons]; //clone list
 
   ValueNotifier<int> nbGoodAnswers = ValueNotifier<int>(0);
@@ -141,8 +141,8 @@ class _SeasonTrainScreenState extends State<SeasonTrainScreen> with AfterLayoutM
     widgets = trains.map((train) {
       return Container(
         height: 130,
-        child: WordSlider(
-          words: train,
+        child: TrainSlider(
+          wagons: train,
           nbSuccess: nbGoodAnswers,
         ),
       );
@@ -151,8 +151,8 @@ class _SeasonTrainScreenState extends State<SeasonTrainScreen> with AfterLayoutM
     return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: widgets);
   }
 
-  List<WagonWord> loadTrain(List<String> items) {
-    return items.map((item) => WagonWord.wagon(item)).toList()..first.loco = true;
+  List<WagonQuestion> loadTrain(List<String> items) {
+    return items.map((item) => WagonQuestion.wagon(item)).toList()..first.loco = true;
   }
 
   _success() async {

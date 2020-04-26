@@ -8,32 +8,32 @@ import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 
-import '../constants.dart';
-import '../widgets/topbar.dart';
-import '../widgets/wordslider.dart';
-import '../providers/app_provider.dart';
-import '../models/wagon_word.dart';
-import '../models/story.dart';
-import '../screens/seasons_train_screen.dart';
+import '../../constants.dart';
+import '../../widgets/topbar.dart';
+import '../../widgets/train/train_slider.dart';
+import '../../providers/app_provider.dart';
+import '../../models/wagon_question.dart';
+import '../../models/story.dart';
+import 'seasons_train_screen.dart';
 
 const kDays = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 const kMonths = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 const String kDescription = "Complète le train des jours de la semaine, et aussi celui des mois de l'année.";
 
-class TrainScreen extends StatefulWidget {
-  TrainScreen({Key key, this.story}) : super(key: key);
+class DayMonthTrainScreen extends StatefulWidget {
+  DayMonthTrainScreen({Key key, this.story}) : super(key: key);
   static const routeName = '/train';
   final Story story;
 
   @override
-  _TrainScreenState createState() => _TrainScreenState();
+  _DayMonthTrainScreenState createState() => _DayMonthTrainScreenState();
 }
 
-class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainScreen> {
+class _DayMonthTrainScreenState extends State<DayMonthTrainScreen> with AfterLayoutMixin<DayMonthTrainScreen> {
 
   AppProvider appProvider;
   ConfettiController _controllerCenter;
-  List<WagonWord> daytrain, monthtrain;
+  List<WagonQuestion> daytrain, monthtrain;
   ValueNotifier<int> nbGoodAnswers = ValueNotifier<int>(0);
   int nbQuestions;
 
@@ -63,16 +63,16 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
     super.dispose();
   }
 
-  List<WagonWord> loadTrain(List<String> items, int nbItems) {
-    var train = List<WagonWord>();
+  List<WagonQuestion> loadTrain(List<String> items, int nbItems) {
+    var train = List<WagonQuestion>();
     var start = Random().nextInt(items.length - nbItems);
     var selectedItems = items.getRange(start, start + nbItems).toList();
 
     selectedItems.forEach((item) {
       if (train.length == 0) {
-        train.add(WagonWord.loco(item));
+        train.add(WagonQuestion.loco(item));
       } else {
-        train.add(WagonWord.wagon(item));
+        train.add(WagonQuestion.wagon(item));
       }
     });
 
@@ -116,7 +116,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                 children: <Widget>[
                   Container(
                     height: 150,
-                    child: WordSlider(words: daytrain, nbSuccess: nbGoodAnswers),
+                    child: TrainSlider(wagons: daytrain, nbSuccess: nbGoodAnswers),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -133,7 +133,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                   SizedBox(height: 20),
                   Container(
                     height: 150,
-                    child: WordSlider(words: monthtrain, nbSuccess: nbGoodAnswers),
+                    child: TrainSlider(wagons: monthtrain, nbSuccess: nbGoodAnswers),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

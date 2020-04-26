@@ -12,7 +12,7 @@ import '../providers/app_provider.dart';
 import '../widgets/topbar.dart';
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
-import '../screens/train_screen.dart';
+import '../screens/trains/daymonth_train_screen.dart';
 
 class RightOrderScreen extends StatefulWidget {
   RightOrderScreen({Key key, this.story, this.rightOrder}) : super(key: key);
@@ -168,7 +168,7 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
       if (widget.rightOrder == Constants.days) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: widget.story, rightOrder: Constants.months)));
       } else {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story)));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DayMonthTrainScreen(story: widget.story)));
       }
     });
   }

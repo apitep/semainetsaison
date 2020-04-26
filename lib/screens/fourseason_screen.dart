@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
+import '../models/story.dart';
 import '../widgets/topbar.dart';
 import '../providers/app_provider.dart';
 
-class SeasonScreen extends StatefulWidget {
-  SeasonScreen({Key key, this.title}) : super(key: key);
+class FourSeasonScreen extends StatefulWidget {
+  FourSeasonScreen({Key key, this.story}) : super(key: key);
   static const routeName = '/season';
   final Key key = UniqueKey();
-  final String title;
+
+  final Story story;
 
   @override
-  _SeasonScreenState createState() => _SeasonScreenState();
+  _FourSeasonScreenState createState() => _FourSeasonScreenState();
 }
 
-class _SeasonScreenState extends State<SeasonScreen> {
+class _FourSeasonScreenState extends State<FourSeasonScreen> {
   AppProvider appProvider;
 
   @override
@@ -75,6 +77,7 @@ class _SeasonScreenState extends State<SeasonScreen> {
                         ),
                       ),
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           DragTarget(
                             onWillAccept: (data) {
@@ -149,56 +152,53 @@ class _SeasonScreenState extends State<SeasonScreen> {
                 },
               ),
             ),
-            Container(
-              height: 270,
-              child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: Constants.months.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisSpacing: 2,
-                  mainAxisSpacing: 2,
-                  crossAxisCount: 3,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return Draggable(
-                    data: Constants.months[index],
-                    feedback: Container(
-                      width: 155,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.orange,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Center(
-                          child: Text(
-                            '${Constants.months[index]}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Center(
-                          child: Text(
-                            '${Constants.months[index]}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
+            GridView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: Constants.months.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 1.15,
+                crossAxisSpacing: 2,
+                mainAxisSpacing: 2,
+                crossAxisCount: 4,
               ),
+              itemBuilder: (BuildContext context, int index) {
+                return Draggable(
+                  data: Constants.months[index],
+                  feedback: Container(
+                    width: 140,
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Center(
+                        child: Text(
+                          '${Constants.months[index]}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Center(
+                        child: Text(
+                          '${Constants.months[index]}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
