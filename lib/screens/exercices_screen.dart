@@ -9,7 +9,7 @@ import '../widgets/responsive_widget.dart';
 import '../providers/app_provider.dart';
 import '../screens/home_screen.dart';
 import '../screens/fourseason_screen.dart';
-import '../screens/trains/daymonth_train_screen.dart';
+import '../screens/trains/train_screen.dart';
 import '../screens/trains/seasons_train_screen.dart';
 import '../screens/rightorder_screen.dart';
 
@@ -50,8 +50,8 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
     exerciceRoutes = [
       RightOrderScreen(story: appProvider.randomStory, rightOrder: Constants.days),
       RightOrderScreen(story: appProvider.randomStory, rightOrder: Constants.months),
-      DayMonthTrainScreen(story: appProvider.randomStory),
-      DayMonthTrainScreen(story: appProvider.randomStory),
+      TrainScreen(story: appProvider.randomStory, wagons: Constants.days,),
+      TrainScreen(story: appProvider.randomStory, wagons: Constants.months,),
       SeasonTrainScreen(story: appProvider.randomStory),
       FourSeasonScreen(story: appProvider.randomStory),
     ];
@@ -146,7 +146,4 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
     });
   }
 
-  void _checkResult() {
-
-  }
 }

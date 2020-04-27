@@ -14,35 +14,33 @@ import '../../widgets/train/train_slider.dart';
 import '../../providers/app_provider.dart';
 import '../../models/wagon_question.dart';
 import '../../models/story.dart';
+import '../fourseason_screen.dart';
 import 'seasons_train_screen.dart';
 
-const kDays = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
-const kMonths = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-const String kDescription = "Complète le train des jours de la semaine, et aussi celui des mois de l'année.";
+const String kDescription = "Complète le petit train";
 
-class DayMonthTrainScreen extends StatefulWidget {
-  DayMonthTrainScreen({Key key, this.story}) : super(key: key);
+class TrainScreen extends StatefulWidget {
+  TrainScreen({Key key, @required this.story, @required this.wagons}) : super(key: key);
   static const routeName = '/train';
   final Story story;
+  final List<String> wagons;
 
   @override
-  _DayMonthTrainScreenState createState() => _DayMonthTrainScreenState();
+  _TrainScreenState createState() => _TrainScreenState();
 }
 
-class _DayMonthTrainScreenState extends State<DayMonthTrainScreen> with AfterLayoutMixin<DayMonthTrainScreen> {
-
+class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainScreen> {
   AppProvider appProvider;
-  ConfettiController _controllerCenter;
-  List<WagonQuestion> daytrain, monthtrain;
+  ConfettiController _confettiController;
+  List<WagonQuestion> train;
   ValueNotifier<int> nbGoodAnswers = ValueNotifier<int>(0);
   int nbQuestions;
 
   @override
   void initState() {
-    _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
-    daytrain = loadTrain(kDays, 3);
-    monthtrain = loadTrain(kMonths, 3);
-    nbQuestions = daytrain.length + monthtrain.length - 2;
+    _confettiController = ConfettiController(duration: const Duration(seconds: 1));
+    train = loadTrain(widget.wagons, 3);
+    nbQuestions = train.length - 1;
     nbGoodAnswers.addListener(() {
       if (nbGoodAnswers.value == nbQuestions) _success();
     });
@@ -59,7 +57,7 @@ class _DayMonthTrainScreenState extends State<DayMonthTrainScreen> with AfterLay
 
   @override
   void dispose() {
-    _controllerCenter.dispose();
+    _confettiController.dispose();
     super.dispose();
   }
 
@@ -85,8 +83,18 @@ class _DayMonthTrainScreenState extends State<DayMonthTrainScreen> with AfterLay
 
     return Stack(
       children: <Widget>[
+        Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(widget.story.thumbUrl),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
         ConfettiWidget(
-          confettiController: _controllerCenter,
+          confettiController: _confettiController,
           blastDirection: 0, // radial value - RIGHT
           emissionFrequency: 0.6,
           minimumSize: const Size(10, 10),
@@ -95,16 +103,6 @@ class _DayMonthTrainScreenState extends State<DayMonthTrainScreen> with AfterLay
           gravity: 0.1, // don't specify a direction, blast randomly
           shouldLoop: false, // start again as soon as the animation is finished
           colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(widget.story.thumbUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
         ),
         Scaffold(
           backgroundColor: Colors.white.withOpacity(.7),
@@ -116,29 +114,12 @@ class _DayMonthTrainScreenState extends State<DayMonthTrainScreen> with AfterLay
                 children: <Widget>[
                   Container(
                     height: 150,
-                    child: TrainSlider(wagons: daytrain, nbSuccess: nbGoodAnswers),
+                    child: TrainSlider(wagons: train, nbSuccess: nbGoodAnswers),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Complète le train des jours',
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontFamily: 'MontserratAlternates',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    height: 150,
-                    child: TrainSlider(wagons: monthtrain, nbSuccess: nbGoodAnswers),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Complète le train des mois',
+                      'Complète le petit train',
                       style: TextStyle(
                         fontSize: 17,
                         fontFamily: 'MontserratAlternates',
@@ -169,11 +150,26 @@ class _DayMonthTrainScreenState extends State<DayMonthTrainScreen> with AfterLay
   }
 
   _success() async {
-    _controllerCenter.play();
+    _confettiController.play();
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
 
     Timer(Duration(seconds: 6), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SeasonTrainScreen(story: widget.story)));
+      if (widget.wagons == Constants.months) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => FourSeasonScreen(story: widget.story)),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TrainScreen(
+              story: widget.story,
+              wagons: Constants.months,
+            ),
+          ),
+        );
+      }
     });
   }
 }

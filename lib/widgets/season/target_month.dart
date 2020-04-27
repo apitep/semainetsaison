@@ -11,10 +11,12 @@ class TargetMonth extends StatefulWidget {
   final Offset initPos;
   final Season season;
   final int monthIndex;
+  final ValueNotifier<int> nbSuccess;
+  bool done = false;
   Color overColor;
-Color itemColor;
+  Color itemColor;
 
-  TargetMonth({this.initPos, @required this.season, @required this.monthIndex, this.itemColor, this.overColor});
+  TargetMonth({this.initPos, @required this.season, @required this.monthIndex, @required this.nbSuccess, this.itemColor, this.overColor});
 
   @override
   TargetMonthState createState() => TargetMonthState();
@@ -30,6 +32,7 @@ class TargetMonthState extends State<TargetMonth> {
     super.initState();
     widget.overColor = Colors.green.withOpacity(0.7);
     widget.itemColor = Colors.white.withOpacity(0.1);
+    widget.done = false;
     position = widget.initPos;
   }
 
@@ -39,13 +42,15 @@ class TargetMonthState extends State<TargetMonth> {
 
     return DragTarget(
       onWillAccept: (data) {
-        return true;
+        return !widget.done;
       },
       onAccept: (Month data) {
         if (data.name == widget.season.months[widget.monthIndex]) {
           appProvider.months.singleWhere((item) {
             return (item.name == data.name);
           }).successful = true;
+          widget.nbSuccess.value++;
+          widget.done = true;
         }
         dragMonthIndex = appProvider.months.indexOf(data);
       },

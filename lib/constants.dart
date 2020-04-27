@@ -26,8 +26,8 @@ class Constants {
   static final Widget kApitepLogo = Image.asset('assets/images/ApitepBearLogo.png', height: 100);
   static final Widget kVictoryBadge = Image.asset('assets/images/VictoryBadge.png', height: 35);
 
-  static final List<String> months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-  static final List<String> days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+  static final List<String> months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+  static final List<String> days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 
   //Colors for theme
   static Color lightPrimary = Color(0xfff3f4f9);

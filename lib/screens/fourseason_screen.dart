@@ -17,7 +17,7 @@ const String kDescription = "Place dans l'ordre les mois de l'année corresponda
 
 class FourSeasonScreen extends StatefulWidget {
   FourSeasonScreen({Key key, this.story}) : super(key: key);
-  static const routeName = '/season';
+  static const routeName = '/fourseason';
   final Key key = UniqueKey();
 
   final Story story;
@@ -42,7 +42,14 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
     nbGoodAnswers.addListener(() {
       if (nbGoodAnswers.value == nbQuestions) _success();
     });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    super.dispose();
   }
 
   @override
@@ -52,101 +59,105 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
     return Scaffold(
       backgroundColor: Constants.kColorBgStart,
       appBar: topBar(context, Constants.kTitle),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: appProvider.seasons.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisSpacing: 0,
-                  mainAxisSpacing: 0,
-                  crossAxisCount: 2,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return Stack(
-                    children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(appProvider.seasons[index].url),
-                            fit: BoxFit.cover,
+      body: ConfettiWidget(
+        confettiController: _confettiController,
+        blastDirection: 0, // radial value - RIGHT
+        emissionFrequency: 0.7,
+        minimumSize: const Size(10, 10),
+        maximumSize: const Size(50, 50),
+        numberOfParticles: 2,
+        gravity: 0.3, // don't specify a direction, blast randomly
+        shouldLoop: false, // start again as soon as the animation is finished
+        colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
+
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                child: GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: appProvider.seasons.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisSpacing: 0,
+                    mainAxisSpacing: 0,
+                    crossAxisCount: 2,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Stack(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(appProvider.seasons[index].url),
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              constraints: BoxConstraints.expand(height: 25),
-                              color: Colors.white.withOpacity(0.6),
-                              child: Center(
-                                child: Text(
-                                  '${appProvider.seasons[index].name}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates'),
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                constraints: BoxConstraints.expand(height: 25),
+                                color: Colors.white.withOpacity(0.6),
+                                child: Center(
+                                  child: Text(
+                                    '${appProvider.seasons[index].name}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates'),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            TargetMonth(
-                              season: appProvider.seasons[index],
-                              monthIndex: 0,
-                            ),
-                            TargetMonth(
-                              season: appProvider.seasons[index],
-                              monthIndex: 1,
-                            ),
-                            TargetMonth(
-                              season: appProvider.seasons[index],
-                              monthIndex: 2,
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              TargetMonth(
+                                season: appProvider.seasons[index],
+                                monthIndex: 0,
+                                nbSuccess: nbGoodAnswers,
+                              ),
+                              TargetMonth(
+                                season: appProvider.seasons[index],
+                                monthIndex: 1,
+                                nbSuccess: nbGoodAnswers,
+                              ),
+                              TargetMonth(
+                                season: appProvider.seasons[index],
+                                monthIndex: 2,
+                                nbSuccess: nbGoodAnswers,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  );
+                      ],
+                    );
+                  },
+                ),
+              ),
+              GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: appProvider.months.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 1.15,
+                  crossAxisSpacing: 2,
+                  mainAxisSpacing: 2,
+                  crossAxisCount: 4,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return DraggableMonth(month: appProvider.months[index]);
                 },
               ),
-            ),
-            GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: appProvider.months.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 1.15,
-                crossAxisSpacing: 2,
-                mainAxisSpacing: 2,
-                crossAxisCount: 4,
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                return DraggableMonth(month: appProvider.months[index]);
-              },
-            ),
-            ConfettiWidget(
-              confettiController: _confettiController,
-              blastDirection: 0, // radial value - RIGHT
-              emissionFrequency: 0.7,
-              minimumSize: const Size(10, 10),
-              maximumSize: const Size(50, 50),
-              numberOfParticles: 1,
-              gravity: 0.3, // don't specify a direction, blast randomly
-              shouldLoop: false, // start again as soon as the animation is finished
-              colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

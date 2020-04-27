@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'package:assets_audio_player/assets_audio_player.dart';
@@ -57,8 +59,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   Story get randomStory {
-    //TODO random story
-    return stories[0];
+    return stories[Random().nextInt(stories.length)];
   }
 
   void handleEvents() {
@@ -115,6 +116,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   void initMonths() {
+    months = List<Month>();
     seasons.forEach((season) {
       season.months.forEach((month) {
         months.add(Month(month));
