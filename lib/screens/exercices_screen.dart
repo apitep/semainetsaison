@@ -145,4 +145,8 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
       }
     });
   }
+
+  void _checkResult() {
+
+  }
 }

@@ -2,8 +2,9 @@ class Season {
   String name;
   String url;
   List<String> months = List<String>();
+  bool successful = false;
 
-  Season(this.name, this.url, this.months);
+  Season(this.name, this.url, this.months, this.successful);
 
   Season.fromJson(Map<String, dynamic> json) {
     name = json['name'];

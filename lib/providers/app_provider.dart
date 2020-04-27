@@ -9,6 +9,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import '../constants.dart';
 import '../models/events.dart';
 import '../models/season.dart';
+import '../models/month.dart';
 import '../models/story.dart';
 import '../services/season_service.dart';
 
@@ -26,6 +27,7 @@ class AppProvider extends ChangeNotifier {
 
   List<Story> stories = List<Story>();
   List<Season> seasons = List<Season>();
+  List<Month> months = List<Month>();
 
   ThemeData theme = Constants.lightTheme;
   Key key = UniqueKey();
@@ -54,10 +56,10 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-    Story get randomStory {
-      //TODO random story
-      return stories[0]; 
-    }
+  Story get randomStory {
+    //TODO random story
+    return stories[0];
+  }
 
   void handleEvents() {
     eventBus.on<MusicBackground>().listen((event) {
@@ -70,6 +72,7 @@ class AppProvider extends ChangeNotifier {
     isfetching = true;
     stories = await getStories();
     seasons = await SeasonService(seasonUrl: Constants.kUrlSeasons).getSeasons();
+    initMonths();
     isfetching = false;
   }
 
@@ -109,6 +112,14 @@ class AppProvider extends ChangeNotifier {
   void setNavigatorKey(value) {
     navigatorKey = value;
     notifyListeners();
+  }
+
+  void initMonths() {
+    seasons.forEach((season) {
+      season.months.forEach((month) {
+        months.add(Month(month));
+      });
+    });
   }
 
   void initTts() async {

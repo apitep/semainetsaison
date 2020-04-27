@@ -1,11 +1,20 @@
-import 'package:dotted_border/dotted_border.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
+
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:confetti/confetti.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
-import '../models/story.dart';
-import '../widgets/topbar.dart';
 import '../providers/app_provider.dart';
+import '../models/month.dart';
+import '../models/story.dart';
+import '../widgets/draggable_month.dart';
+import '../widgets/topbar.dart';
+import '../screens/videoplayer_screen.dart';
+
+const String kDescription = "Place dans l'ordre les mois de l'année correspondant à chaque saison";
 
 class FourSeasonScreen extends StatefulWidget {
   FourSeasonScreen({Key key, this.story}) : super(key: key);
@@ -20,9 +29,20 @@ class FourSeasonScreen extends StatefulWidget {
 
 class _FourSeasonScreenState extends State<FourSeasonScreen> {
   AppProvider appProvider;
+  ConfettiController _confettiController;
+
+  ValueNotifier<int> nbGoodAnswers = ValueNotifier<int>(0);
+  int nbQuestions = 12;
+  Color targetColor = Colors.white.withOpacity(0.1);
+  Color overTargetColor = Colors.green.withOpacity(0.7);
+  int dragMonthIndex = 0;
 
   @override
   void initState() {
+    _confettiController = ConfettiController(duration: const Duration(seconds: 1));
+    nbGoodAnswers.addListener(() {
+      if (nbGoodAnswers.value == nbQuestions) _success();
+    });
     super.initState();
   }
 
@@ -69,83 +89,113 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
                                 child: Text(
                                   '${appProvider.seasons[index].name}',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates'),
+                                  style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates'),
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          DragTarget(
-                            onWillAccept: (data) {
-                              return true;
-                            },
-                            onAccept: (String data) {
-                              print(data);
-                              print(appProvider.seasons[index].name);
-                            },
-                            builder: (context, List<String> cd, rd) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: DottedBorder(
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            DragTarget(
+                              onWillAccept: (data) {
+                                return true;
+                              },
+                              onAccept: (Month data) {
+                                if (goodAnswer(data, appProvider.seasons[index].name, 0)) {
+                                  appProvider.months.singleWhere((item) {
+                                    return (item.name == data.name);
+                                  }).successful = true;
+                                  dragMonthIndex = appProvider.months.indexOf(data);
+                                }
+                              },
+                              builder: (
+                                BuildContext context,
+                                List<dynamic> accepted,
+                                List<dynamic> rejected,
+                              ) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: DottedBorder(
+                                    padding: const EdgeInsets.all(2.0),
+                                    strokeWidth: 1,
+                                    child: Container(
+                                      width: 130,
+                                      height: 25,
+                                      color: accepted.isEmpty
+                                          ? (appProvider.months.singleWhere((item) {
+                                              return (item.name == appProvider.seasons[index].months[0]);
+                                            }).successful
+                                              ? overTargetColor
+                                              : targetColor)
+                                          : overTargetColor,
+                                      child: Text(
+                                        appProvider.months.singleWhere((item) {
+                                          return (item.name == appProvider.seasons[index].months[0]);
+                                        }).successful
+                                            ? '${appProvider.months[dragMonthIndex].name}'
+                                            : '',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates'),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            DragTarget(
+                              onWillAccept: (data) {
+                                return true;
+                              },
+                              onAccept: (Month data) {},
+                              builder: (
+                                BuildContext context,
+                                List<dynamic> accepted,
+                                List<dynamic> rejected,
+                              ) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: DottedBorder(
+                                    padding: const EdgeInsets.all(2.0),
+                                    strokeWidth: 1,
+                                    child: Container(
+                                      width: 130,
+                                      height: 25,
+                                      color: accepted.isEmpty ? targetColor : overTargetColor,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            DragTarget(
+                              onWillAccept: (data) {
+                                return true;
+                              },
+                              onAccept: (Month data) {
+                                if (goodAnswer(data, appProvider.seasons[index].name, 2)) {}
+                              },
+                              builder: (
+                                BuildContext context,
+                                List<dynamic> accepted,
+                                List<dynamic> rejected,
+                              ) {
+                                return DottedBorder(
                                   padding: const EdgeInsets.all(2.0),
                                   strokeWidth: 1,
                                   child: Container(
+                                    width: 130,
                                     height: 25,
-                                    color: Colors.white.withOpacity(0.1),
+                                    color: accepted.isEmpty ? targetColor : overTargetColor,
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                          DragTarget(
-                            onWillAccept: (data) {
-                              return true;
-                            },
-                            onAccept: (String data) {
-                              print(data);
-                              print(appProvider.seasons[index].name);
-                            },
-                            builder: (context, List<String> cd, rd) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: DottedBorder(
-                                  padding: const EdgeInsets.all(2.0),
-                                  strokeWidth: 1,
-                                  child: Container(
-                                    height: 25,
-                                    color: Colors.white.withOpacity(0.1),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          DragTarget(
-                            onWillAccept: (data) {
-                              return true;
-                            },
-                            onAccept: (String data) {
-                              print(data);
-                              print(appProvider.seasons[index].name);
-                            },
-                            builder: (context, List<String> cd, rd) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: DottedBorder(
-                                  padding: const EdgeInsets.all(2.0),
-                                  strokeWidth: 1,
-                                  child: Container(
-                                    height: 25,
-                                    color: Colors.white.withOpacity(0.1),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   );
@@ -156,7 +206,7 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
               physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              itemCount: Constants.months.length,
+              itemCount: appProvider.months.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: 1.15,
                 crossAxisSpacing: 2,
@@ -164,45 +214,64 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
                 crossAxisCount: 4,
               ),
               itemBuilder: (BuildContext context, int index) {
-                return Draggable(
-                  data: Constants.months[index],
-                  feedback: Container(
-                    width: 140,
-                    decoration: BoxDecoration(
-                      color: Colors.orange,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Center(
-                        child: Text(
-                          '${Constants.months[index]}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Center(
-                        child: Text(
-                          '${Constants.months[index]}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
+                return DraggableMonth(month: appProvider.months[index]);
               },
+            ),
+            ConfettiWidget(
+              confettiController: _confettiController,
+              blastDirection: 0, // radial value - RIGHT
+              emissionFrequency: 0.7,
+              minimumSize: const Size(10, 10),
+              maximumSize: const Size(50, 50),
+              numberOfParticles: 1,
+              gravity: 0.3, // don't specify a direction, blast randomly
+              shouldLoop: false, // start again as soon as the animation is finished
+              colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
             ),
           ],
         ),
       ),
     );
+  }
+
+  bool goodAnswer(Month month, String season, int position) {
+    bool result = false;
+
+    var selectedSeason = appProvider.seasons.singleWhere((item) {
+      return (item.name == season);
+    });
+    print(selectedSeason.name);
+
+    if (month.name == selectedSeason.months[position]) {
+      result = true;
+    } else {
+      print(month);
+      print(season);
+      print(position);
+      print(selectedSeason.months[position]);
+    }
+
+    return result;
+  }
+
+  _success() async {
+    appProvider.initMonths();
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    _confettiController.play();
+    AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
+    await widget.story.getStreamingUrls();
+
+    Timer(Duration(seconds: 6), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => VideoPlayerScreen(
+            title: widget.story.title,
+            url: widget.story.videoUrl,
+            parentIsPortrait: isPortrait,
+          ),
+        ),
+      );
+    });
   }
 }
