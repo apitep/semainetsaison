@@ -24,7 +24,7 @@ const List<List<String>> kSeasons = [
   ["automne", "septembre", "octobre", "novembre"],
 ];
 
-const String kDescription = "Pour chaque petit train, trouve les mois de l'année qui correspondent à la saison";
+const String kDescription = "Complète le petit train avec les mois de l'année qui correspondent à la saison";
 
 class SeasonTrainScreen extends StatefulWidget {
   SeasonTrainScreen({Key key, this.story}) : super(key: key);
@@ -38,8 +38,7 @@ class SeasonTrainScreen extends StatefulWidget {
 class _SeasonTrainScreenState extends State<SeasonTrainScreen> with AfterLayoutMixin<SeasonTrainScreen> {
   AppProvider appProvider;
   ConfettiController _controllerCenter;
-  List<List<WagonQuestion>> trains = List<List<WagonQuestion>>();
-  List<List<String>> selectedSeasons = [...kSeasons]; //clone list
+  List<WagonQuestion> train = List<WagonQuestion>();
 
   ValueNotifier<int> nbGoodAnswers = ValueNotifier<int>(0);
   int nbQuestions = 0;
@@ -47,14 +46,9 @@ class _SeasonTrainScreenState extends State<SeasonTrainScreen> with AfterLayoutM
   @override
   void initState() {
     _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
-
-    /// keep only 2 random seasons
-    for (var i = 0; i < 2; i++) selectedSeasons.remove(selectedSeasons[Random().nextInt(selectedSeasons.length)]);
-
-    trains = selectedSeasons.map((season) {
-      nbQuestions = nbQuestions + season.length - 1;
-      return loadTrain(season);
-    }).toList();
+    var selectedSeason = kSeasons[Random().nextInt(kSeasons.length)];
+    nbQuestions = selectedSeason.length - 1;
+    train = loadTrain(selectedSeason);
 
     nbGoodAnswers.addListener(() {
       if (nbGoodAnswers.value == nbQuestions) _success();
@@ -110,11 +104,12 @@ class _SeasonTrainScreenState extends State<SeasonTrainScreen> with AfterLayoutM
           appBar: topBar(context, Constants.kTitle),
           body: Center(
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  getTrainsWidgets(),
-                ],
+              child: Container(
+                height: 130,
+                child: TrainSlider(
+                  wagons: train,
+                  nbSuccess: nbGoodAnswers,
+                ),
               ),
             ),
           ),
@@ -133,22 +128,6 @@ class _SeasonTrainScreenState extends State<SeasonTrainScreen> with AfterLayoutM
         ),
       ],
     );
-  }
-
-  Widget getTrainsWidgets() {
-    List<Widget> widgets = List<Widget>();
-
-    widgets = trains.map((train) {
-      return Container(
-        height: 130,
-        child: TrainSlider(
-          wagons: train,
-          nbSuccess: nbGoodAnswers,
-        ),
-      );
-    }).toList();
-
-    return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: widgets);
   }
 
   List<WagonQuestion> loadTrain(List<String> items) {
