@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/app_provider.dart';
-import '../models/month.dart';
+import '../../providers/app_provider.dart';
+import '../../models/month.dart';
 
 class DraggableMonth extends StatefulWidget {
   final Offset initPos;

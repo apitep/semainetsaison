@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/season.dart';
+import '../../models/season.dart';
 
 class SeasonCard extends StatefulWidget {
   SeasonCard({Key key, @required this.season, @required this.nbSuccess}) : super(key: key);
