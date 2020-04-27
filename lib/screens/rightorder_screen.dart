@@ -25,9 +25,8 @@ class RightOrderScreen extends StatefulWidget {
 }
 
 class _RightOrderScreenState extends State<RightOrderScreen> {
-
   AppProvider appProvider;
-  ConfettiController _controllerCenter;
+  ConfettiController _confettiController;
   ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
 
   final String kDescriptionDays = "Glisse les jours de la semaine dans le bon ordre";
@@ -35,13 +34,13 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
 
   @override
   void initState() {
-    _controllerCenter = ConfettiController(duration: const Duration(seconds: 1));
+    _confettiController = ConfettiController(duration: const Duration(seconds: 1));
     super.initState();
   }
 
   @override
   void dispose() {
-    _controllerCenter.dispose();
+    _confettiController.dispose();
     super.dispose();
   }
 
@@ -51,24 +50,13 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
 
     return Stack(
       children: <Widget>[
-        ConfettiWidget(
-          confettiController: _controllerCenter,
-          blastDirection: 0, // radial value - RIGHT
-          emissionFrequency: 0.7,
-          minimumSize: const Size(10, 10),
-          maximumSize: const Size(50, 50),
-          numberOfParticles: 1,
-          gravity: 0.2, // don't specify a direction, blast randomly
-          shouldLoop: false, // start again as soon as the animation is finished
-          colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(widget.story.thumbUrl),
-                fit: BoxFit.cover,
-              ),
+        Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(widget.story.thumbUrl),
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -111,6 +99,20 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
               },
               child: Icon(Icons.volume_up, size: 34),
             ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: ConfettiWidget(
+            confettiController: _confettiController,
+            blastDirectionality: BlastDirectionality.explosive,
+            emissionFrequency: 0.8,
+            minimumSize: const Size(10, 10),
+            maximumSize: const Size(50, 50),
+            numberOfParticles: 3,
+            gravity: 0.5,
+            shouldLoop: false,
+            colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
           ),
         ),
       ],
@@ -161,14 +163,20 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
   }
 
   _success() async {
-    _controllerCenter.play(); //launch confettis
+    _confettiController.play(); //launch confettis
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp)); //play sound levelUp
 
     Timer(Duration(seconds: 6), () {
       if (widget.rightOrder == Constants.days) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: widget.story, rightOrder: Constants.months)));
       } else {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TrainScreen(story: widget.story, wagons: Constants.days,)));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => TrainScreen(
+                      story: widget.story,
+                      wagons: Constants.days,
+                    )));
       }
     });
   }

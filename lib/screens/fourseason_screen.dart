@@ -61,13 +61,13 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
       appBar: topBar(context, Constants.kTitle),
       body: ConfettiWidget(
         confettiController: _confettiController,
-        blastDirection: 0, // radial value - RIGHT
-        emissionFrequency: 0.7,
+        blastDirectionality: BlastDirectionality.explosive,
+        emissionFrequency: 0.8,
         minimumSize: const Size(10, 10),
         maximumSize: const Size(50, 50),
-        numberOfParticles: 2,
-        gravity: 0.3, // don't specify a direction, blast randomly
-        shouldLoop: false, // start again as soon as the animation is finished
+        numberOfParticles: 3,
+        gravity: 0.5,
+        shouldLoop: false,
         colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
 
         child: SingleChildScrollView(

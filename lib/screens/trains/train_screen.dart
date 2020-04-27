@@ -15,7 +15,6 @@ import '../../providers/app_provider.dart';
 import '../../models/wagon_question.dart';
 import '../../models/story.dart';
 import '../fourseason_screen.dart';
-import 'seasons_train_screen.dart';
 
 const String kDescription = "Complète le petit train";
 
@@ -93,17 +92,6 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
             ),
           ),
         ),
-        ConfettiWidget(
-          confettiController: _confettiController,
-          blastDirection: 0, // radial value - RIGHT
-          emissionFrequency: 0.6,
-          minimumSize: const Size(10, 10),
-          maximumSize: const Size(50, 50),
-          numberOfParticles: 1,
-          gravity: 0.1, // don't specify a direction, blast randomly
-          shouldLoop: false, // start again as soon as the animation is finished
-          colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
-        ),
         Scaffold(
           backgroundColor: Colors.white.withOpacity(.7),
           appBar: topBar(context, Constants.kTitle),
@@ -143,6 +131,20 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
               },
               child: Icon(Icons.volume_up, size: 34),
             ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: ConfettiWidget(
+            confettiController: _confettiController,
+            blastDirectionality: BlastDirectionality.explosive,
+            emissionFrequency: 0.8,
+            minimumSize: const Size(10, 10),
+            maximumSize: const Size(50, 50),
+            numberOfParticles: 3,
+            gravity: 0.5,
+            shouldLoop: false,
+            colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
           ),
         ),
       ],
