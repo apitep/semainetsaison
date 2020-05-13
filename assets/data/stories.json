@@ -1,5 +1,29 @@
 [
   {
+    "title": "Castor-Têtu",
+    "author": "Jean Leroy & Audrey Poussier",
+    "videoUrl": "https://player.vimeo.com/video/416662059/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/castortetu.jpg"
+  },
+  {
+    "title": "Le magicien des couleurs",
+    "author": "Arnold Lobel",
+    "videoUrl": "https://player.vimeo.com/video/416481094/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/magiciencouleurs.jpg"
+  },
+  {
+    "title": "Le convive comme il faut",
+    "author": "Philippe Dumas",
+    "videoUrl": "https://player.vimeo.com/video/413509969/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/convive.jpg"
+  },
+  {
+    "title": "Nuit noire",
+    "author": "Dorothée de Monfreid",
+    "videoUrl": "https://player.vimeo.com/video/413668468/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/nuitnoire.jpg"
+  },
+  {
     "title": "Une soupe au caillou",
     "author": "Anaïs Vaugelade",
     "videoUrl": "https://player.vimeo.com/video/411976526/config",
