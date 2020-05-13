@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
+import '../../constants.dart';
 import '../../providers/app_provider.dart';
 import '../../models/season.dart';
 import '../../models/month.dart';
@@ -51,6 +53,7 @@ class TargetMonthState extends State<TargetMonth> {
           }).successful = true;
           widget.nbSuccess.value++;
           widget.done = true;
+          AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundGood));
         }
         dragMonthIndex = appProvider.months.indexOf(data);
       },

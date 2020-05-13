@@ -8,21 +8,21 @@ import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 
-import '../../constants.dart';
-import '../../widgets/topbar.dart';
-import '../../widgets/train/train_slider.dart';
-import '../../providers/app_provider.dart';
-import '../../models/wagon_question.dart';
-import '../../models/story.dart';
-import '../fourseason_screen.dart';
-
-const String kDescription = "Complète le petit train";
+import '../constants.dart';
+import '../widgets/topbar.dart';
+import '../widgets/train/train_slider.dart';
+import '../providers/app_provider.dart';
+import '../models/wagon_question.dart';
+import '../models/story.dart';
+import '../screens/fourseason_screen.dart';
 
 class TrainScreen extends StatefulWidget {
-  TrainScreen({Key key, @required this.story, @required this.wagons}) : super(key: key);
+  TrainScreen({Key key, @required this.story, @required this.wagons, @required this.exerciceDescription, @required this.nbWagons}) : super(key: key);
   static const routeName = '/train';
   final Story story;
   final List<String> wagons;
+  final String exerciceDescription;
+  final int nbWagons;
 
   @override
   _TrainScreenState createState() => _TrainScreenState();
@@ -38,7 +38,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   @override
   void initState() {
     _confettiController = ConfettiController(duration: const Duration(seconds: 1));
-    train = loadTrain(widget.wagons, 3);
+    train = loadTrain(widget.wagons, widget.nbWagons);
     nbQuestions = train.length - 1;
     nbGoodAnswers.addListener(() {
       if (nbGoodAnswers.value == nbQuestions) _success();
@@ -50,7 +50,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   void afterFirstLayout(BuildContext context) {
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundTrainVapeur));
     Timer(Duration(seconds: 6), () {
-      appProvider.speak(kDescription);
+      appProvider.speak(widget.exerciceDescription);
     });
   }
 
@@ -62,8 +62,15 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
 
   List<WagonQuestion> loadTrain(List<String> items, int nbItems) {
     var train = List<WagonQuestion>();
-    var start = Random().nextInt(items.length - nbItems);
-    var selectedItems = items.getRange(start, start + nbItems).toList();
+    var selectedItems = List<String>();
+    int start;
+
+    if (nbItems <= items.length) {
+      selectedItems = items.getRange(0, nbItems).toList();
+    } else {
+      start = Random().nextInt(items.length - nbItems);
+      selectedItems = items.getRange(start, start + nbItems).toList();
+    }
 
     selectedItems.forEach((item) {
       if (train.length == 0) {
@@ -107,7 +114,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Complète le petit train',
+                      widget.exerciceDescription,
                       style: TextStyle(
                         fontSize: 17,
                         fontFamily: 'MontserratAlternates',
@@ -126,7 +133,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
               heroTag: null,
               onPressed: () {
                 setState(() {
-                  appProvider.speak(kDescription);
+                  appProvider.speak(widget.exerciceDescription);
                 });
               },
               child: Icon(Icons.volume_up, size: 34),
@@ -155,23 +162,41 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
     _confettiController.play();
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
 
-    Timer(Duration(seconds: 6), () {
-      if (widget.wagons == Constants.months) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => FourSeasonScreen(story: widget.story)),
-        );
-      } else {
+    Timer(Duration(seconds: 5), () {
+      if (widget.wagons == Constants.days) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => TrainScreen(
               story: widget.story,
               wagons: Constants.months,
+              nbWagons: 3,
+              exerciceDescription: "complète le petit train avec les mois de l'année",
             ),
           ),
         );
+        return;
       }
+
+      if (widget.wagons == Constants.months) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TrainScreen(
+              story: widget.story,
+              wagons: Constants.kSeasons[Random().nextInt(Constants.kSeasons.length)],
+              nbWagons: 4,
+              exerciceDescription: "complète le petit train avec les mois qui correspondent à la saison",
+            ),
+          ),
+        );
+        return;
+      }
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => FourSeasonScreen(story: widget.story)),
+      );
     });
   }
 }

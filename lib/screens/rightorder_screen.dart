@@ -12,7 +12,7 @@ import '../providers/app_provider.dart';
 import '../widgets/topbar.dart';
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
-import '../screens/trains/train_screen.dart';
+import '../screens/train_screen.dart';
 
 class RightOrderScreen extends StatefulWidget {
   RightOrderScreen({Key key, this.story, this.rightOrder}) : super(key: key);
@@ -166,17 +166,21 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
     _confettiController.play(); //launch confettis
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp)); //play sound levelUp
 
-    Timer(Duration(seconds: 6), () {
+    Timer(Duration(seconds: 4), () {
       if (widget.rightOrder == Constants.days) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: widget.story, rightOrder: Constants.months)));
       } else {
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => TrainScreen(
-                      story: widget.story,
-                      wagons: Constants.days,
-                    )));
+          context,
+          MaterialPageRoute(
+            builder: (context) => TrainScreen(
+              story: widget.story,
+              wagons: Constants.days,
+              nbWagons: 3,
+              exerciceDescription: 'complète le petit train avec les jours de la semaine',
+            ),
+          ),
+        );
       }
     });
   }

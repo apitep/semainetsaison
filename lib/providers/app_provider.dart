@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:assets_audio_player/assets_audio_player.dart';
 
 import '../constants.dart';
+import '../models/wagon_question.dart';
 import '../models/events.dart';
 import '../models/season.dart';
 import '../models/month.dart';
@@ -122,6 +123,10 @@ class AppProvider extends ChangeNotifier {
         months.add(Month(month));
       });
     });
+  }
+
+  List<WagonQuestion> loadTrain(List<String> items) {
+    return items.map((item) => WagonQuestion.wagon(item)).toList()..first.loco = true;
   }
 
   void initTts() async {

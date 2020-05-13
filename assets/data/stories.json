@@ -1,5 +1,11 @@
 [
   {
+    "title": "Une soupe au caillou",
+    "author": "Anaïs Vaugelade",
+    "videoUrl": "https://player.vimeo.com/video/411976526/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/soupeaucaillou.jpg"
+  },
+  {
     "title": "Croque-Bisous",
     "author": "Kimiko",
     "videoUrl": "https://player.vimeo.com/video/410956305/config",

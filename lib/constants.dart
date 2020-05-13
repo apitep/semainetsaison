@@ -17,9 +17,10 @@ class Constants {
   static const String kUrlSeasons = kUrlRemoteRoot + "assets/data/seasons_fr-FR.json";
 
   static const String kSoundLevelUp = "assets/sounds/levelup.mp3";
+  static const String kSoundGood = "assets/sounds/good.mp3";
   static const String kSoundHomeIntro = "assets/sounds/homeintro.mp3";
   static const String kSoundTrainVapeur = "assets/sounds/trainvapeur.mp3";
-  static const String kSoundTrainSifflement = "assets/sounds/sifflement.mp3";
+  static const String kSoundTrainSifflement = "assets/sounds/tutut.mp3";
   static const String kBackgroundAudioLow = "assets/sounds/ambiance_low.mp3";
   static const String kBackgroundAudio = "assets/sounds/ambiance.mp3";
 
@@ -28,6 +29,12 @@ class Constants {
 
   static final List<String> months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
   static final List<String> days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+  static final List<List<String>> kSeasons = [
+    ["hiver", "décembre", "janvier", "février"],
+    ["printemps", "mars", "avril", "mai"],
+    ["été", "juin", "juillet", "août"],
+    ["automne", "septembre", "octobre", "novembre"],
+  ];
 
   //Colors for theme
   static Color lightPrimary = Color(0xfff3f4f9);
@@ -46,7 +53,7 @@ class Constants {
     appBarTheme: AppBarTheme(
       elevation: 1,
       textTheme: TextTheme(
-        headline: TextStyle(
+        headline5: TextStyle(
           color: Colors.black,
           fontSize: 20,
           fontWeight: FontWeight.w800,
@@ -65,7 +72,7 @@ class Constants {
     appBarTheme: AppBarTheme(
       elevation: 0,
       textTheme: TextTheme(
-        headline: TextStyle(
+        headline5: TextStyle(
           color: lightBG,
           fontSize: 20,
           fontWeight: FontWeight.w800,

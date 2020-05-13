@@ -7,16 +7,16 @@ import '../widgets/delayed_animation.dart';
 import '../constants.dart';
 import 'home_screen.dart';
 
-class StartScreen extends StatefulWidget {
-  const StartScreen({Key key}) : super(key: key);
+class StartupScreen extends StatefulWidget {
+  const StartupScreen({Key key}) : super(key: key);
 
   static const routeName = '/start';
 
   @override
-  _StartScreenState createState() => _StartScreenState();
+  _StartupScreenState createState() => _StartupScreenState();
 }
 
-class _StartScreenState extends State<StartScreen> with SingleTickerProviderStateMixin {
+class _StartupScreenState extends State<StartupScreen> with SingleTickerProviderStateMixin {
   final int delayedAmount = 400;
   AnimationController controllerAnimation;
   AppProvider appProvider;
