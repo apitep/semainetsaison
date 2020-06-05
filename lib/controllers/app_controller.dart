@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:get/get.dart';
@@ -23,6 +22,10 @@ class AppController extends GetController {
   List<Season> seasons = List<Season>();
   List<Month> months = List<Month>();
 
+  Story get randomStory {
+    return stories[Random().nextInt(stories.length)];
+  }
+
   final isfetching = false.obs;
   final nbSuccess = 0.0.obs;
 
@@ -30,10 +33,6 @@ class AppController extends GetController {
     soundController = Get.put<SoundController>(SoundController());
     soundController.init();
     fetchData();
-  }
-
-  Story get randomStory {
-    return stories[Random().nextInt(stories.length)];
   }
 
   //
@@ -63,12 +62,16 @@ class AppController extends GetController {
     return parsed.map<Story>((json) => Story.fromJson(json)).toList();
   }
 
-    void initMonths() {
+  void initMonths() {
     months = List<Month>();
     seasons.forEach((season) {
       season.months.forEach((month) {
         months.add(Month(month));
       });
     });
+  }
+
+  List<WagonQuestion> loadTrain(List<String> items) {
+    return items.map((item) => WagonQuestion.wagon(item)).toList()..first.loco = true;
   }
 }

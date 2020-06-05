@@ -1,14 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:auto_animated/auto_animated.dart';
 
 import '../constants.dart';
+import '../controllers/app_controller.dart';
 import '../widgets/topbar.dart';
 import '../widgets/responsive_widget.dart';
-import '../providers/app_provider.dart';
 import '../screens/home_screen.dart';
 import '../screens/fourseason_screen.dart';
 import '../screens/train_screen.dart';
@@ -28,7 +26,6 @@ class ExercicesScreen extends StatefulWidget {
 }
 
 class _ExercicesScreenState extends State<ExercicesScreen> {
-  AppProvider appProvider;
   int _currentIndex = 0;
   var exerciceRoutes = [];
 
@@ -47,21 +44,20 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    appProvider = Provider.of<AppProvider>(context);
     exerciceRoutes = [
-      RightOrderScreen(story: appProvider.randomStory, rightOrder: Constants.days),
-      RightOrderScreen(story: appProvider.randomStory, rightOrder: Constants.months),
-      TrainScreen(story: appProvider.randomStory, wagons: Constants.days, nbWagons: 3, exerciceDescription: 'complète le petit train avec les jours de la semaine',),
-      TrainScreen(story: appProvider.randomStory, wagons: Constants.months, nbWagons: 3, exerciceDescription: "complète le petit train avec les mois de l'année"),
-      TrainScreen(story: appProvider.randomStory, wagons: Constants.kSeasons[Random().nextInt(Constants.kSeasons.length)], nbWagons: 4, exerciceDescription: 'complète le petit train avec les mois qui correspondent à la saison'),
-      FourSeasonScreen(story: appProvider.randomStory),
+      RightOrderScreen(story: AppController.to.randomStory, rightOrder: Constants.days),
+      RightOrderScreen(story: AppController.to.randomStory, rightOrder: Constants.months),
+      TrainScreen(story: AppController.to.randomStory, wagons: Constants.days, nbWagons: 3, exerciceDescription: 'complète le petit train avec les jours de la semaine',),
+      TrainScreen(story: AppController.to.randomStory, wagons: Constants.months, nbWagons: 3, exerciceDescription: "complète le petit train avec les mois de l'année"),
+      TrainScreen(story: AppController.to.randomStory, wagons: Constants.kSeasons[Random().nextInt(Constants.kSeasons.length)], nbWagons: 4, exerciceDescription: 'complète le petit train avec les mois qui correspondent à la saison'),
+      FourSeasonScreen(story: AppController.to.randomStory),
     ];
 
     return Scaffold(
       backgroundColor: Constants.kColorBgStart,
       appBar: topBar(context, Constants.kTitle),
       body: Center(
-        child: appProvider.isfetching
+        child: AppController.to.isfetching.value
             ? CircularProgressIndicator()
             : LiveGrid.options(
                 options: options,

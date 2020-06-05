@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:assets_audio_player/assets_audio_player.dart';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:auto_animated/auto_animated.dart';
-import 'package:semainetsaison/models/story.dart';
 
 import '../constants.dart';
+import '../controllers/app_controller.dart';
+import '../models/story.dart';
 import '../widgets/topbar.dart';
 import '../widgets/responsive_widget.dart';
-import '../providers/app_provider.dart';
 import 'rightorder_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,7 +23,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScreen> {
-  AppProvider appProvider;
   final options = LiveOptions(
     delay: Duration(milliseconds: 50),
     showItemInterval: Duration(milliseconds: 100),
@@ -45,18 +43,16 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
 
   @override
   Widget build(BuildContext context) {
-    appProvider = Provider.of<AppProvider>(context);
-
     return Scaffold(
       backgroundColor: Constants.kColorBgStart,
       appBar: topBar(context, Constants.kTitle),
       body: Center(
-        child: appProvider.isfetching
+        child: AppController.to.isfetching.value
             ? CircularProgressIndicator()
             : LiveGrid.options(
                 options: options,
                 itemBuilder: buildAnimatedItem,
-                itemCount: appProvider.stories.length,
+                itemCount: AppController.to.stories.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: ResponsiveWidget.isLargeScreen(context) ? 5 : ResponsiveWidget.isSmallScreen(context) ? 2 : 5,
                   crossAxisSpacing: 1,
@@ -89,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
             margin: EdgeInsets.all(1.0),
             child: InkWell(
               onTap: () {
-                showCredits(appProvider.stories[index]);
+                showCredits(AppController.to.stories[index]);
               },
               child: Stack(
                 children: <Widget>[
@@ -98,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(appProvider.stories[index].thumbUrl),
+                          image: NetworkImage(AppController.to.stories[index].thumbUrl),
                           fit: BoxFit.fitHeight,
                         ),
                       ),
