@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:confetti/confetti.dart';
-import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../controllers/app_controller.dart';
-import '../controllers/sound_controller.dart';
-import '../providers/app_provider.dart';
 import '../models/story.dart';
 import '../widgets/season/draggable_month.dart';
 import '../widgets/season/target_month.dart';
@@ -29,7 +26,6 @@ class FourSeasonScreen extends StatefulWidget {
 }
 
 class _FourSeasonScreenState extends State<FourSeasonScreen> {
-  AppProvider appProvider;
   ConfettiController _confettiController;
 
   ValueNotifier<int> nbGoodAnswers = ValueNotifier<int>(0);
@@ -56,8 +52,6 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
 
   @override
   Widget build(BuildContext context) {
-    appProvider = Provider.of<AppProvider>(context);
-
     return Scaffold(
       backgroundColor: Constants.kColorBgStart,
       appBar: topBar(context, Constants.kTitle),
@@ -81,7 +75,7 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
-                  itemCount: appProvider.seasons.length,
+                  itemCount: AppController.to.seasons.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 0,
                     mainAxisSpacing: 0,
@@ -93,7 +87,7 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
                         Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage(appProvider.seasons[index].url),
+                              image: AssetImage(AppController.to.seasons[index].url),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -106,7 +100,7 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
                                 color: Colors.white.withOpacity(0.6),
                                 child: Center(
                                   child: Text(
-                                    '${appProvider.seasons[index].name}',
+                                    '${AppController.to.seasons[index].name}',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates'),
                                   ),
@@ -121,17 +115,17 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               TargetMonth(
-                                season: appProvider.seasons[index],
+                                season: AppController.to.seasons[index],
                                 monthIndex: 0,
                                 nbSuccess: nbGoodAnswers,
                               ),
                               TargetMonth(
-                                season: appProvider.seasons[index],
+                                season: AppController.to.seasons[index],
                                 monthIndex: 1,
                                 nbSuccess: nbGoodAnswers,
                               ),
                               TargetMonth(
-                                season: appProvider.seasons[index],
+                                season: AppController.to.seasons[index],
                                 monthIndex: 2,
                                 nbSuccess: nbGoodAnswers,
                               ),
@@ -147,7 +141,7 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
                 physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount: appProvider.months.length,
+                itemCount: AppController.to.months.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: 1.15,
                   crossAxisSpacing: 2,
@@ -155,7 +149,7 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
                   crossAxisCount: 4,
                 ),
                 itemBuilder: (BuildContext context, int index) {
-                  return DraggableMonth(month: appProvider.months[index]);
+                  return DraggableMonth(month: AppController.to.months[index]);
                 },
               ),
             ],
@@ -166,13 +160,13 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
   }
 
   _success() async {
-    appProvider.initMonths();
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     _confettiController.play();
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
     await widget.story.getStreamingUrls();
+    AppController.to.initMonths();
 
-    Timer(Duration(seconds: 6), () {
+    Timer(Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
