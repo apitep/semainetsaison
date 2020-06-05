@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:provider/provider.dart';
 
 import '../providers/app_provider.dart';
-import '../widgets/delayed_animation.dart';
 import '../constants.dart';
+import '../controllers/app_controller.dart';
+import '../widgets/delayed_animation.dart';
 import 'home_screen.dart';
 
 class StartupScreen extends StatefulWidget {
@@ -38,91 +40,98 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    appProvider = Provider.of<AppProvider>(context);
 
     return Scaffold(
       backgroundColor: Constants.kColorBgStart,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              height: 60.0,
-            ),
-            DelayedAnimation(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset('assets/images/ApitecLogo.png', height: 40),
-                  Text(
-                    "Apprendre à petit pas",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
-                  ),
-                ],
-              ),
-              delay: delayedAmount + 600,
-            ),
-            SizedBox(height: 15.0),
-            DelayedAnimation(
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(title: Constants.appName)));
-                },
-                child: AvatarGlow(
-                  endRadius: 100,
-                  duration: Duration(seconds: 2),
-                  glowColor: Colors.white24,
-                  repeat: true,
-                  repeatPauseDuration: Duration(seconds: 1),
-                  startDelay: Duration(seconds: 1),
-                  child: Material(
-                      elevation: 8.0,
-                      shape: CircleBorder(),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey[100],
-                        child: Image.asset('assets/images/ApitepBearLogo.png', height: 90),
-                        radius: 70.0,
-                      )),
+      body: GetBuilder<AppController>(
+        init: AppController(),
+        initState: (_) {
+          AppController.to.init();
+        },
+        builder: (_) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 60.0,
                 ),
-              ),
-              delay: delayedAmount + 200,
-            ),
-            SizedBox(height: 5.0),
-            DelayedAnimation(
-              child: Text(
-                Constants.appName,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
-              ),
-              delay: delayedAmount + 1350,
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(),
-            ),
-            SizedBox(height: 15.0),
-            DelayedAnimation(
-              delay: delayedAmount + 1600,
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset('assets/images/ecoleloisirslogo.png', height: 70),
+                DelayedAnimation(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset('assets/images/ApitecLogo.png', height: 40),
+                      Text(
+                        "Apprendre à petit pas",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
+                      ),
+                    ],
                   ),
-                  Center(
-                    child: Text(
-                      "avec les albums animés\noffert par l'école des loisirs",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
+                  delay: delayedAmount + 600,
+                ),
+                SizedBox(height: 15.0),
+                DelayedAnimation(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(title: Constants.appName)));
+                    },
+                    child: AvatarGlow(
+                      endRadius: 100,
+                      duration: Duration(seconds: 2),
+                      glowColor: Colors.white24,
+                      repeat: true,
+                      repeatPauseDuration: Duration(seconds: 1),
+                      startDelay: Duration(seconds: 1),
+                      child: Material(
+                          elevation: 8.0,
+                          shape: CircleBorder(),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey[100],
+                            child: Image.asset('assets/images/ApitepBearLogo.png', height: 90),
+                            radius: 70.0,
+                          )),
                     ),
                   ),
-                ],
-              ),
+                  delay: delayedAmount + 200,
+                ),
+                SizedBox(height: 5.0),
+                DelayedAnimation(
+                  child: Text(
+                    Constants.appName,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
+                  ),
+                  delay: delayedAmount + 1350,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(),
+                ),
+                SizedBox(height: 15.0),
+                DelayedAnimation(
+                  delay: delayedAmount + 1600,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/images/ecoleloisirslogo.png', height: 70),
+                      ),
+                      Center(
+                        child: Text(
+                          "avec les albums animés\noffert par l'école des loisirs",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20.0),
+              ],
             ),
-            SizedBox(height: 20.0),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

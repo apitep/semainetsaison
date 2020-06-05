@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/season.dart';
@@ -16,7 +17,11 @@ class SeasonService {
     dynamic _response;
 
     _response = await http.get(seasonUrl);
-    if (_response.statusCode == 200) jsondata = _response.body;
+    if (_response == null) {
+      Get.snackbar("Erreur", "impossible d'accéder à l'url: $seasonUrl");
+    } else {
+      if (_response.statusCode == 200) jsondata = _response.body;
+    }
 
     return parseSeasons(jsondata);
   }

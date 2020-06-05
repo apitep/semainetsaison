@@ -10,7 +10,6 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 
 import '../constants.dart';
 import '../models/wagon_question.dart';
-import '../models/events.dart';
 import '../models/season.dart';
 import '../models/month.dart';
 import '../models/story.dart';
@@ -18,11 +17,7 @@ import '../services/season_service.dart';
 
 class AppProvider extends ChangeNotifier {
   AppProvider() {
-    initPlayer();
-    initTts();
     fetchData();
-    musicBackground(true);
-    handleEvents();
   }
 
   FlutterTts flutterTts;
@@ -37,13 +32,6 @@ class AppProvider extends ChangeNotifier {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   String appVersion;
-
-  bool _isMusicPlaying = false;
-  bool get isMusicPlaying => _isMusicPlaying;
-  set isMusicPlaying(bool newValue) {
-    _isMusicPlaying = newValue;
-    notifyListeners();
-  }
 
   bool _isfetching = false;
   bool get isfetching => _isfetching;
@@ -61,12 +49,6 @@ class AppProvider extends ChangeNotifier {
 
   Story get randomStory {
     return stories[Random().nextInt(stories.length)];
-  }
-
-  void handleEvents() {
-    eventBus.on<MusicBackground>().listen((event) {
-      musicBackground(event.on);
-    });
   }
 
   //
@@ -99,11 +81,6 @@ class AppProvider extends ChangeNotifier {
   void initPlayer() {
     assetsAudioPlayer.open(Audio(Constants.kBackgroundAudioLow));
     assetsAudioPlayer.loop = true;
-  }
-
-  void musicBackground(bool play) {
-    play ? assetsAudioPlayer.play() : assetsAudioPlayer.pause();
-    isMusicPlaying = play;
   }
 
   void setKey(value) {
