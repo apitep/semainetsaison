@@ -78,11 +78,6 @@ class AppProvider extends ChangeNotifier {
     return parsed.map<Story>((json) => Story.fromJson(json)).toList();
   }
 
-  void initPlayer() {
-    assetsAudioPlayer.open(Audio(Constants.kBackgroundAudioLow));
-    assetsAudioPlayer.loop = true;
-  }
-
   void setKey(value) {
     key = value;
     notifyListeners();
@@ -104,22 +99,5 @@ class AppProvider extends ChangeNotifier {
 
   List<WagonQuestion> loadTrain(List<String> items) {
     return items.map((item) => WagonQuestion.wagon(item)).toList()..first.loco = true;
-  }
-
-  void initTts() async {
-    if (Platform.isMacOS) return;
-
-    flutterTts = FlutterTts();
-    flutterTts.setLanguage('fr-FR');
-    await flutterTts.isLanguageAvailable('fr-FR');
-    flutterTts.setSpeechRate(.4);
-    flutterTts.setVolume(1.0);
-    flutterTts.setPitch(.8);
-
-    flutterTts = FlutterTts();
-  }
-
-  void speak(String textToSpeak) async {
-    await flutterTts.speak(textToSpeak);
   }
 }

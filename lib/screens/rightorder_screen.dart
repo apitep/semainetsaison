@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:confetti/confetti.dart';
-import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../models/story.dart';
-import '../providers/app_provider.dart';
+import '../controllers/app_controller.dart';
+import '../controllers/sound_controller.dart';
 import '../widgets/topbar.dart';
 import '../widgets/orderable_stack/orderable_stack.dart';
 import '../widgets/orderable_stack/orderable.dart';
@@ -25,12 +25,12 @@ class RightOrderScreen extends StatefulWidget {
 }
 
 class _RightOrderScreenState extends State<RightOrderScreen> {
-  AppProvider appProvider;
+  SoundController soundController = AppController.to.soundController;
   ConfettiController _confettiController;
   ValueNotifier<String> orderNotifier = ValueNotifier<String>('');
 
-  final String kDescriptionDays = "Glisse les jours de la semaine dans le bon ordre";
-  final String kDescriptionMonths = "Glisse les mois de l'année dans le bon ordre";
+  final String kDescriptionDays = "Fais glisser les jours de la semaine dans le bon ordre";
+  final String kDescriptionMonths = "Fais glisser les mois de l'année dans le bon ordre";
 
   @override
   void initState() {
@@ -46,8 +46,6 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    appProvider = Provider.of<AppProvider>(context);
-
     return Stack(
       children: <Widget>[
         Container(
@@ -91,9 +89,9 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
               onPressed: () {
                 setState(() {
                   if (widget.rightOrder.length == 7) {
-                    appProvider.speak(kDescriptionDays);
+                    soundController.speak(kDescriptionDays);
                   } else {
-                    appProvider.speak(kDescriptionMonths);
+                    soundController.speak(kDescriptionMonths);
                   }
                 });
               },

@@ -3,7 +3,6 @@ import "dart:math";
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
@@ -11,7 +10,8 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import '../constants.dart';
 import '../widgets/topbar.dart';
 import '../widgets/train/train_slider.dart';
-import '../providers/app_provider.dart';
+import '../controllers/app_controller.dart';
+import '../controllers/sound_controller.dart';
 import '../models/wagon_question.dart';
 import '../models/story.dart';
 import '../screens/fourseason_screen.dart';
@@ -29,7 +29,8 @@ class TrainScreen extends StatefulWidget {
 }
 
 class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainScreen> {
-  AppProvider appProvider;
+  SoundController soundController = AppController.to.soundController;
+
   ConfettiController _confettiController;
   List<WagonQuestion> train;
   ValueNotifier<int> nbGoodAnswers = ValueNotifier<int>(0);
@@ -50,7 +51,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
   void afterFirstLayout(BuildContext context) {
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundTrainVapeur));
     Timer(Duration(seconds: 6), () {
-      appProvider.speak(widget.exerciceDescription);
+      soundController.speak(widget.exerciceDescription);
     });
   }
 
@@ -85,8 +86,6 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
 
   @override
   Widget build(BuildContext context) {
-    appProvider = Provider.of<AppProvider>(context);
-
     return Stack(
       children: <Widget>[
         Container(
@@ -133,7 +132,7 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
               heroTag: null,
               onPressed: () {
                 setState(() {
-                  appProvider.speak(widget.exerciceDescription);
+                  soundController.speak(widget.exerciceDescription);
                 });
               },
               child: Icon(Icons.volume_up, size: 34),
