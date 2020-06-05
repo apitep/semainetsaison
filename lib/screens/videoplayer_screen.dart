@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 
 import 'package:video_player/video_player.dart';
 
+import '../controllers/app_controller.dart';
+import '../controllers/sound_controller.dart';
 import '../screens/home_screen.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
@@ -18,6 +20,7 @@ class VideoPlayerScreen extends StatefulWidget {
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+  SoundController soundController = AppController.to.soundController;
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
 
@@ -25,6 +28,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   void initState() {
+    soundController.musicBackground(false);
     _controller = VideoPlayerController.network(widget.url);
 
     _initializeVideoPlayerFuture = _controller.initialize();

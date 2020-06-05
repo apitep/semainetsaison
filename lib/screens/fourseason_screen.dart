@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:confetti/confetti.dart';
 import 'package:provider/provider.dart';
-import '../models/events.dart';
-import 'package:semainetsaison/widgets/season/target_month.dart';
 
 import '../constants.dart';
+import '../controllers/app_controller.dart';
+import '../controllers/sound_controller.dart';
 import '../providers/app_provider.dart';
 import '../models/story.dart';
 import '../widgets/season/draggable_month.dart';
+import '../widgets/season/target_month.dart';
 import '../widgets/topbar.dart';
 import '../screens/videoplayer_screen.dart';
 
@@ -167,7 +168,6 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
   _success() async {
     appProvider.initMonths();
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    eventBus.fire(MusicBackground(false));
     _confettiController.play();
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
     await widget.story.getStreamingUrls();
