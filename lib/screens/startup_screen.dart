@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 
-import '../providers/app_provider.dart';
 import '../constants.dart';
 import '../controllers/app_controller.dart';
 import '../widgets/delayed_animation.dart';
@@ -21,7 +20,6 @@ class StartupScreen extends StatefulWidget {
 class _StartupScreenState extends State<StartupScreen> with SingleTickerProviderStateMixin {
   final int delayedAmount = 400;
   AnimationController controllerAnimation;
-  AppProvider appProvider;
 
   @override
   void initState() {

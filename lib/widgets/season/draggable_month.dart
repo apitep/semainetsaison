@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/app_provider.dart';
 import '../../models/month.dart';
 
 class DraggableMonth extends StatefulWidget {
@@ -18,7 +16,6 @@ class DraggableMonth extends StatefulWidget {
 
 class DraggableMonthState extends State<DraggableMonth> {
   Offset position = Offset(0.0, 0.0);
-    AppProvider appProvider;
 
   @override
   void initState() {
@@ -28,8 +25,6 @@ class DraggableMonthState extends State<DraggableMonth> {
 
   @override
   Widget build(BuildContext context) {
-    appProvider = Provider.of<AppProvider>(context);
-
     return Draggable(
       data: widget.month,
       onDraggableCanceled: (velocity, offset) {
