@@ -68,9 +68,9 @@ class SoundController extends RxController {
     flutterTts = FlutterTts();
     flutterTts.setLanguage('fr-FR');
     await flutterTts.isLanguageAvailable('fr-FR');
-    flutterTts.setSpeechRate(.4);
-    flutterTts.setVolume(1.0);
-    flutterTts.setPitch(.8);
+    await flutterTts.setSpeechRate(0.8);
+    await flutterTts.setVolume(1.0);
+    await flutterTts.setPitch(1.0);
 
     flutterTts = FlutterTts();
   }

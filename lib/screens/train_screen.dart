@@ -3,7 +3,6 @@ import "dart:math";
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:after_layout/after_layout.dart';
 import 'package:confetti/confetti.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 
@@ -28,7 +27,7 @@ class TrainScreen extends StatefulWidget {
   _TrainScreenState createState() => _TrainScreenState();
 }
 
-class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainScreen> {
+class _TrainScreenState extends State<TrainScreen> {
   SoundController soundController = AppController.to.soundController;
 
   ConfettiController _confettiController;
@@ -44,15 +43,11 @@ class _TrainScreenState extends State<TrainScreen> with AfterLayoutMixin<TrainSc
     nbGoodAnswers.addListener(() {
       if (nbGoodAnswers.value == nbQuestions) _success();
     });
-    super.initState();
-  }
-
-  @override
-  void afterFirstLayout(BuildContext context) {
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundTrainVapeur));
     Timer(Duration(seconds: 6), () {
       soundController.speak(widget.exerciceDescription);
     });
+    super.initState();
   }
 
   @override
