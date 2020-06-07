@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'screens/startup_screen.dart';
+import 'screens/onboarding_screen.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(
@@ -20,6 +22,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       namedRoutes: {
         '/': GetRoute(page: StartupScreen()),
+        '/onboarding': GetRoute(page: OnBoardingScreen()),
+        '/home': GetRoute(page: HomeScreen()),
       },
     );
   }

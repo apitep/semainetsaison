@@ -72,7 +72,7 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
                 DelayedAnimation(
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(title: Constants.appName)));
+                      Get.toNamed("/onboarding");
                     },
                     child: AvatarGlow(
                       endRadius: 100,

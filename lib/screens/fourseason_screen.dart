@@ -166,7 +166,7 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
     await widget.story.getStreamingUrls();
     AppController.to.initMonths();
 
-    Timer(Duration(seconds: 5), () {
+    Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
