@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:auto_animated/auto_animated.dart';
+import 'package:get/get.dart';
 
 import '../constants.dart';
 import '../controllers/app_controller.dart';
@@ -47,9 +48,19 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
     exerciceRoutes = [
       RightOrderScreen(story: AppController.to.randomStory, rightOrder: Constants.days),
       RightOrderScreen(story: AppController.to.randomStory, rightOrder: Constants.months),
-      TrainScreen(story: AppController.to.randomStory, wagons: Constants.days, nbWagons: 3, exerciceDescription: 'complète le petit train avec les jours de la semaine',),
-      TrainScreen(story: AppController.to.randomStory, wagons: Constants.months, nbWagons: 3, exerciceDescription: "complète le petit train avec les mois de l'année"),
-      TrainScreen(story: AppController.to.randomStory, wagons: Constants.kSeasons[Random().nextInt(Constants.kSeasons.length)], nbWagons: 4, exerciceDescription: 'complète le petit train avec les mois qui correspondent à la saison'),
+      TrainScreen(
+        story: AppController.to.randomStory,
+        wagons: Constants.days,
+        nbWagons: 3,
+        exerciceDescription: 'complète le petit train avec les jours de la semaine',
+      ),
+      TrainScreen(
+          story: AppController.to.randomStory, wagons: Constants.months, nbWagons: 3, exerciceDescription: "complète le petit train avec les mois de l'année"),
+      TrainScreen(
+          story: AppController.to.randomStory,
+          wagons: Constants.kSeasons[Random().nextInt(Constants.kSeasons.length)],
+          nbWagons: 4,
+          exerciceDescription: 'complète le petit train avec les mois qui correspondent à la saison'),
       FourSeasonScreen(story: AppController.to.randomStory),
     ];
 
@@ -140,7 +151,9 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
       if (index == 1) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(title: Constants.appName)));
       }
+      if (index == 2) {
+        Get.toNamed('/onboarding');
+      }
     });
   }
-
 }

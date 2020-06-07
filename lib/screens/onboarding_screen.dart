@@ -26,9 +26,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 19.0);
+    const bodyStyle = TextStyle(fontSize: 16.0);
     const pageDecoration = const PageDecoration(
-      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
+      titleTextStyle: TextStyle(fontSize: 26.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Colors.white,
@@ -40,27 +40,28 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         key: introKey,
         pages: [
           PageViewModel(
-            title: "Bienvenue",
-            body: "Instead of having to buy an entire share, invest any amount you want.",
-            image: _buildImage('images/ete'),
+            title: "Bienvenue à bord !",
+            body: "Cette application va aider votre enfant à apprendre les jours de la semaine, les mois et les saisons.",
+            image: _buildImage('onboard/01'),
             decoration: pageDecoration,
           ),
           PageViewModel(
-            title: "Learn as you go",
-            body: "Download the Stockpile app and master the market with our mini-lesson.",
-            image: _buildImage('images/ete'),
+            title: "Une série d'exercices",
+            body: "Pour l'inciter à faire les exercices, il commence par choisir l'album animé qu'il pourra regardé quand il aura terminé.",
+            image: _buildImage('onboard/02'),
             decoration: pageDecoration,
           ),
           PageViewModel(
-            title: "Kids and teens",
-            body: "Kids and teens can track their stocks 24/7 and place trades that you approve.",
-            image: _buildImage('images/ete'),
+            title: "L'école des loisirs",
+            body:
+                "Ces albums animés sont disponibles gràce à la formidable initiative de l'école des loisirs qui les mets librement à disposition de tous les enfants petits et grands.",
+            image: _buildImage('onboard/03'),
             decoration: pageDecoration,
           ),
           PageViewModel(
             title: "Another title page",
             body: "Another beautiful body text for this example onboarding",
-            image: _buildImage('images/ete'),
+            image: _buildImage('onboard/04'),
             footer: RaisedButton(
               onPressed: () {
                 introKey.currentState?.animateScroll(0);
@@ -86,7 +87,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 Text(" to edit a post", style: bodyStyle),
               ],
             ),
-            image: _buildImage('images/ete'),
+            image: _buildImage('onboard/05'),
             decoration: pageDecoration,
           ),
         ],
@@ -95,9 +96,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         showSkipButton: true,
         skipFlex: 0,
         nextFlex: 0,
-        skip: const Text('Skip'),
+        skip: const Text('Passer'),
         next: const Icon(Icons.arrow_forward),
-        done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+        done: const Text('Terminer', style: TextStyle(fontWeight: FontWeight.w600)),
         dotsDecorator: const DotsDecorator(
           size: Size(10.0, 10.0),
           color: Color(0xFFBDBDBD),
