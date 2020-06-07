@@ -1,5 +1,17 @@
 [
   {
+    "title": "Capitaine Maman",
+    "author": "Magali Arnal",
+    "videoUrl": "https://player.vimeo.com/video/419375978/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/capitainemaman.jpg"
+  },
+  {
+    "title": "Ami-Ami",
+    "author": "Rascal et Stéphane Girel",
+    "videoUrl": "https://player.vimeo.com/video/425759975/config",
+    "thumbUrl": "https://raw.githubusercontent.com/apitep/semainetsaison/master/assets/thumbs/amiami.jpg"
+  },
+  {
     "title": "Le prince tigre",
     "author": "Chen Jiang Hong",
     "videoUrl": "https://player.vimeo.com/video/423517705/config",
