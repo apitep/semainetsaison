@@ -18,7 +18,7 @@ class SeasonService {
 
     _response = await http.get(seasonUrl);
     if (_response == null) {
-      Get.snackbar("Erreur", "impossible d'accéder à l'url: $seasonUrl");
+      Get.snackbar("SeasonService:Erreur", "impossible d'accéder à l'url: $seasonUrl");
     } else {
       if (_response.statusCode == 200) jsondata = _response.body;
     }
@@ -29,8 +29,14 @@ class SeasonService {
   List<Season> parseSeasons(String jsondata) {
     if (jsondata == null) return [];
 
-    var resp = json.decode(jsondata);
-    if (resp != null) return resp.map<Season>((json) => Season.fromJson(json)).toList();
+    dynamic _response;
+
+    _response = json.decode(jsondata);
+    if (_response == null) {
+      Get.snackbar("SeasonService:Erreur", "impossible de décoder le json: $jsondata");
+    } else {
+      return _response.map<Season>((json) => Season.fromJson(json)).toList();
+    }
 
     return [];
   }

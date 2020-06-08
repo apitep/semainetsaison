@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
@@ -22,6 +23,8 @@ class AppController extends GetController {
   List<Season> seasons = List<Season>();
   List<Month> months = List<Month>();
 
+  bool displayOnBoard = true;
+
   Story get randomStory {
     return stories[Random().nextInt(stories.length)];
   }
@@ -29,9 +32,10 @@ class AppController extends GetController {
   final isfetching = false.obs;
   final nbSuccess = 0.0.obs;
 
-  void init() {
+  void init() async {
     soundController = Get.put<SoundController>(SoundController());
     soundController.init();
+    displayOnBoard = await getDisplayOnBoard();
     fetchData();
   }
 
@@ -73,5 +77,16 @@ class AppController extends GetController {
 
   List<WagonQuestion> loadTrain(List<String> items) {
     return items.map((item) => WagonQuestion.wagon(item)).toList()..first.loco = true;
+  }
+
+  void setDisplayOnBoard(bool value) async {
+    LocalStorageInterface prefs = await LocalStorage.getInstance();
+    await prefs.setBool('displayOnBoard', value);
+  }
+
+  Future<bool> getDisplayOnBoard() async {
+    LocalStorageInterface prefs = await LocalStorage.getInstance();
+    bool value = prefs.getBool('displayOnBoard') ?? true;
+    return value;
   }
 }

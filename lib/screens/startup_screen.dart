@@ -6,7 +6,6 @@ import 'package:avatar_glow/avatar_glow.dart';
 import '../constants.dart';
 import '../controllers/app_controller.dart';
 import '../widgets/delayed_animation.dart';
-import 'home_screen.dart';
 
 class StartupScreen extends StatefulWidget {
   const StartupScreen({Key key}) : super(key: key);
@@ -38,7 +37,6 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Constants.kColorBgStart,
       body: GetBuilder<AppController>(
@@ -72,7 +70,11 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
                 DelayedAnimation(
                   child: InkWell(
                     onTap: () {
-                      Get.toNamed("/onboarding");
+                      if (AppController.to.displayOnBoard) {
+                        Get.toNamed("/onboarding");
+                      } else {
+                        Get.toNamed("/home");
+                      }
                     },
                     child: AvatarGlow(
                       endRadius: 100,
