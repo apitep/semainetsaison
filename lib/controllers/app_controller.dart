@@ -89,4 +89,11 @@ class AppController extends GetController {
     bool value = prefs.getBool('displayOnBoard') ?? true;
     return value;
   }
+
+  List<String> getRandomSeason() {
+    int selected = pick(0, Constants.kSeasons.length-1);
+    return Constants.kSeasons[selected];
+  }
+
+  int pick(int a, int b) => a + Random().nextInt(b - a + 1);
 }

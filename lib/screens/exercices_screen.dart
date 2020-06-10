@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:auto_animated/auto_animated.dart';
 import 'package:get/get.dart';
@@ -30,8 +28,6 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
   int _currentIndex = 0;
   var exerciceRoutes = [];
 
-  int pick(int a, int b) => a + Random().nextInt(b - a + 1);
-
   final options = LiveOptions(
     delay: Duration(milliseconds: 50),
     showItemInterval: Duration(milliseconds: 100),
@@ -42,13 +38,6 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
 
   @override
   void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    int selected = pick(0, Constants.kSeasons.length);
-    List<String> season = Constants.kSeasons[selected];
     exerciceRoutes = [
       RightOrderScreen(story: AppController.to.randomStory, rightOrder: Constants.days),
       RightOrderScreen(story: AppController.to.randomStory, rightOrder: Constants.months),
@@ -62,12 +51,17 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
           story: AppController.to.randomStory, wagons: Constants.months, nbWagons: 3, exerciceDescription: "complète le petit train avec les mois de l'année"),
       TrainScreen(
           story: AppController.to.randomStory,
-          wagons: season,
+          wagons: AppController.to.getRandomSeason(),
           nbWagons: 4,
           exerciceDescription: 'complète le petit train avec les mois qui correspondent à la saison'),
       FourSeasonScreen(story: AppController.to.randomStory),
     ];
 
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.kColorBgStart,
       appBar: topBar(context, Constants.kTitle),
