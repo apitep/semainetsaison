@@ -61,11 +61,13 @@ class _TrainScreenState extends State<TrainScreen> {
     var selectedItems = List<String>();
     int start;
 
-    if (nbItems <= items.length) {
-      selectedItems = items.getRange(0, nbItems).toList();
-    } else {
-      start = Random().nextInt(items.length - nbItems);
+    if (nbItems < items.length) {
+      //start = Random().nextInt(items.length - nbItems);
+      start = pick(0, items.length - nbItems);
       selectedItems = items.getRange(start, start + nbItems).toList();
+    } else {
+      start = pick(0, items.length);
+      selectedItems = items.getRange(0, nbItems).toList();
     }
 
     selectedItems.forEach((item) {
@@ -78,6 +80,8 @@ class _TrainScreenState extends State<TrainScreen> {
 
     return train;
   }
+
+  int pick(int a, int b) => a + Random().nextInt(b - a + 1);
 
   @override
   Widget build(BuildContext context) {
@@ -173,12 +177,14 @@ class _TrainScreenState extends State<TrainScreen> {
       }
 
       if (widget.wagons == Constants.months) {
+        int selected = pick(0, Constants.kSeasons.length);
+        List<String> season = Constants.kSeasons[selected];
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => TrainScreen(
               story: widget.story,
-              wagons: Constants.kSeasons[Random().nextInt(Constants.kSeasons.length)],
+              wagons: season,
               nbWagons: 4,
               exerciceDescription: "complète le petit train avec les mois qui correspondent à la saison",
             ),
