@@ -43,6 +43,7 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
         init: AppController(),
         initState: (_) {
           AppController.to.init();
+          print(Get.height);
         },
         builder: (_) {
           return Center(
@@ -50,23 +51,23 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 60.0,
+                  height: (Get.height < 400) ? 40 : 60,
                 ),
                 DelayedAnimation(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Image.asset('assets/images/ApitecLogo.png', height: 40),
+                      Image.asset('assets/images/ApitecLogo.png', height: (Get.height < 400) ? 20 : 40),
                       Text(
                         "Apprendre à petit pas",
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
+                        style: TextStyle(fontSize: (Get.height < 400) ? 11 : 14, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
                       ),
                     ],
                   ),
                   delay: delayedAmount + 600,
                 ),
-                SizedBox(height: 15.0),
+                SizedBox(height: (Get.height < 400) ? 2 : 15),
                 DelayedAnimation(
                   child: InkWell(
                     onTap: () {
@@ -77,7 +78,7 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
                       }
                     },
                     child: AvatarGlow(
-                      endRadius: 100,
+                      endRadius: (Get.height < 400) ? 60 : 100,
                       duration: Duration(seconds: 2),
                       glowColor: Colors.white24,
                       repeat: true,
@@ -88,8 +89,8 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
                           shape: CircleBorder(),
                           child: CircleAvatar(
                             backgroundColor: Colors.grey[100],
-                            child: Image.asset('assets/images/ApitepBearLogo.png', height: 90),
-                            radius: 70.0,
+                            child: Image.asset('assets/images/ApitepBearLogo.png', height: (Get.height < 400) ? 50 : 90),
+                            radius: (Get.height < 400) ? 40.0 : 70.0,
                           )),
                     ),
                   ),
@@ -100,7 +101,7 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
                   child: Text(
                     Constants.appName,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
+                    style: TextStyle(fontSize: (Get.height < 400) ? 13 : 21, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
                   ),
                   delay: delayedAmount + 1350,
                 ),
@@ -108,20 +109,20 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
                   flex: 1,
                   child: Container(),
                 ),
-                SizedBox(height: 15.0),
+                SizedBox(height: (Get.height < 400) ? 2 : 15),
                 DelayedAnimation(
                   delay: delayedAmount + 1600,
                   child: Column(
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Image.asset('assets/images/ecoleloisirslogo.png', height: 70),
+                        child: Image.asset('assets/images/ecoleloisirslogo.png', height: (Get.height < 400) ? 30 : 70),
                       ),
                       Center(
                         child: Text(
                           "avec les albums animés\noffert par l'école des loisirs",
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
+                          style: TextStyle(fontSize: (Get.height < 400) ? 11 : 14, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
                         ),
                       ),
                     ],
