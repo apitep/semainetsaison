@@ -10,7 +10,7 @@ import '../widgets/topbar.dart';
 import '../screens/home_screen.dart';
 import '../screens/fourseason_screen.dart';
 import '../screens/train_screen.dart';
-import '../screens/rightorder_screen.dart';
+import 'months_order_screen.dart';
 
 const kExerciceNames = ["L'ordre des jours", "L'ordre des mois", "Le train des jours", "Le train des mois", "Le train des saisons", "Les 4 saisons"];
 const kExerciceColors = [Colors.amber, Colors.blue, Colors.brown, Colors.green, Colors.pink, Colors.purple];
@@ -40,22 +40,21 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
   @override
   void initState() {
     exerciceRoutes = [
-      RightOrderScreen(story: AppController.to.randomStory, rightOrder: Constants.days),
-      DaysOrderScreen(),
-      //RightOrderScreen(story: AppController.to.randomStory, rightOrder: Constants.months),
+      DaysOrderScreen(story: AppController.to.randomStory),
+      MonthsOrderScreen(story: AppController.to.randomStory),
       TrainScreen(
         story: AppController.to.randomStory,
         wagons: Constants.days,
         nbWagons: 3,
-        exerciceDescription: 'Complète le train avec les jours de la semaine',
+        exerciceDescription: 'Complète le train avec les jours de la semaine.',
       ),
       TrainScreen(
-          story: AppController.to.randomStory, wagons: Constants.months, nbWagons: 3, exerciceDescription: "Complète le train avec les mois de l'année"),
+          story: AppController.to.randomStory, wagons: Constants.months, nbWagons: 3, exerciceDescription: "Complète le train avec les mois de l'année."),
       TrainScreen(
           story: AppController.to.randomStory,
           wagons: AppController.to.getRandomSeason(),
           nbWagons: 4,
-          exerciceDescription: 'Complète le train avec les mois de la saison'),
+          exerciceDescription: 'Complète le train avec les mois de la saison.'),
       FourSeasonScreen(story: AppController.to.randomStory),
     ];
 

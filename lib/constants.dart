@@ -27,6 +27,9 @@ class Constants {
   static final Widget kApitepLogo = Image.asset('assets/images/ApitepBearLogo.png', height: 100);
   static final Widget kVictoryBadge = Image.asset('assets/images/VictoryBadge.png', height: 35);
 
+  static const String descriptionDays = "Fais glisser les jours de la semaine dans le bon ordre";
+  static const String descriptionMonths = "Fais glisser les mois de l'année dans le bon ordre";
+
   static final List<String> months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
   static final List<String> days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
   static final List<List<String>> kSeasons = [

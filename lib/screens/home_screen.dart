@@ -9,6 +9,7 @@ import '../controllers/app_controller.dart';
 import '../models/story.dart';
 import '../widgets/topbar.dart';
 import '../widgets/responsive_widget.dart';
+import 'days_order_screen.dart';
 import 'rightorder_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -150,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onlyOkButton: true,
         onOkButtonPressed: () {
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => RightOrderScreen(story: story, rightOrder: Constants.days)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => DaysOrderScreen(story: story)));
         },
       ),
     );

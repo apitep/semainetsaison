@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:clippy_flutter/clippy_flutter.dart';
 
 class OrderableContainer extends StatefulWidget {
   bool isPositionRight;
@@ -32,8 +31,8 @@ class _OrderableContainerState extends State<OrderableContainer> {
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(0.0),
           bottomLeft: const Radius.circular(0.0),
-          topRight: const Radius.circular(30.0),
-          bottomRight: const Radius.circular(30.0),
+          topRight: const Radius.elliptical(150, 70),
+          bottomRight: const Radius.elliptical(150, 70),
         ),
         boxShadow: [
           BoxShadow(
@@ -49,15 +48,15 @@ class _OrderableContainerState extends State<OrderableContainer> {
       ),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          padding: const EdgeInsets.all(6.0),
+          child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             Material(
               color: Colors.transparent, // button color
-              child: Icon(Icons.calendar_today, color: Colors.white, size: 25),
+              child: Icon(Icons.calendar_today, color: Colors.white, size: 20),
             ),
             Text(
               "${widget.value}",
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
+              style: TextStyle(fontSize: 16.0, color: Colors.white),
             )
           ]),
         ),

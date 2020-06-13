@@ -12,17 +12,17 @@ import '../constants.dart';
 import '../widgets/topbar.dart';
 import '../widgets/orderable_container.dart';
 import '../models/story.dart';
-import 'months_order_screen.dart';
+import '../screens/train_screen.dart';
 
-class DaysOrderScreen extends StatefulWidget {
-  DaysOrderScreen({Key key, this.story}) : super(key: key);
+class MonthsOrderScreen extends StatefulWidget {
+  MonthsOrderScreen({Key key, this.story}) : super(key: key);
   final Story story;
 
   @override
-  _DaysOrderScreenState createState() => _DaysOrderScreenState();
+  _MonthsOrderScreenState createState() => _MonthsOrderScreenState();
 }
 
-class _DaysOrderScreenState extends State<DaysOrderScreen> {
+class _MonthsOrderScreenState extends State<MonthsOrderScreen> {
   ConfettiController _confettiController;
   final tiles = List<OrderableContainer>().obs;
 
@@ -30,8 +30,8 @@ class _DaysOrderScreenState extends State<DaysOrderScreen> {
   void initState() {
     super.initState();
     _confettiController = ConfettiController(duration: const Duration(seconds: 1));
-    Constants.days.forEach((item) {
-      tiles.add(OrderableContainer(value: item, isPositionRight: true, size: const Size(145, 50)));
+    Constants.months.forEach((item) {
+      tiles.add(OrderableContainer(value: item, isPositionRight: true, size: const Size(150, 40)));
     });
   }
 
@@ -45,7 +45,7 @@ class _DaysOrderScreenState extends State<DaysOrderScreen> {
     int index = 0;
     int nbGoodPosition = 0;
     tiles.forEach((item) {
-      if (Constants.days[index] == item.value) {
+      if (Constants.months[index] == item.value) {
         item.isPositionRight = true;
         nbGoodPosition++;
       } else {
@@ -82,24 +82,26 @@ class _DaysOrderScreenState extends State<DaysOrderScreen> {
           backgroundColor: Colors.white.withOpacity(.7),
           appBar: topBar(context, Constants.kTitle),
           body: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ReorderableWrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  needsLongPressDraggable: false,
-                  spacing: 20.0,
-                  runSpacing: 30.0,
-                  padding: const EdgeInsets.all(20),
-                  children: tiles.value,
-                  onReorder: _onReorder,
-                  onReorderStarted: (int index) {
-                    AppController.to.soundController.speak(tiles[index].value);
-                  },
-                ),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ReorderableWrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    needsLongPressDraggable: false,
+                    spacing: 20.0,
+                    runSpacing: 20.0,
+                    padding: const EdgeInsets.all(20),
+                    children: tiles.value,
+                    onReorder: _onReorder,
+                    onReorderStarted: (int index) {
+                      AppController.to.soundController.speak(tiles[index].value);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           floatingActionButton: Padding(
@@ -108,7 +110,7 @@ class _DaysOrderScreenState extends State<DaysOrderScreen> {
               heroTag: null,
               onPressed: () {
                 setState(() {
-                  AppController.to.soundController.speak(Constants.descriptionDays);
+                  AppController.to.soundController.speak(Constants.descriptionMonths);
                 });
               },
               child: Icon(Icons.volume_up, size: 34),
@@ -138,7 +140,17 @@ class _DaysOrderScreenState extends State<DaysOrderScreen> {
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp)); //play sound levelUp
 
     Timer(Duration(seconds: 4), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MonthsOrderScreen(story: widget.story)));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TrainScreen(
+            story: widget.story,
+            wagons: Constants.days,
+            nbWagons: 3,
+            exerciceDescription: 'Complète le petit train avec les jours de la semaine.',
+          ),
+        ),
+      );
     });
   }
 }
