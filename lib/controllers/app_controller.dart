@@ -91,8 +91,12 @@ class AppController extends GetController {
   }
 
   List<String> getRandomSeason() {
-    int selected = pick(0, Constants.kSeasons.length-1);
+    int selected = pick(0, Constants.kSeasons.length - 1);
     return Constants.kSeasons[selected];
+  }
+
+  bool isPortrait() {
+    return (Get.width > Get.height);
   }
 
   int pick(int a, int b) => a + Random().nextInt(b - a + 1);

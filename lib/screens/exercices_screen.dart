@@ -65,20 +65,23 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
     return Scaffold(
       backgroundColor: Constants.kColorBgStart,
       appBar: topBar(context, Constants.kTitle),
-      body: Center(
-        child: AppController.to.isfetching.value
-            ? CircularProgressIndicator()
-            : LiveGrid.options(
-                options: options,
-                itemBuilder: buildAnimatedItem,
-                itemCount: kExerciceNames.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: ResponsiveWidget.isLargeScreen(context) ? 5 : ResponsiveWidget.isSmallScreen(context) ? 2 : 5,
-                  crossAxisSpacing: 1,
-                  mainAxisSpacing: 1,
+      body: OrientationBuilder(builder: (context, orientation) {
+        return Center(
+          child: AppController.to.isfetching.value
+              ? CircularProgressIndicator()
+              : LiveGrid.options(
+                  options: options,
+                  itemBuilder: buildAnimatedItem,
+                  itemCount: kExerciceNames.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: orientation == Orientation.landscape ? 2 : 1,
+                    crossAxisCount: orientation == Orientation.landscape ? 3 : 2,
+                    crossAxisSpacing: 0,
+                    mainAxisSpacing: 0,
+                  ),
                 ),
-              ),
-      ),
+        );
+      }),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped, // new
         currentIndex: _currentIndex, // this will be set when a new tab is tapped
