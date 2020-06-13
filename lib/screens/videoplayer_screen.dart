@@ -21,32 +21,33 @@ class VideoPlayerScreen extends StatefulWidget {
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   SoundController soundController = AppController.to.soundController;
-  VideoPlayerController _controller;
-  Future<void> _initializeVideoPlayerFuture;
+  VideoPlayerController videoController;
+  Future<void> initVideoPlayer;
 
   bool _visibleButtons = false;
 
   @override
   void initState() {
-    soundController.musicBackground(false);
-    _controller = VideoPlayerController.network(widget.url);
-
-    _initializeVideoPlayerFuture = _controller.initialize();
-    _controller.setLooping(false);
-    _controller.addListener(checkVideo);
     super.initState();
+
+    soundController.musicBackground(false);
+    videoController = VideoPlayerController.network(widget.url);
+
+    initVideoPlayer = videoController.initialize();
+    videoController.setLooping(false);
+    videoController.addListener(checkVideo);
 
     SystemChrome.setEnabledSystemUIOverlays([]);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    _controller.play();
+    videoController.play();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    videoController.dispose();
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
 
     if (widget.parentIsPortrait) {
@@ -70,12 +71,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: FutureBuilder(
-        future: _initializeVideoPlayerFuture,
+        future: initVideoPlayer,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Center(
               child: AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
+                aspectRatio: videoController.value.aspectRatio,
                 child: Stack(
                   alignment: Alignment.bottomCenter,
                   children: <Widget>[
@@ -85,9 +86,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           _visibleButtons = !_visibleButtons;
                         });
                       },
-                      child: VideoPlayer(_controller),
+                      child: VideoPlayer(videoController),
                     ),
-                    VideoProgressIndicator(_controller, allowScrubbing: true),
+                    VideoProgressIndicator(videoController, allowScrubbing: true),
                   ],
                 ),
               ),
@@ -121,15 +122,15 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 heroTag: null,
                 onPressed: () {
                   setState(() {
-                    if (_controller.value.isPlaying) {
-                      _controller.pause();
+                    if (videoController.value.isPlaying) {
+                      videoController.pause();
                     } else {
-                      _controller.play();
+                      videoController.play();
                     }
                   });
                 },
                 child: Icon(
-                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                  videoController.value.isPlaying ? Icons.pause : Icons.play_arrow,
                 ),
               ),
             ],
@@ -141,12 +142,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   void checkVideo() {
     // video started
-    if (_controller.value.position == Duration(seconds: 0, minutes: 0, hours: 0)) {
-      print('video Started');
+    if (videoController.value.position == Duration(seconds: 0, minutes: 0, hours: 0)) {
+      //print('video Started');
     }
 
     // video ended
-    if (_controller.value.position == _controller.value.duration) {
+    if (videoController.value.position == videoController.value.duration) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }

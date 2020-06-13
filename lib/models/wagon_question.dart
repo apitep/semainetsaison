@@ -2,9 +2,9 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 
 import '../constants.dart';
 
-const kImagePathWrong = 'assets/images/bluewagon2.png';
-const kImagePathRight = 'assets/images/greenwagon2.png';
-const kImageLocomotive = 'assets/images/blueloco2.png';
+const kImagePathWrong = 'assets/images/bluewagon.png';
+const kImagePathRight = 'assets/images/greenwagon.png';
+const kImageLocomotive = 'assets/images/blueloco.png';
 
 class WagonQuestion {
   String question;
