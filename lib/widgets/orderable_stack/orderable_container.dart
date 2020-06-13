@@ -93,7 +93,7 @@ class OrderableWidgetState<T> extends State<OrderableWidget<T>> with SingleTicke
 
   /// build horizontal or verticak drag gesture detector
   Widget buildGestureDetector({bool horizontal}) => horizontal
-      ? new GestureDetector(
+      ? GestureDetector(
           onHorizontalDragStart: startDrag,
           onHorizontalDragEnd: endDrag,
           onHorizontalDragUpdate: (event) {
@@ -104,7 +104,7 @@ class OrderableWidgetState<T> extends State<OrderableWidget<T>> with SingleTicke
           },
           child: widget.itemBuilder(data: data, itemSize: widget.itemSize),
         )
-      : new GestureDetector(
+      : GestureDetector(
           onVerticalDragStart: startDrag,
           onVerticalDragEnd: endDrag,
           onVerticalDragUpdate: (event) {

@@ -61,27 +61,13 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
         Scaffold(
           backgroundColor: Colors.white.withOpacity(.7),
           appBar: topBar(context, Constants.kTitle),
-          body: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  OrderableStack<String>(
-                    direction: Direction.Vertical,
-                    items: widget.rightOrder,
-                    itemSize: Size(170, 50),
-                    itemBuilder: itemBuilder,
-                    onChange: (List<String> orderedList) {
-                      orderNotifier.value = orderedList.toString();
-                      if (listEquals(orderedList, widget.rightOrder)) _success();
-                    },
-                  ),
-                ],
+          body: OrientationBuilder(builder: (context, orientation) {
+            return Center(
+              child: SingleChildScrollView(
+                child: orientation == Orientation.portrait ? _portraitView() : _landscapeView(),
               ),
-            ),
-          ),
+            );
+          }),
           floatingActionButton: Padding(
             padding: const EdgeInsets.all(8.0),
             child: FloatingActionButton(
@@ -157,6 +143,46 @@ class _RightOrderScreenState extends State<RightOrderScreen> {
           )
         ]),
       )),
+    );
+  }
+
+  Widget _portraitView() {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        OrderableStack<String>(
+          direction: Direction.Vertical,
+          items: widget.rightOrder,
+          itemSize: Size(170, 50),
+          itemBuilder: itemBuilder,
+          onChange: (List<String> orderedList) {
+            orderNotifier.value = orderedList.toString();
+            if (listEquals(orderedList, widget.rightOrder)) _success();
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _landscapeView() {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        OrderableStack<String>(
+          direction: Direction.Horizontal,
+          items: widget.rightOrder,
+          itemSize: Size(100, 50),
+          itemBuilder: itemBuilder,
+          onChange: (List<String> orderedList) {
+            orderNotifier.value = orderedList.toString();
+            if (listEquals(orderedList, widget.rightOrder)) _success();
+          },
+        ),
+      ],
     );
   }
 

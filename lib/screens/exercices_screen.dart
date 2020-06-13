@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:auto_animated/auto_animated.dart';
+
 import 'package:get/get.dart';
+import 'package:auto_animated/auto_animated.dart';
+import 'package:semainetsaison/screens/days_order_screen.dart';
 
 import '../constants.dart';
 import '../controllers/app_controller.dart';
 import '../widgets/topbar.dart';
-import '../widgets/responsive_widget.dart';
 import '../screens/home_screen.dart';
 import '../screens/fourseason_screen.dart';
 import '../screens/train_screen.dart';
@@ -40,20 +41,21 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
   void initState() {
     exerciceRoutes = [
       RightOrderScreen(story: AppController.to.randomStory, rightOrder: Constants.days),
-      RightOrderScreen(story: AppController.to.randomStory, rightOrder: Constants.months),
+      DaysOrderScreen(),
+      //RightOrderScreen(story: AppController.to.randomStory, rightOrder: Constants.months),
       TrainScreen(
         story: AppController.to.randomStory,
         wagons: Constants.days,
         nbWagons: 3,
-        exerciceDescription: 'complète le petit train avec les jours de la semaine',
+        exerciceDescription: 'Complète le train avec les jours de la semaine',
       ),
       TrainScreen(
-          story: AppController.to.randomStory, wagons: Constants.months, nbWagons: 3, exerciceDescription: "complète le petit train avec les mois de l'année"),
+          story: AppController.to.randomStory, wagons: Constants.months, nbWagons: 3, exerciceDescription: "Complète le train avec les mois de l'année"),
       TrainScreen(
           story: AppController.to.randomStory,
           wagons: AppController.to.getRandomSeason(),
           nbWagons: 4,
-          exerciceDescription: 'complète le petit train avec les mois qui correspondent à la saison'),
+          exerciceDescription: 'Complète le train avec les mois de la saison'),
       FourSeasonScreen(story: AppController.to.randomStory),
     ];
 

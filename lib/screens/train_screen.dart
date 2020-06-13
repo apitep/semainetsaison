@@ -1,5 +1,4 @@
 import 'dart:async';
-import "dart:math";
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -63,10 +62,10 @@ class _TrainScreenState extends State<TrainScreen> {
 
     if (nbItems < items.length) {
       //start = Random().nextInt(items.length - nbItems);
-      start = pick(0, items.length - nbItems);
+      start = AppController.to.pick(0, items.length - nbItems);
       selectedItems = items.getRange(start, start + nbItems).toList();
     } else {
-      start = pick(0, items.length);
+      start = AppController.to.pick(0, items.length);
       selectedItems = items.getRange(0, nbItems).toList();
     }
 
@@ -80,8 +79,6 @@ class _TrainScreenState extends State<TrainScreen> {
 
     return train;
   }
-
-  int pick(int a, int b) => a + Random().nextInt(b - a + 1);
 
   @override
   Widget build(BuildContext context) {
@@ -130,9 +127,7 @@ class _TrainScreenState extends State<TrainScreen> {
             child: FloatingActionButton(
               heroTag: null,
               onPressed: () {
-                setState(() {
-                  soundController.speak(widget.exerciceDescription);
-                });
+                soundController.speak(widget.exerciceDescription);
               },
               child: Icon(Icons.volume_up, size: 34),
             ),
@@ -169,7 +164,7 @@ class _TrainScreenState extends State<TrainScreen> {
               story: widget.story,
               wagons: Constants.months,
               nbWagons: 3,
-              exerciceDescription: "complète le petit train avec les mois de l'année",
+              exerciceDescription: "Complète le train avec les mois de l'année",
             ),
           ),
         );
@@ -177,7 +172,7 @@ class _TrainScreenState extends State<TrainScreen> {
       }
 
       if (widget.wagons == Constants.months) {
-        int selected = pick(0, Constants.kSeasons.length);
+        int selected = AppController.to.pick(0, Constants.kSeasons.length);
         List<String> season = Constants.kSeasons[selected];
         Navigator.pushReplacement(
           context,
@@ -186,7 +181,7 @@ class _TrainScreenState extends State<TrainScreen> {
               story: widget.story,
               wagons: season,
               nbWagons: 4,
-              exerciceDescription: "complète le petit train avec les mois qui correspondent à la saison",
+              exerciceDescription: "Complète le train avec les mois de la saison",
             ),
           ),
         );
