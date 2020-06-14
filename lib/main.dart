@@ -7,11 +7,11 @@ import 'screens/home_screen.dart';
 
 void main() {
   runApp(
-    MyApp(),
+    Application(),
   );
 }
 
-class MyApp extends StatelessWidget {
+class Application extends StatelessWidget {
   final String appTitle = "L'école des loisirs après le travail";
 
   @override

@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         entryAnimation: EntryAnimation.TOP,
-        buttonOkText: Text("apprendre en s'amusant", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, color: Colors.white)),
+        buttonOkText: Text("commencer", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600, color: Colors.white)),
         onlyOkButton: true,
         onOkButtonPressed: () {
           audio.stop();
