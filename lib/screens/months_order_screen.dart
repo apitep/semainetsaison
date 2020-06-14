@@ -6,12 +6,11 @@ import 'package:reorderables/reorderables.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:confetti/confetti.dart';
 
-import '../controllers/app_controller.dart';
-
 import '../constants.dart';
+import '../controllers/app_controller.dart';
+import '../models/story.dart';
 import '../widgets/topbar.dart';
 import '../widgets/orderable_container.dart';
-import '../models/story.dart';
 import '../screens/train_screen.dart';
 
 class MonthsOrderScreen extends StatefulWidget {
@@ -87,25 +86,27 @@ class _MonthsOrderScreenState extends State<MonthsOrderScreen> {
           backgroundColor: Colors.white.withOpacity(.7),
           appBar: topBar(context, Constants.kTitle),
           body: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ReorderableWrap(
-                    alignment: WrapAlignment.center,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    needsLongPressDraggable: false,
-                    spacing: 20.0,
-                    runSpacing: 20.0,
-                    padding: const EdgeInsets.all(20),
-                    children: tiles.value,
-                    onReorder: _onReorder,
-                    onReorderStarted: (int index) {
-                      AppController.to.soundController.speak(tiles[index].value);
-                    },
-                  ),
-                ],
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ReorderableWrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      needsLongPressDraggable: false,
+                      spacing: 20.0,
+                      runSpacing: 20.0,
+                      padding: const EdgeInsets.all(20),
+                      children: tiles.value,
+                      onReorder: _onReorder,
+                      onReorderStarted: (int index) {
+                        AppController.to.soundController.speak(tiles[index].value);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

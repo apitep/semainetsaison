@@ -22,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  AssetsAudioPlayer audio = AssetsAudioPlayer.newPlayer();
   final options = LiveOptions(
     delay: Duration(milliseconds: 50),
     showItemInterval: Duration(milliseconds: 100),
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    AssetsAudioPlayer.newPlayer().open(Audio("assets/sounds/homeintro.mp3"));
+    audio.open(Audio("assets/sounds/homeintro.mp3"));
     super.initState();
   }
 
@@ -149,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
         buttonOkText: Text("apprendre en s'amusant", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, color: Colors.white)),
         onlyOkButton: true,
         onOkButtonPressed: () {
+          audio.stop();
           Navigator.pop(context);
           Navigator.push(context, MaterialPageRoute(builder: (context) => DaysOrderScreen(story: story)));
         },
