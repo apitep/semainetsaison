@@ -14,10 +14,8 @@ class TargetMonth extends StatefulWidget {
   final int monthIndex;
   final ValueNotifier<int> nbSuccess;
   bool done = false;
-  Color overColor;
-  Color itemColor;
 
-  TargetMonth({this.initPos, @required this.season, @required this.monthIndex, @required this.nbSuccess, this.itemColor, this.overColor});
+  TargetMonth({this.initPos, @required this.season, @required this.monthIndex, @required this.nbSuccess});
 
   @override
   TargetMonthState createState() => TargetMonthState();
@@ -26,12 +24,14 @@ class TargetMonth extends StatefulWidget {
 class TargetMonthState extends State<TargetMonth> {
   Offset position = Offset(0.0, 0.0);
   int dragMonthIndex = 0;
+  Color itemColor;
+  Color overColor;
 
   @override
   void initState() {
     super.initState();
-    widget.overColor = Colors.green.withOpacity(0.7);
-    widget.itemColor = Colors.white.withOpacity(0.1);
+    overColor = Colors.green.withOpacity(0.7);
+    itemColor = Colors.white.withOpacity(0.1);
     widget.done = false;
     position = widget.initPos;
   }
@@ -50,6 +50,7 @@ class TargetMonthState extends State<TargetMonth> {
           }).successful = true;
           widget.nbSuccess.value++;
           widget.done = true;
+          itemColor = Colors.green.withOpacity(0.7);
           AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundGood));
         }
         dragMonthIndex = AppController.to.months.indexOf(data);
@@ -71,9 +72,9 @@ class TargetMonthState extends State<TargetMonth> {
                   ? (AppController.to.months.singleWhere((item) {
                       return (item.name == widget.season.months[widget.monthIndex]);
                     }).successful
-                      ? widget.overColor
-                      : widget.itemColor)
-                  : widget.overColor,
+                      ? overColor
+                      : itemColor)
+                  : overColor,
               child: Text(
                 AppController.to.months.singleWhere((item) {
                   return (item.name == widget.season.months[widget.monthIndex]);
