@@ -24,7 +24,8 @@ class Constants {
   static const String kBackgroundAudioLow = "assets/sounds/ambiance_low.mp3";
   static const String kBackgroundAudio = "assets/sounds/ambiance.mp3";
 
-  static final Widget kApitepLogo = Image.asset('assets/images/ApitepBearLogo.png', height: 100);
+  static const String logoAssetPath = 'assets/images/ApitepBearLogo.png';
+
   static final Widget kVictoryBadge = Image.asset('assets/images/VictoryBadge.png', height: 35);
 
   static const String descriptionDays = "Fais glisser les jours de la semaine dans le bon ordre";

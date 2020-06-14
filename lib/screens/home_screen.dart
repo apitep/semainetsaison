@@ -10,7 +10,6 @@ import '../models/story.dart';
 import '../widgets/topbar.dart';
 import '../widgets/responsive_widget.dart';
 import 'days_order_screen.dart';
-import 'rightorder_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);

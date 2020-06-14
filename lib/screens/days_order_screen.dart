@@ -33,6 +33,11 @@ class _DaysOrderScreenState extends State<DaysOrderScreen> {
     Constants.days.forEach((item) {
       tiles.add(OrderableContainer(value: item, isPositionRight: true, size: const Size(145, 50)));
     });
+    tiles.value.shuffle();
+    checkTilesPosition();
+    Timer(Duration(seconds: 3), () {
+      AppController.to.soundController.speak(Constants.descriptionDays);
+    });
   }
 
   @override
@@ -107,9 +112,7 @@ class _DaysOrderScreenState extends State<DaysOrderScreen> {
             child: FloatingActionButton(
               heroTag: null,
               onPressed: () {
-                setState(() {
-                  AppController.to.soundController.speak(Constants.descriptionDays);
-                });
+                AppController.to.soundController.speak(Constants.descriptionDays);
               },
               child: Icon(Icons.volume_up, size: 34),
             ),

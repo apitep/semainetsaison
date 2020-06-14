@@ -19,7 +19,7 @@ Widget topBar(context, title) {
         },
         child: CircleAvatar(
           backgroundColor: Constants.kColorBgStart,
-          child: Image.asset('assets/images/ApitepBearLogo.png', height: 37),
+          child: Image.asset(Constants.logoAssetPath, height: 37),
           radius: 30.0,
         ),
       ),

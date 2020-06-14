@@ -33,6 +33,11 @@ class _MonthsOrderScreenState extends State<MonthsOrderScreen> {
     Constants.months.forEach((item) {
       tiles.add(OrderableContainer(value: item, isPositionRight: true, size: const Size(150, 40)));
     });
+    tiles.value.shuffle();
+    checkTilesPosition();
+    Timer(Duration(seconds: 3), () {
+      AppController.to.soundController.speak(Constants.descriptionMonths);
+    });
   }
 
   @override
