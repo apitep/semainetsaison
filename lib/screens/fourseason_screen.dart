@@ -166,7 +166,6 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
     AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
     await widget.story.getStreamingUrls();
     AppController.to.initMonths();
-
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,

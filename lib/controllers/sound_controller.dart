@@ -68,7 +68,11 @@ class SoundController extends RxController {
     flutterTts = FlutterTts();
     flutterTts.setLanguage('fr-FR');
     await flutterTts.isLanguageAvailable('fr-FR');
-    await flutterTts.setSpeechRate(0.6);
+    if (GetPlatform.isWeb) {
+      await flutterTts.setSpeechRate(0.5);
+    } else {
+      await flutterTts.setSpeechRate(1.0);
+    }
     await flutterTts.setVolume(1.0);
     await flutterTts.setPitch(1.0);
 
@@ -77,7 +81,7 @@ class SoundController extends RxController {
 
   void initPlayer() {
     assetsAudioPlayer.open(Audio(Constants.kBackgroundAudioLow));
-    assetsAudioPlayer.loop = true;
+    assetsAudioPlayer.setLoopMode(LoopMode.none);
   }
 
   void speak(String textToSpeak) async {

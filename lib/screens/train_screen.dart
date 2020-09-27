@@ -61,12 +61,10 @@ class _TrainScreenState extends State<TrainScreen> {
     int start;
 
     if (nbItems < items.length) {
-      //start = Random().nextInt(items.length - nbItems);
       start = AppController.to.pick(0, items.length - nbItems);
       selectedItems = items.getRange(start, start + nbItems).toList();
     } else {
-      start = AppController.to.pick(0, items.length);
-      selectedItems = items.getRange(0, nbItems).toList();
+      selectedItems = items;
     }
 
     selectedItems.forEach((item) {
@@ -172,7 +170,7 @@ class _TrainScreenState extends State<TrainScreen> {
       }
 
       if (widget.wagons == Constants.months) {
-        int selected = AppController.to.pick(0, Constants.kSeasons.length);
+        int selected = AppController.to.pick(0, Constants.kSeasons.length-1);
         List<String> season = Constants.kSeasons[selected];
         Navigator.pushReplacement(
           context,

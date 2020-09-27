@@ -15,7 +15,7 @@ class DraggableMonth extends StatefulWidget {
 }
 
 class DraggableMonthState extends State<DraggableMonth> {
-  Offset position = Offset(0.0, 0.0);
+  Offset position = Offset(100.0, 0.0);
 
   @override
   void initState() {
@@ -27,6 +27,7 @@ class DraggableMonthState extends State<DraggableMonth> {
   Widget build(BuildContext context) {
     return Draggable(
       data: widget.month,
+      dragAnchor: DragAnchor.pointer,
       onDraggableCanceled: (velocity, offset) {
         if (mounted) {}
         setState(() {});
@@ -47,6 +48,10 @@ class DraggableMonthState extends State<DraggableMonth> {
           ),
         ),
       ),
+      childWhenDragging: Container(
+        padding: const EdgeInsets.all(2.0),
+        child: DragItem(month: widget.month.name),
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: widget.itemColor,
@@ -61,6 +66,23 @@ class DraggableMonthState extends State<DraggableMonth> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class DragItem extends StatelessWidget {
+  const DragItem({Key key, @required this.month}) : super(key: key);
+
+  final String month;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        month,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'MontserratAlternates', color: Colors.white),
       ),
     );
   }
