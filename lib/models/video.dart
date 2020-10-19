@@ -15,12 +15,12 @@ class Video {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final data = <String, dynamic>{};
 
-    data['id'] = this.id;
-    data['quality'] = this.quality;
-    data['width'] = this.width;
-    data['url'] = this.url;
+    data['id'] = id;
+    data['quality'] = quality;
+    data['width'] = width;
+    data['url'] = url;
 
     return data;
   }

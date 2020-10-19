@@ -59,7 +59,7 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
                       children: <Widget>[
                         Image.asset('assets/images/ApitecLogo.png', height: (Get.height < 400) ? 20 : 40),
                         Text(
-                          "Apprendre à petit pas",
+                          'Apprendre à petit pas',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: (Get.height < 400) ? 11 : 14, fontWeight: FontWeight.w300, fontFamily: 'MontserratAlternates', color: Colors.white),
@@ -73,9 +73,9 @@ class _StartupScreenState extends State<StartupScreen> with SingleTickerProvider
                     child: InkWell(
                       onTap: () {
                         if (AppController.to.displayOnBoard) {
-                          Get.toNamed("/onboarding");
+                          Get.toNamed('/onboarding');
                         } else {
-                          Get.toNamed("/home");
+                          Get.toNamed('/home');
                         }
                       },
                       child: AvatarGlow(

@@ -33,7 +33,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     const bodyStyle = TextStyle(fontSize: 16.0, color: Colors.white);
-    const pageDecoration = const PageDecoration(
+    const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(fontSize: 26.0, fontWeight: FontWeight.w700, color: Colors.white),
       bodyTextStyle: bodyStyle,
       descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
@@ -46,8 +46,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         key: introKey,
         pages: [
           PageViewModel(
-            title: "Bienvenue à bord !",
-            body: "Cette application va aider votre enfant à apprendre les jours de la semaine, les mois et les saisons.",
+            title: 'Bienvenue à bord !',
+            body: 'Cette application va aider votre enfant à apprendre les jours de la semaine, les mois et les saisons.',
             image: _buildImage('onboard/01'),
             decoration: pageDecoration,
           ),
@@ -58,7 +58,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             decoration: pageDecoration,
           ),
           PageViewModel(
-            title: "Dans le bon ordre",
+            title: 'Dans le bon ordre',
             body:
                 "Pour réussir cet exercice il faudra glisser les jours de la semaine dans le bon ordre. Dans l'exercice suivant ce sont les douze mois de l'année qu'il faudra glisser dans le bon ordre.",
             image: _buildImage('onboard/03'),
@@ -71,19 +71,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ),
           ),
           PageViewModel(
-            title: "Le petit train",
+            title: 'Le petit train',
             body: "Et voici la série d'exercices\nla plus difficile !\nDans chaque wagonnet, il faudra écrire correctement à l'aide du clavier, le nom du jour de la semaine ou celui du mois de l'année.",
             image: _buildImage('onboard/04'),
             decoration: pageDecoration,
           ),
           PageViewModel(
-            title: "Les 4 saisons",
+            title: 'Les 4 saisons',
             body: "Et enfin le dernier exercice\navant l'album animé !\n\nIci il faudra glisser chaque mois sur la saison qui correspond.",
             image: _buildImage('onboard/05'),
             decoration: pageDecoration,
           ),
           PageViewModel(
-            title: "Merci !",
+            title: 'Merci !',
             body:
                 "Ces albums animés sont disponibles gràce à la formidable initiative de l'école des loisirs, qui les mets librement à disposition de tous,\npetits et grands.",
             image: _buildImage('onboard/logo_edl_50ans'),

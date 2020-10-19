@@ -23,7 +23,7 @@ class MonthsOrderScreen extends StatefulWidget {
 
 class _MonthsOrderScreenState extends State<MonthsOrderScreen> {
   ConfettiController _confettiController;
-  final tiles = List<OrderableContainer>().obs;
+  final tiles = <OrderableContainer>[].obs;
 
   @override
   void initState() {
@@ -46,8 +46,8 @@ class _MonthsOrderScreenState extends State<MonthsOrderScreen> {
   }
 
   void checkTilesPosition() {
-    int index = 0;
-    int nbGoodPosition = 0;
+    var index = 0;
+    var nbGoodPosition = 0;
     tiles.forEach((item) {
       if (Constants.months[index] == item.value) {
         item.isPositionRight = true;
@@ -62,7 +62,7 @@ class _MonthsOrderScreenState extends State<MonthsOrderScreen> {
 
   void _onReorder(int oldIndex, int newIndex) {
     setState(() {
-      OrderableContainer item = tiles.removeAt(oldIndex);
+      var item = tiles.removeAt(oldIndex);
       tiles.insert(newIndex, item);
       checkTilesPosition();
     });
@@ -141,9 +141,9 @@ class _MonthsOrderScreenState extends State<MonthsOrderScreen> {
     );
   }
 
-  _success() async {
+  void _success() async {
     _confettiController.play(); //launch confettis
-    AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp)); //play sound levelUp
+    await AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp)); //play sound levelUp
 
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class OrderableContainer extends StatefulWidget {
   bool isPositionRight;
   final String value;
@@ -55,7 +56,7 @@ class _OrderableContainerState extends State<OrderableContainer> {
               child: Icon(Icons.calendar_today, color: Colors.white, size: 20),
             ),
             Text(
-              "${widget.value}",
+              '${widget.value}',
               style: TextStyle(fontSize: 16.0, color: Colors.white),
             )
           ]),

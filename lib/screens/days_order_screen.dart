@@ -24,7 +24,7 @@ class DaysOrderScreen extends StatefulWidget {
 
 class _DaysOrderScreenState extends State<DaysOrderScreen> {
   ConfettiController _confettiController;
-  final tiles = List<OrderableContainer>().obs;
+  final tiles = <OrderableContainer>[].obs;
 
   @override
   void initState() {
@@ -47,8 +47,8 @@ class _DaysOrderScreenState extends State<DaysOrderScreen> {
   }
 
   void checkTilesPosition() {
-    int index = 0;
-    int nbGoodPosition = 0;
+    var index = 0;
+    var nbGoodPosition = 0;
     tiles.forEach((item) {
       if (Constants.days[index] == item.value) {
         item.isPositionRight = true;
@@ -63,7 +63,7 @@ class _DaysOrderScreenState extends State<DaysOrderScreen> {
 
   void _onReorder(int oldIndex, int newIndex) {
     setState(() {
-      OrderableContainer item = tiles.removeAt(oldIndex);
+      var item = tiles.removeAt(oldIndex);
       tiles.insert(newIndex, item);
       checkTilesPosition();
     });
@@ -136,9 +136,9 @@ class _DaysOrderScreenState extends State<DaysOrderScreen> {
     );
   }
 
-  _success() async {
+  void _success() async {
     _confettiController.play(); //launch confettis
-    AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp)); //play sound levelUp
+    await AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp)); //play sound levelUp
 
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MonthsOrderScreen(story: widget.story)));

@@ -8,6 +8,7 @@ import '../../controllers/app_controller.dart';
 import '../../models/season.dart';
 import '../../models/month.dart';
 
+// ignore: must_be_immutable
 class TargetMonth extends StatefulWidget {
   final Offset initPos;
   final Season season;

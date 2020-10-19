@@ -17,11 +17,11 @@ class WagonQuestion {
   WagonQuestion({this.question, this.guess, this.answer, this.imagePath, this.width, this.disabled});
 
   WagonQuestion.loco(this.answer, {this.question, this.imagePath = kImageLocomotive, this.width = 140, this.disabled = true}) {
-    this.answer = this.answer.trim();
-    this.guess = this.answer;
+    answer = answer.trim();
+    guess = answer;
   }
   WagonQuestion.wagon(this.guess, {this.question, this.answer = '', this.imagePath = kImagePathWrong, this.width = 150, this.disabled = false}) {
-    this.guess = this.guess.trim();
+    guess = guess.trim();
   }
 
   ///

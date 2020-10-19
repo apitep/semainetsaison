@@ -1,7 +1,7 @@
 class Season {
   String name;
   String url;
-  List<String> months = List<String>();
+  List<String> months = <String>[];
   bool successful = false;
 
   Season(this.name, this.url, this.months, this.successful);
@@ -13,11 +13,11 @@ class Season {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final data = <String, dynamic>{};
 
-    data['name'] = this.name;
-    data['url'] = this.url;
-    data['months'] = this.months;
+    data['name'] = name;
+    data['url'] = url;
+    data['months'] = months;
 
     return data;
   }

@@ -12,12 +12,13 @@ import '../screens/fourseason_screen.dart';
 import '../screens/train_screen.dart';
 import 'months_order_screen.dart';
 
-const kExerciceNames = ["L'ordre des jours", "L'ordre des mois", "Le train des jours", "Le train des mois", "Le train des saisons", "Les 4 saisons"];
+const kExerciceNames = ["L'ordre des jours", "L'ordre des mois", 'Le train des jours', 'Le train des mois', 'Le train des saisons', 'Les 4 saisons'];
 const kExerciceColors = [Colors.amber, Colors.blue, Colors.brown, Colors.green, Colors.pink, Colors.purple];
 
 class ExercicesScreen extends StatefulWidget {
   ExercicesScreen({Key key, this.title}) : super(key: key);
   static const routeName = '/exercices';
+  @override
   final Key key = UniqueKey();
   final String title;
 
@@ -89,15 +90,15 @@ class _ExercicesScreenState extends State<ExercicesScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.mail),
-            title: Text('Les exercices'),
+            label: 'Les exercices',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Les histoires'),
+            label: 'Les histoires',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text('A propos'),
+            label: 'A propos',
           )
         ],
       ),

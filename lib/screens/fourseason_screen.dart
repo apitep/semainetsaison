@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:confetti/confetti.dart';
+import 'package:semainetsaison/screens/vimeo_iframe_screen.dart';
 
 import '../constants.dart';
 import '../controllers/app_controller.dart';
@@ -10,13 +11,13 @@ import '../models/story.dart';
 import '../widgets/season/draggable_month.dart';
 import '../widgets/season/target_month.dart';
 import '../widgets/topbar.dart';
-import '../screens/videoplayer_screen.dart';
 
 const String kDescription = "Place dans l'ordre les mois de l'année correspondant à chaque saison";
 
 class FourSeasonScreen extends StatefulWidget {
   FourSeasonScreen({Key key, this.story}) : super(key: key);
   static const routeName = '/fourseason';
+  @override
   final Key key = UniqueKey();
 
   final Story story;
@@ -160,20 +161,18 @@ class _FourSeasonScreenState extends State<FourSeasonScreen> {
     );
   }
 
-  _success() async {
-    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+  void _success() async {
+    //final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     _confettiController.play();
-    AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
-    await widget.story.getStreamingUrls();
+    await AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
+    //await widget.story.getStreamingUrls();
     AppController.to.initMonths();
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => VideoPlayerScreen(
-            title: widget.story.title,
-            url: widget.story.videoUrl,
-            parentIsPortrait: isPortrait,
+          builder: (BuildContext context) => VimeoIframeScreen(
+            story: widget.story,
           ),
         ),
       );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:auto_animated/auto_animated.dart';
+import 'package:semainetsaison/screens/vimeo_iframe_screen.dart';
 
 import '../constants.dart';
 import '../controllers/app_controller.dart';
@@ -14,6 +15,7 @@ import 'days_order_screen.dart';
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
   static const routeName = '/home';
+  @override
   final Key key = UniqueKey();
   final String title;
 
@@ -33,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    audio.open(Audio("assets/sounds/homeintro.mp3"));
+    audio.open(Audio('assets/sounds/homeintro.mp3'));
     super.initState();
   }
 
@@ -83,6 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 showCredits(AppController.to.stories[index]);
               },
+              onLongPress: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => VimeoIframeScreen(story: AppController.to.stories[index])));
+              },
               child: Stack(
                 children: <Widget>[
                   Center(child: CircularProgressIndicator()),
@@ -124,9 +129,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: TextDecoration.none,
                 ),
               ),
-              story.author.length < 40 ? TextSpan(text: "\n") : TextSpan(text: " "),
+              story.author.length < 40 ? TextSpan(text: '\n') : TextSpan(text: ' '),
               TextSpan(
-                text: "de ${story.author}",
+                text: 'de ${story.author}',
                 style: TextStyle(
                   fontSize: story.author.length < 30 ? 13 : 11,
                   fontFamily: 'MontserratAlternates',
@@ -147,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         entryAnimation: EntryAnimation.TOP,
-        buttonOkText: Text("commencer", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600, color: Colors.white)),
+        buttonOkText: Text('commencer', style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600, color: Colors.white)),
         onlyOkButton: true,
         onOkButtonPressed: () {
           audio.stop();

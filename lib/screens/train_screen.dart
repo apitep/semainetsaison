@@ -56,8 +56,8 @@ class _TrainScreenState extends State<TrainScreen> {
   }
 
   List<WagonQuestion> loadTrain(List<String> items, int nbItems) {
-    var train = List<WagonQuestion>();
-    var selectedItems = List<String>();
+    var train = <WagonQuestion>[];
+    var selectedItems = <String>[];
     int start;
 
     if (nbItems < items.length) {
@@ -68,7 +68,7 @@ class _TrainScreenState extends State<TrainScreen> {
     }
 
     selectedItems.forEach((item) {
-      if (train.length == 0) {
+      if (train.isEmpty) {
         train.add(WagonQuestion.loco(item));
       } else {
         train.add(WagonQuestion.wagon(item));
@@ -149,9 +149,9 @@ class _TrainScreenState extends State<TrainScreen> {
     );
   }
 
-  _success() async {
+  void _success() async {
     _confettiController.play();
-    AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
+    await AssetsAudioPlayer.newPlayer().open(Audio(Constants.kSoundLevelUp));
 
     Timer(Duration(seconds: 5), () {
       if (widget.wagons == Constants.days) {
@@ -170,8 +170,8 @@ class _TrainScreenState extends State<TrainScreen> {
       }
 
       if (widget.wagons == Constants.months) {
-        int selected = AppController.to.pick(0, Constants.kSeasons.length-1);
-        List<String> season = Constants.kSeasons[selected];
+        var selected = AppController.to.pick(0, Constants.kSeasons.length-1);
+        var season = Constants.kSeasons[selected];
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -179,7 +179,7 @@ class _TrainScreenState extends State<TrainScreen> {
               story: widget.story,
               wagons: season,
               nbWagons: 4,
-              exerciceDescription: "Complète le train avec les mois de la saison",
+              exerciceDescription: 'Complète le train avec les mois de la saison',
             ),
           ),
         );

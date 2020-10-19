@@ -14,7 +14,7 @@ class TrainWagon extends StatefulWidget {
 }
 
 class _TrainWagonState extends State<TrainWagon> {
-  TextEditingController _textfieldController = TextEditingController();
+  final TextEditingController _textfieldController = TextEditingController();
   final padding = 2.0;
   final ratio = 0.5;
 
@@ -90,7 +90,7 @@ class _TrainWagonState extends State<TrainWagon> {
     );
   }
 
-  _handleOnChanged(String value) {
+  void _handleOnChanged(String value) {
     setState(() {
       widget.word.answer = value.trim();
       if (widget.word.goodAnswer()) widget.nbSuccess.value++;

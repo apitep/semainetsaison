@@ -19,9 +19,9 @@ class AppController extends GetController {
 
   SoundController soundController;
 
-  List<Story> stories = List<Story>();
-  List<Season> seasons = List<Season>();
-  List<Month> months = List<Month>();
+  List<Story> stories = <Story>[];
+  List<Season> seasons = <Season>[];
+  List<Month> months = <Month>[];
 
   bool displayOnBoard = true;
 
@@ -36,7 +36,7 @@ class AppController extends GetController {
     soundController = Get.put<SoundController>(SoundController());
     soundController.init();
     displayOnBoard = await getDisplayOnBoard();
-    fetchData();
+    await fetchData();
   }
 
   //
@@ -49,7 +49,7 @@ class AppController extends GetController {
   }
 
   Future<List<Story>> getStories() async {
-    String url = Constants.kUrlStories;
+    var url = Constants.kUrlStories;
     String jsondata;
     dynamic _response;
 
@@ -67,7 +67,7 @@ class AppController extends GetController {
   }
 
   void initMonths() {
-    months = List<Month>();
+    months = <Month>[];
     seasons.forEach((season) {
       season.months.forEach((month) {
         months.add(Month(month));
@@ -80,18 +80,18 @@ class AppController extends GetController {
   }
 
   void setDisplayOnBoard(bool value) async {
-    LocalStorageInterface prefs = await LocalStorage.getInstance();
+    var prefs = await LocalStorage.getInstance();
     await prefs.setBool('displayOnBoard', value);
   }
 
   Future<bool> getDisplayOnBoard() async {
-    LocalStorageInterface prefs = await LocalStorage.getInstance();
-    bool value = prefs.getBool('displayOnBoard') ?? true;
+    var prefs = await LocalStorage.getInstance();
+    var value = prefs.getBool('displayOnBoard') ?? true;
     return value;
   }
 
   List<String> getRandomSeason() {
-    int selected = pick(0, Constants.kSeasons.length - 1);
+    var selected = pick(0, Constants.kSeasons.length - 1);
     return Constants.kSeasons[selected];
   }
 

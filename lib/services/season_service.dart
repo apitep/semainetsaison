@@ -9,7 +9,7 @@ class SeasonService {
 
   String seasonUrl;
 
-  List<Season> seasons = List<Season>();
+  List<Season> seasons = <Season>[];
 
   ///
   Future<List<Season>> getSeasons() async {
@@ -18,7 +18,7 @@ class SeasonService {
 
     _response = await http.get(seasonUrl);
     if (_response == null) {
-      Get.snackbar("SeasonService:Erreur", "impossible d'accéder à l'url: $seasonUrl");
+      Get.snackbar('SeasonService:Erreur', "impossible d'accéder à l'url: $seasonUrl");
     } else {
       if (_response.statusCode == 200) jsondata = _response.body;
     }
@@ -33,7 +33,7 @@ class SeasonService {
 
     _response = json.decode(jsondata);
     if (_response == null) {
-      Get.snackbar("SeasonService:Erreur", "impossible de décoder le json: $jsondata");
+      Get.snackbar('SeasonService:Erreur', 'impossible de décoder le json: $jsondata');
     } else {
       return _response.map<Season>((json) => Season.fromJson(json)).toList();
     }
